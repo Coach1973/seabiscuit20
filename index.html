@@ -1,0 +1,2958 @@
+<!DOCTYPE html><html lang="zh-TW" data-lvt-canonical="1"><head>
+<!--
+Canvas: 1280px max-width content, 100vh Hero, full-page multi-section website
+Design given: 海餅乾俱樂部20週年官網，現代速度感深色賽道+金屬光電影感，hash路由6頁，繁中預設雙語切換
+
+Asset map:
+  Logo: assets/logo.png (1254×1254, 精修去背版) → nav 40px circle + footer 96px, object-fit:cover, brief: 圓形裁切+細金框
+  Hero/Legend banner: https://a.lovart.ai/artifacts/user/yjzttqM0vN7nAvi1.jpg (1920×900) → 100vh hero + legend banner, cover, Ken Burns 20s loop
+  衝線劇照: https://a.lovart.ai/artifacts/user/WNiZDG1I8LKTYBCn.jpg (788×426) → Legend timeline 1938, cover
+  電影海報: https://a.lovart.ai/artifacts/user/wXy9YKDvOb2VWpOe.jpg (600×435) → Home movie section left, cover
+  團隊合影: https://assets-persist.lovart.ai/pdf_extracts/99d4491d792e10f6/images/page1_img1.jpeg → Legend champion team top, cover
+  泥地競速: https://assets-persist.lovart.ai/pdf_extracts/99d4491d792e10f6/images/page1_img4.jpeg → Beliefs page header, cover
+  馬廄劇照: https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page2_img5.jpeg → Club origin section, cover
+  夕陽牧場: https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page2_img7.jpeg → Legend adversity banner + timeline 1939, cover
+  黑白歷史照1: https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page1_img1.jpeg → Legend timeline 1937, cover, sepia filter
+  黑白歷史照2: https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page1_img3.jpeg → Legend timeline 1940, cover, sepia filter
+  Vision Hero: https://a.lovart.ai/artifacts/agent/7F4O7Mt2EsXqZ0aT.png → Vision page 100vh hero, cover
+
+Palette:
+  --bg: #0B0E14 (brief: 背景)
+  --card: #141A24 (brief: 卡片)
+  --deep-blue: #0A2A6B (brief: 深藍)
+  --gold: #C8A24B (brief: 金)
+  --sand: #F4A460 (brief: 沙橙，按鈕/引文/時間軸節點)
+  --fg: #F2EFE6 (brief: 前景)
+  --secondary: #9AA3B2 (brief: 次要文字)
+  --paper: #EDE6D6 (brief: 檔案紙感)
+  --overlay: rgba(11,14,20,0.72) (chosen: 暗色疊層)
+  --gold-border: rgba(200,162,75,0.4) (chosen: 金框半透明)
+
+Typography:
+  --display: "Playfair Display", "Noto Serif TC", Georgia, serif (brief: 英文標題 Playfair Display 700/900 + 中文標題 Noto Serif TC)
+  --body: "Inter", "Noto Sans TC", sans-serif (brief: 內文 Inter + Noto Sans TC)
+  --num: "Playfair Display", "Inter", sans-serif (chosen: 數字用 Playfair Display)
+  Hero: 64-88px; section title: 40px; card title: 22px; body: 16px; label: 13px gold uppercase wide-tracking
+
+Content map:
+  Home: Hero主標/副標/CTA → #hero; 數據列 → #stats; 電影區 → #movie-section; 三大使命 → #missions; 20週年橫幅 → #anniversary-banner
+  Legend: 頁首橫幅 → #legend-hero; 引文 → #legend-quote; 冠軍團隊 → #champion-team; 時間軸 → #timeline; 克服困境橫幅 → #adversity-banner
+  Club: 起源 → #club-origin; 三大使命 → #club-missions; 引文 → #club-quote; FB按鈕 → #club-fb
+  Beliefs: 頁首 → #beliefs-hero; 三大信念 → #beliefs-pillars; 十大守則 → #rules-grid; 語錄牆 → #quotes-carousel
+  Gallery: 標題 → #gallery-header; 年份grid → #gallery-grid; 2027大卡 → #gallery-2027
+  Vision: Hero → #vision-hero; 引文 → #vision-quote; 三關鍵字 → #vision-keywords; CTA → #vision-cta
+
+Assumptions:
+  - 導覽列連結間距、hover色：取最樸素金色 hover
+  - 時間軸線寬：2px 金色
+  - 語錄輪播：純CSS/JS 自動輪播，無需第三方庫
+  - Gallery placeholder 馬蹄鐵：inline SVG
+  - 數字計數動效：IntersectionObserver + requestAnimationFrame
+  - 頁面切換：hash change + display:none/block
+
+QA risks:
+  - Hero 64-88px 在小螢幕可能溢出 → 用 clamp() 處理
+  - 時間軸圖片 aspect ratio → 固定高度 slot
+  - 語錄輪播在 768px 以下 → 確認觸控滑動
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海餅乾俱樂部 Sea Biscuit Club — 20週年 2007–2027</title>
+
+<!-- Google Fonts: Playfair Display + Inter + Noto Serif TC + Noto Sans TC -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Inter:wght@400;500;600;700&amp;family=Noto+Serif+TC:wght@400;700;900&amp;family=Noto+Sans+TC:wght@400;700&amp;display=swap" rel="stylesheet">
+
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --bg: #0B0E14;
+  --card: #141A24;
+  --deep-blue: #0A2A6B;
+  --gold: #C8A24B;
+  --sand: #F4A460;
+  --fg: #F2EFE6;
+  --secondary: #9AA3B2;
+  --paper: #EDE6D6;
+  --overlay: rgba(11,14,20,0.72);
+  --gold-border: rgba(200,162,75,0.4);
+  --gold-glow: rgba(200,162,75,0.15);
+
+  --display: "Playfair Display", "Noto Serif TC", Georgia, serif;
+  --body: "Inter", "Noto Sans TC", sans-serif;
+  --num: "Playfair Display", "Inter", sans-serif;
+
+  --max-w: 1280px;
+  --nav-h: 72px;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ===== PAGES ===== */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ===== NAVIGATION ===== */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  background: rgba(11,14,20,0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gold-border);
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+}
+#navbar.scrolled { background: rgba(11,14,20,0.95); }
+.nav-inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.nav-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  background: transparent;
+}
+.nav-logo-wrap img {
+  display: block;
+  width: auto;
+  height: 58px;
+  object-fit: contain;
+}
+.nav-brand-text {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.nav-brand-text span { display: block; font-size: 11px; color: var(--gold); letter-spacing: 0.08em; font-family: var(--body); font-weight: 400; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--secondary);
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--gold); background: var(--gold-glow); }
+.nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.lang-btn {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+  padding: 5px 14px;
+  border-radius: 20px;
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: 0.06em;
+}
+.lang-btn:hover { background: var(--gold); color: var(--bg); }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(11,14,20,0.97);
+  backdrop-filter: blur(16px);
+  z-index: 999;
+  padding: 20px 24px 32px;
+  border-bottom: 1px solid var(--gold-border);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu ul { list-style: none; }
+.mobile-menu ul li { border-bottom: 1px solid rgba(200,162,75,0.1); }
+.mobile-menu ul a {
+  display: block;
+  padding: 14px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--fg);
+  transition: color 0.2s;
+}
+.mobile-menu ul a:hover { color: var(--gold); }
+.mobile-lang-btn {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+  padding: 8px 20px;
+  border-radius: 20px;
+}
+
+/* ===== SHARED COMPONENTS ===== */
+.section-label {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.section-title-en {
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 400;
+  color: var(--secondary);
+  line-height: 1.4;
+  margin-bottom: 32px;
+}
+.gold-line {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 20px 0;
+}
+.gold-line.center { margin: 20px auto; }
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.section-pad { padding: 96px 0; }
+
+/* Fade-in animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-up.delay-1 { transition-delay: 0.1s; }
+.fade-up.delay-2 { transition-delay: 0.2s; }
+.fade-up.delay-3 { transition-delay: 0.3s; }
+.fade-up.delay-4 { transition-delay: 0.4s; }
+
+/* Card hover */
+.hover-card {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 32px;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.hover-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px rgba(200,162,75,0.15);
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--sand);
+  color: var(--bg);
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover { background: #e8924a; transform: translateY(-2px); }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 30px;
+  border-radius: 4px;
+  border: 1.5px solid var(--gold);
+  letter-spacing: 0.06em;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-outline:hover { background: var(--gold); color: var(--bg); transform: translateY(-2px); }
+
+/* Image caption */
+.img-caption {
+  font-family: var(--body);
+  font-size: 12px;
+  color: var(--secondary);
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ===== PAGE: HOME ===== */
+
+/* Hero */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://a.lovart.ai/artifacts/user/yjzttqM0vN7nAvi1.jpg');
+  background-size: cover;
+  background-position: center;
+  animation: kenBurns 20s ease-in-out infinite alternate;
+}
+@keyframes kenBurns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-2%, -1%); }
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(11,14,20,0.88) 0%, rgba(11,14,20,0.55) 60%, rgba(11,14,20,0.2) 100%);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  padding-top: var(--nav-h);
+  width: 100%;
+}
+.hero-eyebrow {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.3s forwards;
+}
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 900;
+  color: var(--fg);
+  line-height: 1.2;
+  max-width: 760px;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.5s forwards;
+  white-space: nowrap;
+}
+.hero-title-en {
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 400;
+  color: var(--secondary);
+  max-width: 680px;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.7s forwards;
+}
+.hero-gold-line {
+  width: 80px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.9s forwards;
+}
+.hero-subtitle {
+  font-family: var(--body);
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: var(--fg);
+  max-width: 560px;
+  line-height: 1.75;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 1.0s forwards;
+}
+.hero-subtitle-en {
+  font-family: var(--body);
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: var(--secondary);
+  max-width: 560px;
+  line-height: 1.75;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 1.1s forwards;
+}
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeInUp 0.8s 1.3s forwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stats bar */
+#stats {
+  background: var(--card);
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+  padding: 48px 0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stat-item {
+  text-align: center;
+  padding: 24px 16px;
+  border-right: 1px solid var(--gold-border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--num);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--secondary);
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+}
+.stat-label-en {
+  font-size: 11px;
+  color: rgba(154,163,178,0.7);
+  margin-top: 2px;
+}
+
+/* Movie section */
+#movie-section {
+  padding: 96px 0;
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+/* Movie Carousel */
+.movie-carousel {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.movie-carousel-track {
+  position: relative;
+  height: 460px;
+  background: var(--bg);
+}
+.movie-carousel-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.movie-carousel-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.movie-carousel-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+.movie-carousel-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 8px 14px;
+  background: linear-gradient(0deg, rgba(11,14,20,0.85) 0%, transparent 100%);
+  font-size: 11px;
+  color: var(--secondary);
+  letter-spacing: 0.05em;
+}
+.movie-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(11,14,20,0.75);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, border-color 0.2s;
+  line-height: 1;
+}
+.movie-carousel-btn:hover { background: rgba(200,162,75,0.2); border-color: var(--gold); }
+.movie-carousel-btn.prev { left: 10px; }
+.movie-carousel-btn.next { right: 10px; }
+.movie-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0 12px;
+  background: var(--card);
+}
+.movie-carousel-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--secondary);
+  opacity: 0.35;
+  cursor: pointer;
+  transition: opacity 0.2s, background 0.2s;
+  border: none;
+  padding: 0;
+}
+.movie-carousel-dot.active { background: var(--gold); opacity: 1; }
+.movie-text .section-label { margin-bottom: 12px; }
+.movie-body {
+  font-size: 16px;
+  color: var(--fg);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.movie-body-en {
+  font-size: 14px;
+  color: var(--secondary);
+  line-height: 1.8;
+}
+
+/* Missions */
+#missions {
+  padding: 96px 0;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(10,42,107,0.12) 50%, var(--bg) 100%);
+}
+.missions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.mission-card {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 40px 32px;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.mission-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px rgba(200,162,75,0.15);
+}
+.mission-num {
+  font-family: var(--num);
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--gold);
+  opacity: 0.3;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.mission-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.mission-title-en {
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+.mission-desc {
+  font-size: 15px;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+
+/* Anniversary banner */
+#anniversary-banner {
+  padding: 80px 0;
+  background: linear-gradient(135deg, rgba(10,42,107,0.3) 0%, rgba(200,162,75,0.08) 100%);
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+  text-align: center;
+}
+.anniv-year {
+  font-family: var(--num);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.anniv-title {
+  font-family: var(--display);
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+.anniv-title-en {
+  font-size: 18px;
+  color: var(--secondary);
+  margin-bottom: 32px;
+}
+
+/* ===== PAGE: LEGEND ===== */
+.page-hero {
+  position: relative;
+  height: 50vh;
+  min-height: 360px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+.page-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11,14,20,0.72);
+}
+.page-hero-content {
+  position: relative;
+  z-index: 2;
+  padding-top: var(--nav-h);
+}
+.page-hero-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  color: var(--fg);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.page-hero-title-en {
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 400;
+  color: var(--gold);
+}
+
+/* Legend quote */
+#legend-quote {
+  padding: 64px 0;
+}
+.blockquote-gold {
+  border-left: 3px solid var(--gold);
+  padding: 24px 32px;
+  background: rgba(200,162,75,0.05);
+  border-radius: 0 8px 8px 0;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.blockquote-gold p {
+  font-family: var(--display);
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 400;
+  color: var(--fg);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.blockquote-gold p.en {
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: var(--secondary);
+}
+
+/* Champion team */
+#champion-team {
+  padding: 80px 0;
+}
+.team-img-wrap {
+  width: 100%;
+  aspect-ratio: 16/7;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--gold-border);
+  margin-bottom: 8px;
+}
+.team-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+.team-card {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.team-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px rgba(200,162,75,0.15);
+}
+.team-card-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.team-card-name {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.team-card-name-en {
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+.team-card-desc {
+  font-size: 14px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+.team-card-desc-en {
+  font-size: 13px;
+  color: rgba(154,163,178,0.7);
+  margin-top: 4px;
+}
+
+/* Timeline */
+#timeline {
+  padding: 80px 0;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(10,42,107,0.08) 100%);
+}
+.timeline-wrap {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold) 0%, rgba(200,162,75,0.2) 100%);
+  transform: translateX(-50%);
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  gap: 0;
+  margin-bottom: 64px;
+  align-items: start;
+}
+.timeline-item:nth-child(odd) .tl-content { grid-column: 1; text-align: right; padding-right: 40px; }
+.timeline-item:nth-child(odd) .tl-img { grid-column: 3; padding-left: 40px; }
+.timeline-item:nth-child(even) .tl-content { grid-column: 3; text-align: left; padding-left: 40px; }
+.timeline-item:nth-child(even) .tl-img { grid-column: 1; grid-row: 1; padding-right: 40px; }
+.timeline-item:nth-child(even) .tl-dot { grid-column: 2; grid-row: 1; }
+.tl-dot {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+}
+.tl-dot-circle {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--sand);
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--gold);
+  flex-shrink: 0;
+}
+.tl-year {
+  font-family: var(--num);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.tl-desc {
+  font-size: 15px;
+  color: var(--fg);
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+.tl-desc-en {
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+.tl-img-wrap {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid var(--gold-border);
+}
+.tl-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.tl-img-wrap:hover img { transform: scale(1.05); }
+.tl-img-wrap.sepia img { filter: sepia(0.7) contrast(1.1); }
+
+/* Adversity banner */
+#adversity-banner {
+  position: relative;
+  padding: 96px 0;
+  overflow: hidden;
+  text-align: center;
+}
+.adversity-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page2_img7.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+.adversity-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11,14,20,0.78);
+}
+.adversity-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.adversity-quote {
+  font-family: var(--display);
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.adversity-quote-en {
+  font-family: var(--display);
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 400;
+  color: var(--sand);
+  line-height: 1.6;
+}
+
+/* ===== PAGE: CLUB ===== */
+#club-origin {
+  padding: 96px 0;
+}
+.origin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.origin-img-wrap {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--gold-border);
+}
+.origin-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+.origin-img-wrap:hover img { transform: scale(1.04); }
+.origin-body {
+  font-size: 16px;
+  color: var(--fg);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+.origin-body-en {
+  font-size: 14px;
+  color: var(--secondary);
+  line-height: 1.8;
+}
+
+#club-missions {
+  padding: 80px 0;
+  background: linear-gradient(180deg, rgba(10,42,107,0.1) 0%, var(--bg) 100%);
+}
+.club-missions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 800px;
+  margin: 48px auto 0;
+}
+.club-mission-item {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+.club-mission-num {
+  font-family: var(--num);
+  font-size: 72px;
+  font-weight: 900;
+  color: var(--gold);
+  opacity: 0.2;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 80px;
+}
+.club-mission-text {}
+.club-mission-title {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.club-mission-title-en {
+  font-size: 16px;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.club-mission-desc {
+  font-size: 15px;
+  color: var(--secondary);
+  line-height: 1.7;
+}
+
+#club-quote {
+  padding: 64px 0;
+  text-align: center;
+}
+.sand-quote {
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 700;
+  color: var(--sand);
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto 12px;
+}
+.sand-quote-en {
+  font-family: var(--display);
+  font-size: clamp(15px, 1.8vw, 20px);
+  font-weight: 400;
+  color: var(--secondary);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+#club-fb {
+  padding: 48px 0 80px;
+  text-align: center;
+}
+
+/* ===== PAGE: BELIEFS ===== */
+#beliefs-pillars {
+  padding: 80px 0;
+}
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.pillar-card {
+  background: linear-gradient(135deg, var(--card) 0%, rgba(10,42,107,0.3) 100%);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 40px 32px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.pillar-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(200,162,75,0.2);
+}
+.pillar-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+.pillar-text {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.pillar-text-en {
+  font-size: 14px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+
+/* Rules grid */
+#rules-grid {
+  padding: 80px 0;
+  background: linear-gradient(180deg, rgba(10,42,107,0.08) 0%, var(--bg) 100%);
+}
+.rules-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+.rule-card {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 24px 20px;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.rule-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 8px 24px rgba(200,162,75,0.12);
+}
+.rule-num {
+  font-family: var(--num);
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--gold);
+  opacity: 0.5;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.rule-title {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.rule-title-en {
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.rule-desc {
+  font-size: 13px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+.rule-desc-en {
+  font-size: 12px;
+  color: rgba(154,163,178,0.7);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* Quotes carousel */
+#quotes-carousel {
+  padding: 80px 0;
+}
+.carousel-wrap {
+  position: relative;
+  overflow: hidden;
+  margin-top: 48px;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+.quote-slide {
+  min-width: 100%;
+  padding: 0 24px;
+}
+.quote-card {
+  background: var(--card);
+  border: 1px solid var(--sand);
+  border-radius: 8px;
+  padding: 48px 56px;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.quote-card::before {
+  content: '"';
+  font-family: var(--display);
+  font-size: 120px;
+  color: var(--sand);
+  opacity: 0.15;
+  position: absolute;
+  top: -20px; left: 24px;
+  line-height: 1;
+}
+.quote-text {
+  font-family: var(--display);
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.quote-text-en {
+  font-family: var(--display);
+  font-size: clamp(14px, 1.6vw, 18px);
+  font-weight: 400;
+  color: var(--sand);
+  line-height: 1.7;
+}
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+.carousel-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--secondary);
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.2s, background 0.2s;
+}
+.carousel-dot.active { background: var(--sand); opacity: 1; }
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.carousel-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-border);
+  background: var(--card);
+  color: var(--fg);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.carousel-btn:hover { border-color: var(--gold); background: var(--gold-glow); }
+
+/* ===== PAGE: GALLERY ===== */
+#gallery-header {
+  padding: 120px 0 64px;
+  text-align: center;
+}
+.gallery-subtitle {
+  font-size: 16px;
+  color: var(--secondary);
+  margin-top: 8px;
+}
+.gallery-subtitle-en {
+  font-size: 14px;
+  color: rgba(154,163,178,0.7);
+  margin-top: 4px;
+}
+#gallery-grid {
+  padding: 0 0 80px;
+}
+
+/* ===== Gallery Timeline ===== */
+.gallery-timeline {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+.gallery-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold) 0%, rgba(200,162,75,0.2) 100%);
+  transform: translateX(-50%);
+}
+.gtl-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 56px;
+  position: relative;
+}
+.gtl-item:nth-child(odd) {
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: calc(50% + 32px);
+}
+.gtl-item:nth-child(even) {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  padding-left: calc(50% + 32px);
+}
+.gtl-dot {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  transform: translateX(-50%);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--sand);
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--gold);
+  z-index: 2;
+  flex-shrink: 0;
+}
+.gtl-card {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 340px;
+}
+.gtl-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 0 24px rgba(200,162,75,0.3);
+}
+.gtl-img-wrap {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--bg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gtl-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.gtl-card:hover .gtl-img-wrap img { transform: scale(1.04); }
+.gtl-info {
+  padding: 14px 16px;
+  text-align: center;
+}
+.gtl-anniv {
+  font-family: var(--num);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.gtl-year {
+  font-size: 13px;
+  color: var(--secondary);
+  letter-spacing: 0.06em;
+}
+
+/* ===== Lightbox ===== */
+#gallery-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11,14,20,0.92);
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+}
+#gallery-lightbox.open { display: flex; }
+.lb-img-wrap {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lb-img-wrap img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+}
+.lb-close {
+  position: fixed;
+  top: 20px; right: 24px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(11,14,20,0.8);
+  border: 1px solid var(--gold-border);
+  color: var(--fg);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9001;
+  transition: background 0.2s;
+}
+.lb-close:hover { background: rgba(200,162,75,0.3); }
+.lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(11,14,20,0.75);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9001;
+  transition: background 0.2s;
+}
+.lb-nav:hover { background: rgba(200,162,75,0.2); }
+.lb-prev { left: 16px; }
+.lb-next { right: 16px; }
+.lb-counter {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: var(--secondary);
+  letter-spacing: 0.08em;
+  z-index: 9001;
+}
+
+@media (max-width: 768px) {
+  .gallery-timeline::before { left: 20px; }
+  .gtl-item:nth-child(odd),
+  .gtl-item:nth-child(even) {
+    flex-direction: column;
+    padding-left: 52px;
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+  .gtl-dot { left: 20px; }
+  .gtl-card { max-width: 100%; }
+}
+
+#gallery-2027 {
+  padding: 0 0 96px;
+}
+.gallery-2027-card {
+  background: linear-gradient(135deg, rgba(200,162,75,0.12) 0%, rgba(10,42,107,0.3) 100%);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 64px 48px;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+  box-shadow: 0 0 48px rgba(200,162,75,0.12);
+}
+.gallery-2027-year {
+  font-family: var(--num);
+  font-size: clamp(64px, 10vw, 120px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.gallery-2027-title {
+  font-family: var(--display);
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+.gallery-2027-en {
+  font-size: 18px;
+  color: var(--secondary);
+}
+
+/* ===== PAGE: VISION ===== */
+#vision-hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.vision-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://a.lovart.ai/artifacts/agent/7F4O7Mt2EsXqZ0aT.png');
+  background-size: cover;
+  background-position: center;
+}
+.vision-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11,14,20,0.72);
+}
+.vision-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 24px;
+  padding-top: var(--nav-h);
+}
+.vision-hero-year {
+  font-family: var(--num);
+  font-size: clamp(64px, 10vw, 120px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.4s forwards;
+}
+.vision-hero-title {
+  font-family: var(--display);
+  font-size: clamp(24px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.6s forwards;
+}
+.vision-hero-title-en {
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 400;
+  color: var(--secondary);
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.8s forwards;
+}
+
+#vision-quote {
+  padding: 80px 0;
+  text-align: center;
+}
+.vision-quote-text {
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 700;
+  color: var(--fg);
+  max-width: 800px;
+  margin: 0 auto 16px;
+  line-height: 1.7;
+}
+.vision-quote-en {
+  font-family: var(--display);
+  font-size: clamp(15px, 1.8vw, 20px);
+  font-weight: 400;
+  color: var(--secondary);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+#vision-keywords {
+  padding: 0 0 80px;
+}
+.keywords-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.keyword-card {
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 48px 32px;
+  text-align: center;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.keyword-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px rgba(200,162,75,0.2);
+}
+.keyword-zh {
+  font-family: var(--display);
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.keyword-en {
+  font-size: 14px;
+  color: var(--secondary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#vision-cta {
+  padding: 0 0 96px;
+  text-align: center;
+}
+
+/* ===== FOOTER ===== */
+#footer {
+  background: var(--card);
+  border-top: 1px solid var(--gold-border);
+  padding: 64px 0 40px;
+  text-align: center;
+}
+.footer-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 24px;
+  background: transparent;
+}
+.footer-logo-wrap img {
+  display: block;
+  width: auto;
+  height: 150px;
+  object-fit: contain;
+}
+.footer-name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.footer-name-en {
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
+.footer-desc {
+  font-size: 14px;
+  color: var(--secondary);
+  max-width: 480px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+.footer-fb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gold);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--gold-border);
+  padding: 8px 20px;
+  border-radius: 20px;
+  margin-bottom: 32px;
+  transition: background 0.2s, color 0.2s;
+}
+.footer-fb:hover { background: var(--gold); color: var(--bg); }
+.footer-copy {
+  font-size: 13px;
+  color: rgba(154,163,178,0.5);
+  letter-spacing: 0.04em;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .rules-cards { grid-template-columns: repeat(4, 1fr); }
+  .team-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  :root { --nav-h: 64px; }
+  .nav-links { display: none; }
+  .nav-right .lang-btn { display: none; }
+  .hamburger { display: flex; }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-item:nth-child(2) { border-right: none; }
+  .stat-item { border-bottom: 1px solid var(--gold-border); }
+  .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
+
+  .movie-grid { grid-template-columns: 1fr; gap: 32px; }
+  .missions-grid { grid-template-columns: 1fr; }
+  .origin-grid { grid-template-columns: 1fr; gap: 32px; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .rules-cards { grid-template-columns: repeat(2, 1fr); }
+  .team-cards { grid-template-columns: repeat(2, 1fr); }
+  .gallery-cards { grid-template-columns: repeat(2, 1fr); }
+  .keywords-grid { grid-template-columns: 1fr; }
+
+  .timeline-line { left: 20px; }
+  .timeline-item { grid-template-columns: 40px 1fr; }
+  .timeline-item:nth-child(odd) .tl-content,
+  .timeline-item:nth-child(even) .tl-content {
+    grid-column: 2; text-align: left; padding-left: 20px; padding-right: 0;
+  }
+  .timeline-item:nth-child(odd) .tl-img,
+  .timeline-item:nth-child(even) .tl-img {
+    grid-column: 2; grid-row: 2; padding-left: 20px; padding-right: 0;
+  }
+  .tl-dot { grid-column: 1; }
+  .timeline-item:nth-child(even) .tl-dot { grid-row: 1; }
+
+  .quote-card { padding: 32px 24px; }
+  .club-missions-list { padding: 0 16px; }
+  .club-mission-num { font-size: 48px; width: 56px; }
+}
+
+@media (max-width: 480px) {
+  .gallery-cards { grid-template-columns: 1fr; }
+  .rules-cards { grid-template-columns: 1fr; }
+  .hero-cta { flex-direction: column; }
+  .hero-cta .btn-primary, .hero-cta .btn-outline { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav id="navbar" data-lvt-eid="4efeeb2c4b">
+  <div class="nav-inner" data-lvt-eid="6703f704bd">
+    <div class="nav-brand" onclick="navigate('home')" data-lvt-eid="600877bff7">
+      <div class="nav-logo-wrap" data-lvt-eid="3feb710e3e">
+        <img src="assets/logo.png" alt="海餅乾俱樂部 Logo" data-lvt-eid="eb615d3619">
+      </div>
+      <div class="nav-brand-text" data-lvt-eid="35776a25fc">
+        海餅乾俱樂部
+        <span data-lvt-eid="0943350e8a">SEA BISCUIT CLUB</span>
+      </div>
+    </div>
+    <ul class="nav-links" data-lvt-eid="28421f473b">
+      <li data-lvt-eid="3a07bbf733"><a href="#home" data-page="home" data-i18n="首頁" data-i18n-en="Home" data-lvt-eid="79db338762">首頁</a></li>
+      <li data-lvt-eid="96487d0997"><a href="#legend" data-page="legend" data-i18n="傳奇" data-i18n-en="Legend" data-lvt-eid="069c0465a6">傳奇</a></li>
+      <li data-lvt-eid="274f8942f5"><a href="#club" data-page="club" data-i18n="俱樂部" data-i18n-en="Club" data-lvt-eid="38df37cbfb">俱樂部</a></li>
+      <li data-lvt-eid="1926b43223"><a href="#beliefs" data-page="beliefs" data-i18n="信念" data-i18n-en="Beliefs" data-lvt-eid="509ab94e3f">信念</a></li>
+      <li data-lvt-eid="7b8b2fbb9f"><a href="#gallery" data-page="gallery" data-i18n="紀念冊" data-i18n-en="Gallery" data-lvt-eid="4da6480a9c">紀念冊</a></li>
+      <li data-lvt-eid="e525cca7b9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" data-lvt-eid="51df29231e">願景</a></li>
+    </ul>
+    <div class="nav-right" data-lvt-eid="de574cabb0">
+      <button class="lang-btn" id="langToggle" onclick="toggleLang()" data-lvt-eid="817e9c84a3">EN</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="選單" data-lvt-eid="a4ccf5095f">
+      <span data-lvt-eid="d782258e48"></span><span data-lvt-eid="fa3c8ff826"></span><span data-lvt-eid="63aefa7046"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu" data-lvt-eid="78f77e5fc2">
+  <ul data-lvt-eid="339c72f806">
+    <li data-lvt-eid="45c4b26ae2"><a href="#home" data-page="home" data-i18n="首頁" data-i18n-en="Home" onclick="closeMobileMenu()" data-lvt-eid="5d229a4370">首頁</a></li>
+    <li data-lvt-eid="78de9ac32a"><a href="#legend" data-page="legend" data-i18n="傳奇" data-i18n-en="Legend" onclick="closeMobileMenu()" data-lvt-eid="23461ad4b2">傳奇</a></li>
+    <li data-lvt-eid="72c9c26e21"><a href="#club" data-page="club" data-i18n="俱樂部" data-i18n-en="Club" onclick="closeMobileMenu()" data-lvt-eid="cb484a3579">俱樂部</a></li>
+    <li data-lvt-eid="85603e51a1"><a href="#beliefs" data-page="beliefs" data-i18n="信念" data-i18n-en="Beliefs" onclick="closeMobileMenu()" data-lvt-eid="6b4fdf3048">信念</a></li>
+    <li data-lvt-eid="6cf187108c"><a href="#gallery" data-page="gallery" data-i18n="紀念冊" data-i18n-en="Gallery" onclick="closeMobileMenu()" data-lvt-eid="c7a710ca0a">紀念冊</a></li>
+    <li data-lvt-eid="82147145c9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" onclick="closeMobileMenu()" data-lvt-eid="af89fde238">願景</a></li>
+  </ul>
+  <button class="mobile-lang-btn" onclick="toggleLang(); closeMobileMenu();" id="mobileLangBtn" data-lvt-eid="8513eb53c3">切換 EN</button>
+</div>
+
+<!-- ===== PAGE: HOME ===== -->
+<div class="page active" id="page-home" data-lvt-eid="6150aaa5a3">
+
+  <!-- Hero -->
+  <section id="hero" data-lvt-eid="d8d6a237b5">
+    <div class="hero-bg" data-lvt-eid="7180540825"></div>
+    <div class="hero-overlay" data-lvt-eid="5a6d11b0e6" style="transform: translate(1.72461px, -18.972px);"></div>
+    <div class="hero-content" data-lvt-eid="494981c669">
+      <p class="hero-eyebrow" data-i18n="海餅乾俱樂部 20 週年" data-i18n-en="Sea Biscuit Club — 20th Anniversary" data-lvt-eid="5effa1f572">海餅乾俱樂部 20 週年</p>
+      <h1 class="hero-title" data-i18n="唯一不是人的風雲人物" data-i18n-en="The Only Non-Human on the List" data-lvt-eid="e12b2a051b">唯一不是人的風雲人物</h1>
+      <p class="hero-title-en" data-i18n="The Only Non-Human on the List" data-i18n-en="唯一不是人的風雲人物" data-lvt-eid="dbeb043d91">The Only Non-Human on the List</p>
+      <div class="hero-gold-line" data-lvt-eid="53decea243"></div>
+      <p class="hero-subtitle" data-i18n="1938年，海餅乾與羅斯福總統、希特勒等9位世界領袖並列全美十大風雲人物" data-i18n-en="In 1938, Seabiscuit joined President Roosevelt and nine world leaders on the list of America's Top 10 Newsmakers" data-lvt-eid="f7b5354f06">1938年，海餅乾與羅斯福總統、希特勒等9位世界領袖並列全美十大風雲人物</p>
+      <p class="hero-subtitle-en" data-i18n="In 1938, Seabiscuit joined President Roosevelt and nine world leaders on the list of America's Top 10 Newsmakers — the only one who wasn't human." data-i18n-en="1938年，海餅乾與羅斯福總統、希特勒等9位世界領袖並列全美十大風雲人物——唯一一位不是人的入選者。" data-lvt-eid="001942f00f">In 1938, Seabiscuit joined President Roosevelt and nine world leaders on the list of America's Top 10 Newsmakers — the only one who wasn't human.</p>
+      <div class="hero-cta" data-lvt-eid="b841587a29">
+        <a href="#legend" class="btn-primary" onclick="navigate('legend')" data-i18n="進入傳奇" data-i18n-en="Enter the Legend" data-lvt-eid="930002a7cf">進入傳奇 Enter the Legend →</a>
+        <a href="#club" class="btn-outline" onclick="navigate('club')" data-i18n="關於俱樂部" data-i18n-en="About the Club" data-lvt-eid="c8e4aa3bfb">關於俱樂部 About the Club</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section id="stats" data-lvt-eid="55e54d5209">
+    <div class="container" data-lvt-eid="ef6e972f83">
+      <div class="stats-grid" data-lvt-eid="f17a8ac9ad">
+        <div class="stat-item fade-up" data-lvt-eid="db8dbfad25">
+          <div class="stat-num" data-count="1938" data-lvt-eid="854f3ce83a">1938</div>
+          <div class="stat-label" data-i18n="十大風雲人物" data-i18n-en="Top 10 Newsmakers" data-lvt-eid="0fec65f853">十大風雲人物</div>
+          <div class="stat-label-en" data-i18n="Top 10 Newsmakers" data-i18n-en="十大風雲人物" data-lvt-eid="194b65d83b">Top 10 Newsmakers</div>
+        </div>
+        <div class="stat-item fade-up delay-1" data-lvt-eid="695f408515">
+          <div class="stat-num" data-lvt-eid="3770a2d4cc">89<span style="font-size:0.5em;color:var(--secondary)" data-lvt-eid="69566cc104"> / </span>33</div>
+          <div class="stat-label" data-i18n="89戰33勝" data-i18n-en="89 Races, 33 Wins" data-lvt-eid="77f1141a94">89戰33勝</div>
+          <div class="stat-label-en" data-i18n="89 Races, 33 Wins" data-i18n-en="89戰33勝" data-lvt-eid="41d83c5cf8">89 Races, 33 Wins</div>
+        </div>
+        <div class="stat-item fade-up delay-2" data-lvt-eid="54dd22dfa1">
+          <div class="stat-num" data-count="2003" data-lvt-eid="23bf2ad46b">2003</div>
+          <div class="stat-label" data-i18n="《奔騰年代》上映" data-i18n-en="Film Release" data-lvt-eid="0dcdba2ef7">《奔騰年代》上映</div>
+          <div class="stat-label-en" data-i18n="Film Release" data-i18n-en="《奔騰年代》上映" data-lvt-eid="8c15630545">Film Release</div>
+        </div>
+        <div class="stat-item fade-up delay-3" data-lvt-eid="d8374926c0">
+          <div class="stat-num" data-count="2007" data-lvt-eid="205ef85b73">2007</div>
+          <div class="stat-label" data-i18n="俱樂部創立" data-i18n-en="Club Founded" data-lvt-eid="c6e082757a">俱樂部創立</div>
+          <div class="stat-label-en" data-i18n="Club Founded" data-i18n-en="俱樂部創立" data-lvt-eid="64bd6fd5be">Club Founded</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Movie section -->
+  <section id="movie-section" data-lvt-eid="98af07ee15" style="transform: translate(132.783px, 9.02411px);">
+    <div class="container" data-lvt-eid="5e91f8ff39">
+      <div class="movie-grid" data-lvt-eid="2e06f893c0">
+
+        <!-- 電影海報輪播 -->
+        <div class="movie-carousel fade-up" id="movieCarousel" data-lvt-eid="44db8fade2">
+          <div class="movie-carousel-track" data-lvt-eid="cac38ffe86">
+
+            <div class="movie-carousel-slide active" data-lvt-eid="771b7639fa">
+              <img src="https://a.lovart.ai/artifacts/user/HRXesf52u4FuopzR.jpg" alt="電影《奔騰年代》海報" data-lvt-eid="c947b915f3">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="0b48f6cbe6">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="a8d28fdb4c">
+              <img src="https://a.lovart.ai/artifacts/user/08aVc478tr5Tg2qL.jpg" alt="電影《奔騰年代》海報" data-lvt-eid="defac7d096">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="410c5b8907">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="ed7d0ee93c">
+              <img src="https://a.lovart.ai/artifacts/user/gxyb4E1AAK96efT5.jpg" alt="電影《奔騰年代》海報" data-lvt-eid="965f74a206">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="87240156b6">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="dcc2e444f0">
+              <img src="https://a.lovart.ai/artifacts/user/zhArXS9hQX9n7zDB.jpg" alt="電影《奔騰年代》海報" data-lvt-eid="4bca7293be">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="6eeedf5364">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="d6ddde4bf5">
+              <img src="https://a.lovart.ai/artifacts/user/1ZmWMVOwmgBRyaBW.jpg" alt="電影《奔騰年代》海報" data-lvt-eid="e64b041459">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="63e9bd3cca">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="af95d1b071">
+              <img src="https://a.lovart.ai/artifacts/user/PBjWhAF3x1LtVwXm.jpg" alt="電影《奔騰年代》劇照" data-lvt-eid="da20b595e1">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="fd321687e2">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="c37d3beb47">
+              <img src="https://a.lovart.ai/artifacts/user/nYeMvOMoftBCkRjk.jpg" alt="電影《奔騰年代》劇照" data-lvt-eid="33b386b87e" style="transform: translate(-26.6865px, 0px);">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="09edc6060f">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="0343c8652e">
+              <img src="https://a.lovart.ai/artifacts/user/O8jLhiTG5s1Hwr0U.jpg" alt="電影《奔騰年代》劇照" data-lvt-eid="cd61a898e1">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="86e8f18847">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="3303ce7da6">
+              <img src="https://a.lovart.ai/artifacts/user/CQ9XeKepLV6SLp0x.jpg" alt="電影《奔騰年代》劇照" data-lvt-eid="e933534a5c">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="1246bfcdfb">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="c4d42a17f3">
+              <img src="https://a.lovart.ai/artifacts/user/0inzDJPBuhEdBcZB.jpg" alt="電影《奔騰年代》劇照" data-lvt-eid="63d702c374">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="0d7709e5a4">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="fb9c063e55">
+              <img src="https://a.lovart.ai/artifacts/user/GbMgInpiHc4vP1Mf.jpg" alt="電影《奔騰年代》劇照" data-lvt-eid="d32b5f7ef9">
+              <div class="movie-carousel-caption" data-i18n="電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)" data-i18n-en="Film: Seabiscuit (2003)" data-lvt-eid="d943b174ea">電影《奔騰年代》劇照・海報 Film: Seabiscuit (2003)</div>
+            </div>
+
+            <div class="movie-carousel-slide" data-lvt-eid="4b7539395b">
+              <img src="https://a.lovart.ai/artifacts/user/0svKpITi9nBsKsQy.png" alt="海餅乾雕像歷史照" data-lvt-eid="66a3beefdd">
+              <div class="movie-carousel-caption" data-i18n="歷史檔案 Historical Archive" data-i18n-en="Historical Archive" data-lvt-eid="df301b4c6c">歷史檔案 Historical Archive</div>
+            </div>
+
+            <button class="movie-carousel-btn prev" onclick="movieCarouselPrev()" aria-label="上一張" data-lvt-eid="2ae58a22a5">←</button>
+            <button class="movie-carousel-btn next" onclick="movieCarouselNext()" aria-label="下一張" data-lvt-eid="7e6aa2eaf8">→</button>
+          </div>
+          <div class="movie-carousel-dots" id="movieCarouselDots" data-lvt-eid="9477538ff1"></div>
+        </div>
+
+        <div class="movie-text fade-up delay-2" data-lvt-eid="e5141b138b">
+          <p class="section-label" data-i18n="電影背景" data-i18n-en="The Film" data-lvt-eid="356af94b81">電影背景</p>
+          <h2 class="section-title" data-i18n="2003年電影《奔騰年代》" data-i18n-en="Seabiscuit (2003)" data-lvt-eid="301dc1d482">2003年電影《奔騰年代》</h2>
+          <div class="gold-line" data-lvt-eid="18033263cd"></div>
+          <p class="movie-body" data-i18n="述說1930年代經濟大蕭條時期的奇蹟：一匹被放棄的馬、一位沒贏過的騎師、一位不被認可的馴馬師，以及一位跌入谷底的企業家霍華德，組成的冠軍團隊。" data-i18n-en="The 2003 film 'Seabiscuit' tells a Great Depression miracle — a discarded horse, a jockey who never won, an unrecognized trainer, and a broken entrepreneur, together becoming a championship team." data-lvt-eid="ef227a0fa4">述說1930年代經濟大蕭條時期的奇蹟：一匹被放棄的馬、一位沒贏過的騎師、一位不被認可的馴馬師，以及一位跌入谷底的企業家霍華德，組成的冠軍團隊。</p>
+          <p class="movie-body-en" data-i18n="The 2003 film 'Seabiscuit' tells a Great Depression miracle — a discarded horse, a jockey who never won, an unrecognized trainer, and a broken entrepreneur, together becoming a championship team." data-i18n-en="述說1930年代經濟大蕭條時期的奇蹟：一匹被放棄的馬、一位沒贏過的騎師、一位不被認可的馴馬師，以及一位跌入谷底的企業家霍華德，組成的冠軍團隊。" data-lvt-eid="e4d6347a33">The 2003 film 'Seabiscuit' tells a Great Depression miracle — a discarded horse, a jockey who never won, an unrecognized trainer, and a broken entrepreneur, together becoming a championship team.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Missions -->
+  <section id="missions" data-lvt-eid="a739bf05be">
+    <div class="container" data-lvt-eid="171bdd5daf">
+      <div class="fade-up" style="text-align:center" data-lvt-eid="c3af553e63">
+        <p class="section-label" data-i18n="三大使命" data-i18n-en="Three Missions" data-lvt-eid="564a0476f8">三大使命</p>
+        <h2 class="section-title" data-i18n="俱樂部存在的意義" data-i18n-en="Our Purpose" data-lvt-eid="0f60cd2f58">俱樂部存在的意義</h2>
+        <p class="section-title-en" data-i18n="Our Purpose" data-i18n-en="俱樂部存在的意義" data-lvt-eid="054984196b">Our Purpose</p>
+      </div>
+      <div class="missions-grid" data-lvt-eid="0ee2501610">
+        <div class="mission-card fade-up delay-1" data-lvt-eid="55e253f324">
+          <div class="mission-num" data-lvt-eid="12ef7cfb94">01</div>
+          <div class="mission-title" data-i18n="培育人才" data-i18n-en="Cultivate Talent" data-lvt-eid="781d18be24">培育人才</div>
+          <div class="mission-title-en" data-i18n="Cultivate Talent" data-i18n-en="培育人才" data-lvt-eid="1c796cd2a1">Cultivate Talent</div>
+          <p class="mission-desc" data-i18n="發掘並培育每一位成員的潛能，讓對的人在對的位置發光。" data-i18n-en="Discover and nurture the potential of every member — putting the right people in the right place." data-lvt-eid="fe8138316b">發掘並培育每一位成員的潛能，讓對的人在對的位置發光。</p>
+        </div>
+        <div class="mission-card fade-up delay-2" data-lvt-eid="f0800fa1bf">
+          <div class="mission-num" data-lvt-eid="c9e7bea85c">02</div>
+          <div class="mission-title" data-i18n="創造奇蹟" data-i18n-en="Create Miracles" data-lvt-eid="7728023526">創造奇蹟</div>
+          <div class="mission-title-en" data-i18n="Create Miracles" data-i18n-en="創造奇蹟" data-lvt-eid="1428ca74fc">Create Miracles</div>
+          <p class="mission-desc" data-i18n="激發個人生命潛能之奇蹟" data-i18n-en="Unleashing the miracle of human potential" data-lvt-eid="360e6ee52b">激發個人生命潛能之奇蹟<br data-lvt-eid="6d1bd3b8ff"><span style="font-size:13px;color:rgba(154,163,178,0.7)" data-lvt-eid="3008b4c161">Unleashing the miracle of human potential</span></p>
+        </div>
+        <div class="mission-card fade-up delay-3" data-lvt-eid="a920005f34">
+          <div class="mission-num" data-lvt-eid="a6b00d98c4">03</div>
+          <div class="mission-title" data-i18n="做對社會有貢獻的事" data-i18n-en="Contribute to Society" data-lvt-eid="9249546f53">做對社會有貢獻的事</div>
+          <div class="mission-title-en" data-i18n="Contribute to Society" data-i18n-en="做對社會有貢獻的事" data-lvt-eid="3e57a905bb">Contribute to Society</div>
+          <p class="mission-desc" data-i18n="以行動回饋社會，讓俱樂部的精神成為更廣大的力量。" data-i18n-en="Give back through action — let the club's spirit become a greater force for good." data-lvt-eid="61405bbe33">以行動回饋社會，讓俱樂部的精神成為更廣大的力量。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anniversary Banner -->
+  <section id="anniversary-banner" data-lvt-eid="80926b0de4">
+    <div class="container fade-up" data-lvt-eid="4a3c7f3a78">
+      <div class="anniv-year" data-lvt-eid="d5aa8b55dc">2007–2027</div>
+      <div class="anniv-title" data-i18n="海餅乾俱樂部 20 週年" data-i18n-en="Sea Biscuit Club 20th Anniversary" data-lvt-eid="0a0e65ecfc">海餅乾俱樂部 20 週年</div>
+      <div class="anniv-title-en" data-i18n="20th Anniversary" data-i18n-en="海餅乾俱樂部 20 週年" data-lvt-eid="d595c7b349">20th Anniversary</div>
+      <a href="#vision" class="btn-primary" onclick="navigate('vision')" data-i18n="探索願景" data-i18n-en="Explore the Vision" data-lvt-eid="4bcc766043">探索願景 →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer" data-lvt-eid="ba6370a8c3">
+    <div class="container" data-lvt-eid="947a11f2d3">
+      <div class="footer-logo-wrap" data-lvt-eid="c92c8e8a4b">
+        <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="ab23c841ba">
+      </div>
+      <div class="footer-name" data-i18n="海餅乾俱樂部" data-i18n-en="Sea Biscuit Club" data-lvt-eid="8a2077afe7">海餅乾俱樂部</div>
+      <div class="footer-name-en" data-lvt-eid="543c841fb6">SEA BISCUIT CLUB</div>
+      <p class="footer-desc" data-i18n="培育人才・創造奇蹟・做對社會有貢獻的事" data-i18n-en="Cultivate Talent · Create Miracles · Contribute to Society" data-lvt-eid="183d1673cb">培育人才・創造奇蹟・做對社會有貢獻的事</p>
+      <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" class="footer-fb" data-lvt-eid="6fdaeae419">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" data-lvt-eid="1b72df673f"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" data-lvt-eid="4af8f4cabf"></path></svg>
+        Facebook
+      </a>
+      <p class="footer-copy" data-lvt-eid="2b434f1482">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== PAGE: LEGEND ===== -->
+<div class="page" id="page-legend" data-lvt-eid="7668ccbf94">
+
+  <!-- Page Hero -->
+  <section class="page-hero" data-lvt-eid="e326406edc">
+    <div class="page-hero-bg" style="background-image:url('https://a.lovart.ai/artifacts/user/yjzttqM0vN7nAvi1.jpg')" data-lvt-eid="4dc9bc504d"></div>
+    <div class="page-hero-overlay" data-lvt-eid="311f2e960b"></div>
+    <div class="page-hero-content" data-lvt-eid="c0a4772c49">
+      <h1 class="page-hero-title" data-i18n="傳奇海餅乾" data-i18n-en="The Legend of Seabiscuit" data-lvt-eid="0248754c9c">傳奇海餅乾</h1>
+      <p class="page-hero-title-en" data-i18n="The Legend of Seabiscuit" data-i18n-en="傳奇海餅乾" data-lvt-eid="26ac6c15a1">The Legend of Seabiscuit</p>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section id="legend-quote" data-lvt-eid="8e84e93ec8">
+    <div class="container" data-lvt-eid="76762420b3">
+      <div class="blockquote-gold fade-up" data-lvt-eid="154dbd64d8">
+        <p data-i18n="1938年，牠與美國總統羅斯福等9位世界級名人並列美國年度十大新聞人物——唯一一位『不是人』的入選者。" data-i18n-en="In 1938, he stood among President Roosevelt and nine world leaders as one of America's Top 10 Newsmakers — the only one who wasn't human." data-lvt-eid="bd16e1a501">1938年，牠與美國總統羅斯福等9位世界級名人並列美國年度十大新聞人物——唯一一位「不是人」的入選者。</p>
+        <p class="en" data-i18n="In 1938, he stood among President Roosevelt and nine world leaders as one of America's Top 10 Newsmakers — the only one who wasn't human." data-i18n-en="1938年，牠與美國總統羅斯福等9位世界級名人並列美國年度十大新聞人物——唯一一位「不是人」的入選者。" data-lvt-eid="e6ad4cb400">In 1938, he stood among President Roosevelt and nine world leaders as one of America's Top 10 Newsmakers — the only one who wasn't human.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Champion Team -->
+  <section id="champion-team" data-lvt-eid="60c74de7ce">
+    <div class="container" data-lvt-eid="b60490b8aa">
+      <div class="fade-up" style="text-align:center;margin-bottom:32px" data-lvt-eid="7fc5c10981">
+        <p class="section-label" data-i18n="冠軍團隊" data-i18n-en="The Championship Team" data-lvt-eid="af66f57621">冠軍團隊</p>
+        <h2 class="section-title" data-i18n="四個被放棄的人，組成了傳奇" data-i18n-en="Four Outcasts Who Became Legends" data-lvt-eid="36ef989dc7">四個被放棄的人，組成了傳奇</h2>
+      </div>
+      <div class="team-img-wrap fade-up" data-lvt-eid="52596ca997">
+        <img src="https://assets-persist.lovart.ai/pdf_extracts/99d4491d792e10f6/images/page1_img1.jpeg" alt="冠軍團隊" data-lvt-eid="b741928359">
+      </div>
+      <p class="img-caption" data-i18n="電影《奔騰年代》劇照 Film still: Seabiscuit (2003)" data-i18n-en="Film still: Seabiscuit (2003)" data-lvt-eid="6d3231f952">電影《奔騰年代》劇照 Film still: Seabiscuit (2003)</p>
+      <div class="team-cards" data-lvt-eid="4c40445e62">
+        <div class="team-card fade-up delay-1" data-lvt-eid="203ab87c87">
+          <div class="team-card-icon" data-lvt-eid="67651c74a4">🐎</div>
+          <div class="team-card-name" data-i18n="海餅乾" data-i18n-en="Seabiscuit" data-lvt-eid="51962897a4">海餅乾</div>
+          <div class="team-card-name-en" data-lvt-eid="846efdacb2">Seabiscuit</div>
+          <div class="team-card-desc" data-i18n="被放棄的馬" data-i18n-en="The discarded horse" data-lvt-eid="7cd50b067b">被放棄的馬</div>
+          <div class="team-card-desc-en" data-i18n="The discarded horse" data-i18n-en="被放棄的馬" data-lvt-eid="b4d20774b3">The discarded horse</div>
+        </div>
+        <div class="team-card fade-up delay-2" data-lvt-eid="1d08c84a8b">
+          <div class="team-card-icon" data-lvt-eid="e1aff88883">🏇</div>
+          <div class="team-card-name" data-i18n="瑞德·波拉德" data-i18n-en="Red Pollard" data-lvt-eid="3ec82186d4">瑞德·波拉德</div>
+          <div class="team-card-name-en" data-lvt-eid="97186b5e5a">Red Pollard</div>
+          <div class="team-card-desc" data-i18n="落魄殘疾的騎師" data-i18n-en="The broken jockey" data-lvt-eid="a346028b9e">落魄殘疾的騎師</div>
+          <div class="team-card-desc-en" data-i18n="The broken jockey" data-i18n-en="落魄殘疾的騎師" data-lvt-eid="30ecd4f36e">The broken jockey</div>
+        </div>
+        <div class="team-card fade-up delay-3" data-lvt-eid="987cb62ec7">
+          <div class="team-card-icon" data-lvt-eid="a1c52b5a01">🤠</div>
+          <div class="team-card-name" data-i18n="湯姆·史密斯" data-i18n-en="Tom Smith" data-lvt-eid="15f67240dc">湯姆·史密斯</div>
+          <div class="team-card-name-en" data-lvt-eid="1f31498041">Tom Smith</div>
+          <div class="team-card-desc" data-i18n="不被認可的流浪馴馬師" data-i18n-en="The unrecognized trainer" data-lvt-eid="592800ca31">不被認可的流浪馴馬師</div>
+          <div class="team-card-desc-en" data-i18n="The unrecognized trainer" data-i18n-en="不被認可的流浪馴馬師" data-lvt-eid="419aa5d63b">The unrecognized trainer</div>
+        </div>
+        <div class="team-card fade-up delay-4" data-lvt-eid="b3933a2bcc">
+          <div class="team-card-icon" data-lvt-eid="83ed5e6be9">💼</div>
+          <div class="team-card-name" data-i18n="查理斯·霍華德" data-i18n-en="Charles Howard" data-lvt-eid="97d8695886">查理斯·霍華德</div>
+          <div class="team-card-name-en" data-lvt-eid="096801480c">Charles Howard</div>
+          <div class="team-card-desc" data-i18n="跌入谷底的企業家" data-i18n-en="The broken entrepreneur" data-lvt-eid="8dde2d0be8">跌入谷底的企業家</div>
+          <div class="team-card-desc-en" data-i18n="The broken entrepreneur" data-i18n-en="跌入谷底的企業家" data-lvt-eid="416d606f2c">The broken entrepreneur</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section id="timeline" data-lvt-eid="609ff32275">
+    <div class="container" data-lvt-eid="0c0aaf44fe">
+      <div class="fade-up" style="text-align:center;margin-bottom:64px" data-lvt-eid="bb246aff79">
+        <p class="section-label" data-i18n="傳奇歷程" data-i18n-en="The Journey" data-lvt-eid="c7512b9dde">傳奇歷程</p>
+        <h2 class="section-title" data-i18n="從低谷到巔峰" data-i18n-en="From the Depths to the Summit" data-lvt-eid="7a3b1ac2cb">從低谷到巔峰</h2>
+      </div>
+      <div class="timeline-wrap" data-lvt-eid="a0f486052e">
+        <div class="timeline-line" data-lvt-eid="31f282f4bb"></div>
+
+        <!-- 1937 -->
+        <div class="timeline-item fade-up" data-lvt-eid="d67f035977">
+          <div class="tl-content" data-lvt-eid="549e7d3fef">
+            <div class="tl-year" data-lvt-eid="239eb72d4a">1937</div>
+            <p class="tl-desc" data-i18n="十場重要彩金賽獲勝，年收入14萬4千美元" data-i18n-en="Won ten major stakes races, earning $144,000 in a year" data-lvt-eid="f9a246ee87">十場重要彩金賽獲勝，年收入14萬4千美元</p>
+            <p class="tl-desc-en" data-i18n="Won ten major stakes races, earning $144,000 in a year" data-i18n-en="十場重要彩金賽獲勝，年收入14萬4千美元" data-lvt-eid="4f07f093d6">Won ten major stakes races, earning $144,000 in a year</p>
+          </div>
+          <div class="tl-dot" data-lvt-eid="7cf33e6195"><div class="tl-dot-circle" data-lvt-eid="cbdce9b7d0"></div></div>
+          <div class="tl-img" data-lvt-eid="bca0d78327">
+            <div class="tl-img-wrap sepia" data-lvt-eid="19f17c31e8">
+              <img src="https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page1_img1.jpeg" alt="1937 歷史照片" data-lvt-eid="13a7edc975">
+            </div>
+            <p class="img-caption" data-i18n="歷史檔案 Historical Archive" data-i18n-en="Historical Archive" data-lvt-eid="23922a608d">歷史檔案 Historical Archive</p>
+          </div>
+        </div>
+
+        <!-- 1938 -->
+        <div class="timeline-item fade-up" data-lvt-eid="ebd7ec759d">
+          <div class="tl-content" data-lvt-eid="4022cc798f">
+            <div class="tl-year" data-lvt-eid="56c5763237">1938</div>
+            <p class="tl-desc" data-i18n="擊敗三冠王「戰將」War Admiral，當選年度風雲賽馬，入選十大新聞人物" data-i18n-en="Beat Triple Crown winner War Admiral; Horse of the Year and Top 10 Newsmaker" data-lvt-eid="8f7ed8d3d9">擊敗三冠王「戰將」War Admiral，當選年度風雲賽馬，入選十大新聞人物</p>
+            <p class="tl-desc-en" data-i18n="Beat Triple Crown winner War Admiral; Horse of the Year and Top 10 Newsmaker" data-i18n-en="擊敗三冠王「戰將」War Admiral，當選年度風雲賽馬，入選十大新聞人物" data-lvt-eid="79af12bbc1">Beat Triple Crown winner War Admiral; Horse of the Year and Top 10 Newsmaker</p>
+          </div>
+          <div class="tl-dot" data-lvt-eid="873a560642"><div class="tl-dot-circle" data-lvt-eid="dce66875b0"></div></div>
+          <div class="tl-img" data-lvt-eid="cde4915358">
+            <div class="tl-img-wrap" data-lvt-eid="ed7639cd80">
+              <img src="https://a.lovart.ai/artifacts/user/WNiZDG1I8LKTYBCn.jpg" alt="1938 衝線劇照" data-lvt-eid="3d9fca91f1">
+            </div>
+            <p class="img-caption" data-i18n="電影劇照 Film still" data-i18n-en="Film still" data-lvt-eid="6fb3b914c2">電影劇照 Film still</p>
+          </div>
+        </div>
+
+        <!-- 1939 -->
+        <div class="timeline-item fade-up" data-lvt-eid="7222632420">
+          <div class="tl-content" data-lvt-eid="ba6b309360">
+            <div class="tl-year" data-lvt-eid="84d7ad38c8">1939</div>
+            <p class="tl-desc" data-i18n="左前腿懸韌帶破裂重傷；騎師瑞德三次腿部骨折" data-i18n-en="Ruptured suspensory ligament; jockey Pollard suffered three broken legs" data-lvt-eid="1f4d7a34dc">左前腿懸韌帶破裂重傷；騎師瑞德三次腿部骨折</p>
+            <p class="tl-desc-en" data-i18n="Ruptured suspensory ligament; jockey Pollard suffered three broken legs" data-i18n-en="左前腿懸韌帶破裂重傷；騎師瑞德三次腿部骨折" data-lvt-eid="04e2f3d583">Ruptured suspensory ligament; jockey Pollard suffered three broken legs</p>
+          </div>
+          <div class="tl-dot" data-lvt-eid="e698af2c87"><div class="tl-dot-circle" data-lvt-eid="f0d008bdd7"></div></div>
+          <div class="tl-img" data-lvt-eid="b4b05916e8">
+            <div class="tl-img-wrap" data-lvt-eid="c293e4eb7e">
+              <img src="https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page2_img7.jpeg" alt="1939 劇照" data-lvt-eid="f277190851">
+            </div>
+            <p class="img-caption" data-i18n="電影劇照 Film still" data-i18n-en="Film still" data-lvt-eid="9a6c398d40">電影劇照 Film still</p>
+          </div>
+        </div>
+
+        <!-- 1940 -->
+        <div class="timeline-item fade-up" data-lvt-eid="9be44a0cbd">
+          <div class="tl-content" data-lvt-eid="2a48c7a57d">
+            <div class="tl-year" data-lvt-eid="acd6531c63">1940</div>
+            <p class="tl-desc" data-i18n="7歲復出，贏得聖安妮塔10萬獎金賽，打破世界紀錄" data-i18n-en="Returned at age 7 to win the Santa Anita $100,000 Handicap in world-record time" data-lvt-eid="7b77519951">7歲復出，贏得聖安妮塔10萬獎金賽，打破世界紀錄</p>
+            <p class="tl-desc-en" data-i18n="Returned at age 7 to win the Santa Anita $100,000 Handicap in world-record time" data-i18n-en="7歲復出，贏得聖安妮塔10萬獎金賽，打破世界紀錄" data-lvt-eid="967a006c08">Returned at age 7 to win the Santa Anita $100,000 Handicap in world-record time</p>
+          </div>
+          <div class="tl-dot" data-lvt-eid="21e7238e13"><div class="tl-dot-circle" data-lvt-eid="cea9674dd1"></div></div>
+          <div class="tl-img" data-lvt-eid="aca0a876f8">
+            <div class="tl-img-wrap sepia" data-lvt-eid="4dbb3bbc1e">
+              <img src="https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page1_img3.jpeg" alt="1940 歷史照片" data-lvt-eid="692bdcf1a4">
+            </div>
+            <p class="img-caption" data-i18n="歷史檔案 Historical Archive" data-i18n-en="Historical Archive" data-lvt-eid="061117021e">歷史檔案 Historical Archive</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Adversity Banner -->
+  <section id="adversity-banner" data-lvt-eid="1e156f03c9">
+    <div class="adversity-bg" data-lvt-eid="ed958f61fa"></div>
+    <div class="adversity-overlay" data-lvt-eid="dcea0900d2"></div>
+    <div class="adversity-content fade-up" data-lvt-eid="9b110b0cee">
+      <div class="gold-line center" data-lvt-eid="90d9d6f748"></div>
+      <p class="adversity-quote" data-i18n="充滿自信、克服困境、勇往直前、贏得勝利、堅韌拼搏。" data-i18n-en="Confidence. Overcoming adversity. Courage. Victory. Relentless spirit." data-lvt-eid="c22682226c">充滿自信、克服困境、勇往直前、贏得勝利、堅韌拼搏。</p>
+      <p class="adversity-quote-en" data-i18n="Confidence. Overcoming adversity. Courage. Victory. Relentless spirit." data-i18n-en="充滿自信、克服困境、勇往直前、贏得勝利、堅韌拼搏。" data-lvt-eid="4a8daddee2">Confidence. Overcoming adversity. Courage. Victory. Relentless spirit.</p>
+      <div class="gold-line center" data-lvt-eid="a6097f5037"></div>
+    </div>
+  </section>
+
+  <footer id="footer" class="footer-clone" data-lvt-eid="99736f87ac">
+    <div class="container" data-lvt-eid="992033585c">
+      <div class="footer-logo-wrap" data-lvt-eid="c268692403">
+        <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="0447fd4f53">
+      </div>
+      <div class="footer-name" data-lvt-eid="3f228831e4">海餅乾俱樂部</div>
+      <div class="footer-name-en" data-lvt-eid="778e115604">SEA BISCUIT CLUB</div>
+      <p class="footer-copy" data-lvt-eid="33c7a777ca">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== PAGE: CLUB ===== -->
+<div class="page" id="page-club" data-lvt-eid="2edb4c6980">
+
+  <!-- Page Hero (text only) -->
+  <section style="padding:140px 0 64px;text-align:center;background:linear-gradient(180deg,rgba(10,42,107,0.2) 0%,var(--bg) 100%)" data-lvt-eid="209f0b3df0">
+    <div class="container" data-lvt-eid="21a68f48a3">
+      <p class="section-label" data-i18n="俱樂部" data-i18n-en="The Club" data-lvt-eid="ac1860aca7">俱樂部</p>
+      <h1 class="section-title" style="font-size:clamp(32px,5vw,52px)" data-i18n="俱樂部的起源" data-i18n-en="The Origin" data-lvt-eid="1d5295dead">俱樂部的起源</h1>
+      <p class="section-title-en" data-i18n="The Origin" data-i18n-en="俱樂部的起源" data-lvt-eid="d76a298ae7">The Origin</p>
+    </div>
+  </section>
+
+  <!-- Origin -->
+  <section id="club-origin" data-lvt-eid="db222ad967">
+    <div class="container" data-lvt-eid="d6efddfbef">
+      <div class="origin-grid" data-lvt-eid="e7bb953274">
+        <div class="origin-img-wrap fade-up" data-lvt-eid="895d55aefc">
+          <img src="https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page2_img5.jpeg" alt="馬廄劇照" data-lvt-eid="4b66ca48d0">
+        </div>
+        <div class="fade-up delay-2" data-lvt-eid="db55ff1714">
+          <p class="section-label" data-i18n="創立緣起" data-i18n-en="The Founding Story" data-lvt-eid="cb5a57089b">創立緣起</p>
+          <h2 class="section-title" data-i18n="找對的人，不是最厲害的人" data-i18n-en="The Right People, Not the Best People" data-lvt-eid="18a3964efb">找對的人，不是最厲害的人</h2>
+          <div class="gold-line" data-lvt-eid="56536bc5e0"></div>
+          <p class="origin-body" data-i18n="大樹教練深受電影啟發，認定「不需要找最厲害的人，而是要找對的人」，於2007年5月14日正式創立海餅乾俱樂部。" data-i18n-en="Inspired by the film, Coach Dashu believed: 'You don't need the most talented people — you need the right people.' On May 14, 2007, he founded the Sea Biscuit Club." data-lvt-eid="dfcb7a70ef">大樹教練深受電影啟發，認定「不需要找最厲害的人，而是要找對的人」，於2007年5月14日正式創立海餅乾俱樂部。</p>
+          <p class="origin-body-en" data-i18n="Inspired by the film, Coach Dashu believed: 'You don't need the most talented people — you need the right people.' On May 14, 2007, he founded the Sea Biscuit Club." data-i18n-en="大樹教練深受電影啟發，認定「不需要找最厲害的人，而是要找對的人」，於2007年5月14日正式創立海餅乾俱樂部。" data-lvt-eid="b8d5aefec5">Inspired by the film, Coach Dashu believed: 'You don't need the most talented people — you need the right people.' On May 14, 2007, he founded the Sea Biscuit Club.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Club Missions -->
+  <section id="club-missions" data-lvt-eid="01420d9c4b">
+    <div class="container" data-lvt-eid="82d358cab2">
+      <div class="fade-up" style="text-align:center" data-lvt-eid="38b66e953a">
+        <p class="section-label" data-i18n="三大使命" data-i18n-en="Three Missions" data-lvt-eid="92b015c265">三大使命</p>
+        <h2 class="section-title" data-i18n="我們為何存在" data-i18n-en="Why We Exist" data-lvt-eid="bb7a155908">我們為何存在</h2>
+      </div>
+      <div class="club-missions-list" data-lvt-eid="4ff49c7cf6">
+        <div class="club-mission-item fade-up delay-1" data-lvt-eid="3089a39555">
+          <div class="club-mission-num" data-lvt-eid="0d3a205484">01</div>
+          <div class="club-mission-text" data-lvt-eid="6ac6e5678e">
+            <div class="club-mission-title" data-i18n="培育人才" data-i18n-en="Cultivate Talent" data-lvt-eid="a27ac778ba">培育人才</div>
+            <div class="club-mission-title-en" data-i18n="Cultivate Talent" data-i18n-en="培育人才" data-lvt-eid="2ec46350e1">Cultivate Talent</div>
+          </div>
+        </div>
+        <div class="club-mission-item fade-up delay-2" data-lvt-eid="85c1541118">
+          <div class="club-mission-num" data-lvt-eid="1828a49b75">02</div>
+          <div class="club-mission-text" data-lvt-eid="b623ca930b">
+            <div class="club-mission-title" data-i18n="創造奇蹟" data-i18n-en="Create Miracles" data-lvt-eid="894c85af36">創造奇蹟</div>
+            <div class="club-mission-title-en" data-i18n="Create Miracles" data-i18n-en="創造奇蹟" data-lvt-eid="2979aaae57">Create Miracles</div>
+            <p class="club-mission-desc" data-i18n="激發個人生命潛能之奇蹟" data-i18n-en="Unleashing the miracle of human potential" data-lvt-eid="f4f91f8c2a">激發個人生命潛能之奇蹟 / Unleashing the miracle of human potential</p>
+          </div>
+        </div>
+        <div class="club-mission-item fade-up delay-3" data-lvt-eid="c8fc26c085">
+          <div class="club-mission-num" data-lvt-eid="2de564f827">03</div>
+          <div class="club-mission-text" data-lvt-eid="bbe0b3ab5e">
+            <div class="club-mission-title" data-i18n="做對社會有貢獻的事" data-i18n-en="Contribute to Society" data-lvt-eid="58dfd0ee3a">做對社會有貢獻的事</div>
+            <div class="club-mission-title-en" data-i18n="Contribute to Society" data-i18n-en="做對社會有貢獻的事" data-lvt-eid="2f857459ec">Contribute to Society</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Club Quote -->
+  <section id="club-quote" data-lvt-eid="9257fd3da7">
+    <div class="container" data-lvt-eid="91eb5d2cc2">
+      <div class="fade-up" data-lvt-eid="7963a25626">
+        <div class="gold-line center" data-lvt-eid="5eb623f329"></div>
+        <p class="sand-quote" data-i18n="只有因為理念相同而來的人，才能持續留下來。" data-i18n-en="Only those who come because they share the same belief will stay." data-lvt-eid="6cb020fe59">只有因為理念相同而來的人，才能持續留下來。</p>
+        <p class="sand-quote-en" data-i18n="Only those who come because they share the same belief will stay." data-i18n-en="只有因為理念相同而來的人，才能持續留下來。" data-lvt-eid="15751bae82">Only those who come because they share the same belief will stay.</p>
+        <div class="gold-line center" data-lvt-eid="02a5951fdd"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FB -->
+  <section id="club-fb" data-lvt-eid="27b680191e">
+    <div class="container" data-lvt-eid="c46df1b482">
+      <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" class="btn-primary" style="margin:0 auto;display:inline-flex" data-lvt-eid="d0a8e2adeb">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" data-lvt-eid="ca9106581c"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" data-lvt-eid="6d32ac00e0"></path></svg>
+        <span data-i18n="加入我們的 Facebook" data-i18n-en="Join us on Facebook" data-lvt-eid="af5d4c658e">加入我們的 Facebook</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center" data-lvt-eid="92a565ff82">
+    <div class="container" data-lvt-eid="6a7e0a0e9b">
+      <div class="footer-logo-wrap" data-lvt-eid="01f4b52f6a">
+        <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="95829c72b4">
+      </div>
+      <p class="footer-copy" data-lvt-eid="a8ede57303">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== PAGE: BELIEFS ===== -->
+<div class="page" id="page-beliefs" data-lvt-eid="30454ea134">
+
+  <!-- Page Hero -->
+  <section class="page-hero" data-lvt-eid="4466edecb0">
+    <div class="page-hero-bg" style="background-image:url('https://assets-persist.lovart.ai/pdf_extracts/99d4491d792e10f6/images/page1_img4.jpeg')" data-lvt-eid="c2e802424f"></div>
+    <div class="page-hero-overlay" data-lvt-eid="cd6e62540e"></div>
+    <div class="page-hero-content" data-lvt-eid="c23b691de0">
+      <h1 class="page-hero-title" data-i18n="信念與守則" data-i18n-en="Beliefs &amp; Principles" data-lvt-eid="3b85bc6d46">信念與守則</h1>
+      <p class="page-hero-title-en" data-i18n="Beliefs &amp; Principles" data-i18n-en="信念與守則" data-lvt-eid="16be4990d5">Beliefs &amp; Principles</p>
+    </div>
+  </section>
+
+  <!-- Three Pillars -->
+  <section id="beliefs-pillars" data-lvt-eid="3f0f8ef5fa">
+    <div class="container" data-lvt-eid="93e49f2e50">
+      <div class="fade-up" style="text-align:center" data-lvt-eid="b51ac7e0eb">
+        <p class="section-label" data-i18n="三大信念" data-i18n-en="Three Core Beliefs" data-lvt-eid="f60f7b6c1c">三大信念</p>
+        <h2 class="section-title" data-i18n="我們所站立的基石" data-i18n-en="The Pillars We Stand On" data-lvt-eid="fc9830988b">我們所站立的基石</h2>
+      </div>
+      <div class="pillars-grid" data-lvt-eid="1ca3feaf78">
+        <div class="pillar-card fade-up delay-1" data-lvt-eid="0d69e1447d">
+          <div class="pillar-icon" data-lvt-eid="c277331184">⚡</div>
+          <p class="pillar-text" data-i18n="100%為自己的生命負責，不找理由藉口" data-i18n-en="Take 100% responsibility for your life — no excuses." data-lvt-eid="ca67d4a9a8">100%為自己的生命負責，不找理由藉口</p>
+          <p class="pillar-text-en" data-i18n="Take 100% responsibility for your life — no excuses." data-i18n-en="100%為自己的生命負責，不找理由藉口" data-lvt-eid="4ea60d5489">Take 100% responsibility for your life — no excuses.</p>
+        </div>
+        <div class="pillar-card fade-up delay-2" data-lvt-eid="fadbbee896">
+          <div class="pillar-icon" data-lvt-eid="43416b1ebb">🎯</div>
+          <p class="pillar-text" data-i18n="高標要求自己，彈性對待他人" data-i18n-en="Hold yourself to the highest standard; treat others with flexibility." data-lvt-eid="b2bebb1d34">高標要求自己，彈性對待他人</p>
+          <p class="pillar-text-en" data-i18n="Hold yourself to the highest standard; treat others with flexibility." data-i18n-en="高標要求自己，彈性對待他人" data-lvt-eid="644530fef1">Hold yourself to the highest standard; treat others with flexibility.</p>
+        </div>
+        <div class="pillar-card fade-up delay-3" data-lvt-eid="4aba5ba3a1">
+          <div class="pillar-icon" data-lvt-eid="45a03143ea">🌟</div>
+          <p class="pillar-text" data-i18n="成為他人的學習典範" data-i18n-en="Become a role model worth learning from." data-lvt-eid="d344f421c4">成為他人的學習典範</p>
+          <p class="pillar-text-en" data-i18n="Become a role model worth learning from." data-i18n-en="成為他人的學習典範" data-lvt-eid="a76adfcd7f">Become a role model worth learning from.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rules Grid -->
+  <section id="rules-grid" data-lvt-eid="285828604c">
+    <div class="container" data-lvt-eid="fd967c80df">
+      <div class="fade-up" style="text-align:center" data-lvt-eid="337a9f99a7">
+        <p class="section-label" data-i18n="十大守則" data-i18n-en="Ten Principles" data-lvt-eid="2b1062a7ef">十大守則</p>
+        <h2 class="section-title" data-i18n="行為準則" data-i18n-en="Code of Conduct" data-lvt-eid="81ffa6a0db">行為準則</h2>
+      </div>
+      <div class="rules-cards" data-lvt-eid="71b8df1c0c">
+        <div class="rule-card fade-up delay-1" data-lvt-eid="0d7d505f4c">
+          <div class="rule-num" data-lvt-eid="1d76f4508e">01</div>
+          <div class="rule-title" data-i18n="態度一流" data-i18n-en="A First-Class Attitude" data-lvt-eid="2757a4674e">態度一流</div>
+          <div class="rule-title-en" data-lvt-eid="9ebd0c0fde">A First-Class Attitude</div>
+          <p class="rule-desc" data-i18n="經常微笑，讚美他人" data-i18n-en="Smile often; praise others" data-lvt-eid="dac7e36945">經常微笑，讚美他人</p>
+          <p class="rule-desc-en" data-i18n="Smile often; praise others" data-i18n-en="經常微笑，讚美他人" data-lvt-eid="cfe866f980">Smile often; praise others</p>
+        </div>
+        <div class="rule-card fade-up delay-1" data-lvt-eid="2bd82edf4f">
+          <div class="rule-num" data-lvt-eid="b18b65fc76">02</div>
+          <div class="rule-title" data-i18n="思想積極" data-i18n-en="Positive Thinking" data-lvt-eid="e2f9078da0">思想積極</div>
+          <div class="rule-title-en" data-lvt-eid="475bc521b9">Positive Thinking</div>
+          <p class="rule-desc" data-i18n="絕口不提負面" data-i18n-en="Never speak negatively" data-lvt-eid="9b381230a7">絕口不提負面</p>
+          <p class="rule-desc-en" data-i18n="Never speak negatively" data-i18n-en="絕口不提負面" data-lvt-eid="95808e8e94">Never speak negatively</p>
+        </div>
+        <div class="rule-card fade-up delay-2" data-lvt-eid="23c48788f6">
+          <div class="rule-num" data-lvt-eid="26af7bbab3">03</div>
+          <div class="rule-title" data-i18n="全力以赴" data-i18n-en="Go All Out" data-lvt-eid="db6bb464dc">全力以赴</div>
+          <div class="rule-title-en" data-lvt-eid="ab65913431">Go All Out</div>
+          <p class="rule-desc" data-i18n="為了人生不留遺憾" data-i18n-en="Live with no regrets" data-lvt-eid="905a4708dd">為了人生不留遺憾</p>
+          <p class="rule-desc-en" data-i18n="Live with no regrets" data-i18n-en="為了人生不留遺憾" data-lvt-eid="d59a34056a">Live with no regrets</p>
+        </div>
+        <div class="rule-card fade-up delay-2" data-lvt-eid="f378680c1a">
+          <div class="rule-num" data-lvt-eid="b0defa952d">04</div>
+          <div class="rule-title" data-i18n="付出精神" data-i18n-en="The Spirit of Giving" data-lvt-eid="8e0faa14c9">付出精神</div>
+          <div class="rule-title-en" data-lvt-eid="470f1f528c">The Spirit of Giving</div>
+          <p class="rule-desc" data-i18n="團隊是用來付出，而非索取" data-i18n-en="A team is for giving, not taking" data-lvt-eid="7ff9d7913a">團隊是用來付出，而非索取</p>
+          <p class="rule-desc-en" data-i18n="A team is for giving, not taking" data-i18n-en="團隊是用來付出，而非索取" data-lvt-eid="ef8b975431">A team is for giving, not taking</p>
+        </div>
+        <div class="rule-card fade-up delay-3" data-lvt-eid="199b7117d4">
+          <div class="rule-num" data-lvt-eid="d2daa36d9d">05</div>
+          <div class="rule-title" data-i18n="完全負責" data-i18n-en="Full Responsibility" data-lvt-eid="26e6d4182b">完全負責</div>
+          <div class="rule-title-en" data-lvt-eid="7611c5e752">Full Responsibility</div>
+          <p class="rule-desc" data-i18n="100%為自己的生命負責" data-i18n-en="Own your life 100%" data-lvt-eid="9d710d6933">100%為自己的生命負責</p>
+          <p class="rule-desc-en" data-i18n="Own your life 100%" data-i18n-en="100%為自己的生命負責" data-lvt-eid="dcefe3fffe">Own your life 100%</p>
+        </div>
+        <div class="rule-card fade-up delay-1" data-lvt-eid="e51b402893">
+          <div class="rule-num" data-lvt-eid="3cd4ef7a9c">06</div>
+          <div class="rule-title" data-i18n="不找藉口" data-i18n-en="No Excuses" data-lvt-eid="e3e1e02cfe">不找藉口</div>
+          <div class="rule-title-en" data-lvt-eid="9bac3b9cfe">No Excuses</div>
+          <p class="rule-desc" data-i18n="不找理由，不推託" data-i18n-en="No reasons, no blame" data-lvt-eid="cad5ee06c3">不找理由，不推託</p>
+          <p class="rule-desc-en" data-i18n="No reasons, no blame" data-i18n-en="不找理由，不推託" data-lvt-eid="6fcb0669e4">No reasons, no blame</p>
+        </div>
+        <div class="rule-card fade-up delay-2" data-lvt-eid="44546a4b7c">
+          <div class="rule-num" data-lvt-eid="52be620182">07</div>
+          <div class="rule-title" data-i18n="高標準" data-i18n-en="High Standards" data-lvt-eid="822e5ceef1">高標準</div>
+          <div class="rule-title-en" data-lvt-eid="712181c816">High Standards</div>
+          <p class="rule-desc" data-i18n="以最高標準要求自己" data-i18n-en="Demand the best from yourself" data-lvt-eid="b5f4c20f41">以最高標準要求自己</p>
+          <p class="rule-desc-en" data-i18n="Demand the best from yourself" data-i18n-en="以最高標準要求自己" data-lvt-eid="59baa813b4">Demand the best from yourself</p>
+        </div>
+        <div class="rule-card fade-up delay-2" data-lvt-eid="700cf77449">
+          <div class="rule-num" data-lvt-eid="d0d918bcec">08</div>
+          <div class="rule-title" data-i18n="彈性待人" data-i18n-en="Flexible with Others" data-lvt-eid="6276549e03">彈性待人</div>
+          <div class="rule-title-en" data-lvt-eid="42869cda58">Flexible with Others</div>
+          <p class="rule-desc" data-i18n="對他人保持柔軟與包容" data-i18n-en="Stay open and forgiving" data-lvt-eid="c6a7042726">對他人保持柔軟與包容</p>
+          <p class="rule-desc-en" data-i18n="Stay open and forgiving" data-i18n-en="對他人保持柔軟與包容" data-lvt-eid="4358adf47c">Stay open and forgiving</p>
+        </div>
+        <div class="rule-card fade-up delay-3" data-lvt-eid="679208df82">
+          <div class="rule-num" data-lvt-eid="a19f0e1ffb">09</div>
+          <div class="rule-title" data-i18n="典範力量" data-i18n-en="Be the Example" data-lvt-eid="4b028b896b">典範力量</div>
+          <div class="rule-title-en" data-lvt-eid="d56d47e559">Be the Example</div>
+          <p class="rule-desc" data-i18n="成為他人的學習典範" data-i18n-en="Lead by example" data-lvt-eid="9bebedc4b9">成為他人的學習典範</p>
+          <p class="rule-desc-en" data-i18n="Lead by example" data-i18n-en="成為他人的學習典範" data-lvt-eid="32f870185c">Lead by example</p>
+        </div>
+        <div class="rule-card fade-up delay-3" data-lvt-eid="ae8d6f51fb">
+          <div class="rule-num" data-lvt-eid="361c0125e5">10</div>
+          <div class="rule-title" data-i18n="創造奇蹟" data-i18n-en="Create Miracles" data-lvt-eid="7087d65886">創造奇蹟</div>
+          <div class="rule-title-en" data-lvt-eid="7776b09eac">Create Miracles</div>
+          <p class="rule-desc" data-i18n="持續激發生命潛能" data-i18n-en="Keep unlocking human potential" data-lvt-eid="cccfe8d0cc">持續激發生命潛能</p>
+          <p class="rule-desc-en" data-i18n="Keep unlocking human potential" data-i18n-en="持續激發生命潛能" data-lvt-eid="7b846d595e">Keep unlocking human potential</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quotes Carousel -->
+  <section id="quotes-carousel" data-lvt-eid="db0f18df91">
+    <div class="container" data-lvt-eid="9cfaaa87bf">
+      <div class="fade-up" style="text-align:center" data-lvt-eid="264fbe912e">
+        <p class="section-label" data-i18n="語錄" data-i18n-en="Quotes" data-lvt-eid="0ddc81a1c2">語錄</p>
+        <h2 class="section-title" data-i18n="智慧之言" data-i18n-en="Words of Wisdom" data-lvt-eid="00b3d370a5">智慧之言</h2>
+      </div>
+      <div class="carousel-wrap fade-up delay-2" data-lvt-eid="b751ed44d1">
+        <div class="carousel-track" id="carouselTrack" data-lvt-eid="6a4524908b">
+          <div class="quote-slide" data-lvt-eid="8afc4feb7b">
+            <div class="quote-card" data-lvt-eid="781948e7b3">
+              <p class="quote-text" data-i18n="我要證明，這句話不用說；當你做到時，就已經證明了。" data-i18n-en="You don't need to say 'I'll prove it' — when you do it, it's already proven." data-lvt-eid="5b4d663194">我要證明，這句話不用說；當你做到時，就已經證明了。</p>
+              <p class="quote-text-en" data-i18n="You don't need to say 'I'll prove it' — when you do it, it's already proven." data-i18n-en="我要證明，這句話不用說；當你做到時，就已經證明了。" data-lvt-eid="2dd09c99ec">You don't need to say 'I'll prove it' — when you do it, it's already proven.</p>
+            </div>
+          </div>
+          <div class="quote-slide" data-lvt-eid="01e0609e65">
+            <div class="quote-card" data-lvt-eid="92373258c1">
+              <p class="quote-text" data-i18n="你是誰，決定了別人怎麼看你；而不是別人怎麼看你，決定了你是誰。" data-i18n-en="Who you are determines how others see you — not the other way around." data-lvt-eid="eaeb15b7db">你是誰，決定了別人怎麼看你；而不是別人怎麼看你，決定了你是誰。</p>
+              <p class="quote-text-en" data-i18n="Who you are determines how others see you — not the other way around." data-i18n-en="你是誰，決定了別人怎麼看你；而不是別人怎麼看你，決定了你是誰。" data-lvt-eid="a45eabe000">Who you are determines how others see you — not the other way around.</p>
+            </div>
+          </div>
+          <div class="quote-slide" data-lvt-eid="d4da1920ac">
+            <div class="quote-card" data-lvt-eid="ad0f6b3849">
+              <p class="quote-text" data-i18n="從「不知道、做不到」，到「不知道、做到」——這就是成長。" data-i18n-en="From 'I don't know, I can't' to 'I don't know, yet I did' — that is growth." data-lvt-eid="0bc1e21e6c">從「不知道、做不到」，到「不知道、做到」——這就是成長。</p>
+              <p class="quote-text-en" data-i18n="From 'I don't know, I can't' to 'I don't know, yet I did' — that is growth." data-i18n-en="從「不知道、做不到」，到「不知道、做到」——這就是成長。" data-lvt-eid="8b93070c8a">From 'I don't know, I can't' to 'I don't know, yet I did' — that is growth.</p>
+            </div>
+          </div>
+          <div class="quote-slide" data-lvt-eid="53fd7e98e7">
+            <div class="quote-card" data-lvt-eid="9166d4842f">
+              <p class="quote-text" data-i18n="團隊，是用來付出的，不是用來索取的。" data-i18n-en="A team is for giving, not taking." data-lvt-eid="8d1b9826ad">團隊，是用來付出的，不是用來索取的。</p>
+              <p class="quote-text-en" data-i18n="A team is for giving, not taking." data-i18n-en="團隊，是用來付出的，不是用來索取的。" data-lvt-eid="3d7724bd9e">A team is for giving, not taking.</p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-dots" id="carouselDots" data-lvt-eid="f9c73bfb60">
+          <div class="carousel-dot active" onclick="goToSlide(0)" data-lvt-eid="36bb9a5889"></div>
+          <div class="carousel-dot" onclick="goToSlide(1)" data-lvt-eid="f89a977ce9"></div>
+          <div class="carousel-dot" onclick="goToSlide(2)" data-lvt-eid="42970ec7a3"></div>
+          <div class="carousel-dot" onclick="goToSlide(3)" data-lvt-eid="7f4a221e85"></div>
+        </div>
+        <div class="carousel-nav" data-lvt-eid="0f7498b1b3">
+          <button class="carousel-btn" onclick="prevSlide()" data-lvt-eid="041d7423af">←</button>
+          <button class="carousel-btn" onclick="nextSlide()" data-lvt-eid="e7ecc1a6d6">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center" data-lvt-eid="bc3e615232">
+    <div class="container" data-lvt-eid="51c91ab4f6">
+      <div class="footer-logo-wrap" data-lvt-eid="3914ea4e01">
+        <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="4530c71b02">
+      </div>
+      <p class="footer-copy" data-lvt-eid="e94468da1a">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== PAGE: GALLERY ===== -->
+<div class="page" id="page-gallery" data-lvt-eid="6309b094ce">
+
+  <section id="gallery-header" data-lvt-eid="71540be27d">
+    <div class="container fade-up" data-lvt-eid="ed204c5f7d">
+      <p class="section-label" data-i18n="歷年紀念" data-i18n-en="Anniversary Gallery" data-lvt-eid="90db53b65a">歷年紀念</p>
+      <h1 class="section-title" style="font-size:clamp(32px,5vw,52px)" data-i18n="歷年紀念冊" data-i18n-en="Anniversary Gallery" data-lvt-eid="5e89eccf01">歷年紀念冊</h1>
+      <p class="gallery-subtitle" data-i18n="4週年到19週年，每一年的足跡。" data-i18n-en="From the 4th to the 19th anniversary — every year of the journey." data-lvt-eid="9ebeed4161">4週年到19週年，每一年的足跡。</p>
+      <p class="gallery-subtitle-en" data-i18n="From the 4th to the 19th anniversary — every year of the journey." data-i18n-en="4週年到19週年，每一年的足跡。" data-lvt-eid="7aaa57b09a">From the 4th to the 19th anniversary — every year of the journey.</p>
+    </div>
+  </section>
+
+  <section id="gallery-grid" data-lvt-eid="bcb6032e4f">
+    <div class="container" data-lvt-eid="532c989df1">
+      <div class="gallery-timeline" id="galleryTimeline" data-lvt-eid="fa83b66a58">
+
+        <!-- 4週年 2011 -->
+        <div class="gtl-item fade-up" data-lvt-eid="8368aa0eb5">
+          <div class="gtl-dot" data-lvt-eid="3fc044fbba"></div>
+          <div class="gtl-card" onclick="lbOpen(0)" data-lvt-eid="194dd55531">
+            <div class="gtl-img-wrap" data-lvt-eid="77627df7e1"><img src="https://a.lovart.ai/artifacts/agent/weVyNBGuOw2dkANa.png" alt="4週年 2011" loading="lazy" data-lvt-eid="991f75fadd"></div>
+            <div class="gtl-info" data-lvt-eid="eca29c793b"><div class="gtl-anniv" data-lvt-eid="f7b625f24f">4週年</div><div class="gtl-year" data-lvt-eid="18d231b8a8">2011</div></div>
+          </div>
+        </div>
+
+        <!-- 5週年 2012 -->
+        <div class="gtl-item fade-up" data-lvt-eid="e04c9cde95">
+          <div class="gtl-dot" data-lvt-eid="dfd50081f2"></div>
+          <div class="gtl-card" onclick="lbOpen(1)" data-lvt-eid="335a87e043">
+            <div class="gtl-img-wrap" data-lvt-eid="dc1e9e09c0"><img src="https://a.lovart.ai/artifacts/agent/uA98VlIEvh4qTpZ8.png" alt="5週年 2012" loading="lazy" data-lvt-eid="5fb2a6ef85"></div>
+            <div class="gtl-info" data-lvt-eid="c30b930d01"><div class="gtl-anniv" data-lvt-eid="289b6c24e1">5週年</div><div class="gtl-year" data-lvt-eid="b872715fd9">2012</div></div>
+          </div>
+        </div>
+
+        <!-- 6週年 2013 -->
+        <div class="gtl-item fade-up" data-lvt-eid="eb359562a6">
+          <div class="gtl-dot" data-lvt-eid="326f37ab06"></div>
+          <div class="gtl-card" onclick="lbOpen(2)" data-lvt-eid="7b6accfb04">
+            <div class="gtl-img-wrap" data-lvt-eid="add119c33d"><img src="https://a.lovart.ai/artifacts/agent/8ce70NhPzR149xCh.png" alt="6週年 2013" loading="lazy" data-lvt-eid="203b897e2e"></div>
+            <div class="gtl-info" data-lvt-eid="1787e1e71d"><div class="gtl-anniv" data-lvt-eid="c5d14ab25a">6週年</div><div class="gtl-year" data-lvt-eid="80b7a4c04c">2013</div></div>
+          </div>
+        </div>
+
+        <!-- 7週年 2014 -->
+        <div class="gtl-item fade-up" data-lvt-eid="c52f72af1a">
+          <div class="gtl-dot" data-lvt-eid="9a4d51ea39"></div>
+          <div class="gtl-card" onclick="lbOpen(3)" data-lvt-eid="15970e51b6">
+            <div class="gtl-img-wrap" data-lvt-eid="16c73175eb"><img src="https://a.lovart.ai/artifacts/user/huDHZu8t09HSIyDs.jpg" alt="7週年 2014" loading="lazy" data-lvt-eid="609249d886"></div>
+            <div class="gtl-info" data-lvt-eid="7a3ac1246a"><div class="gtl-anniv" data-lvt-eid="7925edcd2f">7週年</div><div class="gtl-year" data-lvt-eid="f7edb9c31b">2014</div></div>
+          </div>
+        </div>
+
+        <!-- 8週年 2015 -->
+        <div class="gtl-item fade-up" data-lvt-eid="64b1da54bf">
+          <div class="gtl-dot" data-lvt-eid="f9e95951fe"></div>
+          <div class="gtl-card" onclick="lbOpen(4)" data-lvt-eid="9333abbfa7">
+            <div class="gtl-img-wrap" data-lvt-eid="89bdf42e70"><img src="https://a.lovart.ai/artifacts/user/NORGHnJHWNAG2QNu.jpg" alt="8週年 2015" loading="lazy" data-lvt-eid="889146ddb8"></div>
+            <div class="gtl-info" data-lvt-eid="9b8fa0b595"><div class="gtl-anniv" data-lvt-eid="5fd5ed9fe0">8週年</div><div class="gtl-year" data-lvt-eid="ec2c717ab8">2015</div></div>
+          </div>
+        </div>
+
+        <!-- 9週年 2016 -->
+        <div class="gtl-item fade-up" data-lvt-eid="41357d3e74">
+          <div class="gtl-dot" data-lvt-eid="83b46e7a92"></div>
+          <div class="gtl-card" onclick="lbOpen(5)" data-lvt-eid="1e8330982c">
+            <div class="gtl-img-wrap" data-lvt-eid="f1ded2ad80"><img src="https://a.lovart.ai/artifacts/user/jV4RjnpifL31mmoq.jpg" alt="9週年 2016" loading="lazy" data-lvt-eid="ee14567a8f"></div>
+            <div class="gtl-info" data-lvt-eid="a2dc477e95"><div class="gtl-anniv" data-lvt-eid="ff30efe4cd">9週年</div><div class="gtl-year" data-lvt-eid="3e680f5be5">2016</div></div>
+          </div>
+        </div>
+
+        <!-- 10週年 2017 -->
+        <div class="gtl-item fade-up" data-lvt-eid="6a63f4118a">
+          <div class="gtl-dot" data-lvt-eid="2650a002d4"></div>
+          <div class="gtl-card" onclick="lbOpen(6)" data-lvt-eid="9b8199398f">
+            <div class="gtl-img-wrap" data-lvt-eid="ca9a1f1163"><img src="https://a.lovart.ai/artifacts/user/1Vhk27eu7C7XwHXr.jpg" alt="10週年 2017" loading="lazy" data-lvt-eid="4a17d799df"></div>
+            <div class="gtl-info" data-lvt-eid="2e3530fa98"><div class="gtl-anniv" data-lvt-eid="30691aa702">10週年</div><div class="gtl-year" data-lvt-eid="f208a742de">2017</div></div>
+          </div>
+        </div>
+
+        <!-- 11週年 2018 -->
+        <div class="gtl-item fade-up" data-lvt-eid="a9e956bc9b">
+          <div class="gtl-dot" data-lvt-eid="41011f17b7"></div>
+          <div class="gtl-card" onclick="lbOpen(7)" data-lvt-eid="fdd063c7e2">
+            <div class="gtl-img-wrap" data-lvt-eid="cd265e4125"><img src="https://a.lovart.ai/artifacts/user/CkO8llgheWH9Igm4.jpg" alt="11週年 2018" loading="lazy" data-lvt-eid="a6c942578a"></div>
+            <div class="gtl-info" data-lvt-eid="0e0169bb12"><div class="gtl-anniv" data-lvt-eid="2676399131">11週年</div><div class="gtl-year" data-lvt-eid="a2e68ee6dc">2018</div></div>
+          </div>
+        </div>
+
+        <!-- 12週年 2019 -->
+        <div class="gtl-item fade-up" data-lvt-eid="dcdd985e42">
+          <div class="gtl-dot" data-lvt-eid="e76f21b845"></div>
+          <div class="gtl-card" onclick="lbOpen(8)" data-lvt-eid="1ccbd2025e">
+            <div class="gtl-img-wrap" data-lvt-eid="93198b8d12"><img src="https://a.lovart.ai/artifacts/user/TU1KXFlw7HCNWcLQ.jpg" alt="12週年 2019" loading="lazy" data-lvt-eid="125f9afada"></div>
+            <div class="gtl-info" data-lvt-eid="10626557f3"><div class="gtl-anniv" data-lvt-eid="1fc2765100">12週年</div><div class="gtl-year" data-lvt-eid="6f999e12b5">2019</div></div>
+          </div>
+        </div>
+
+        <!-- 13週年 2020 -->
+        <div class="gtl-item fade-up" data-lvt-eid="6581421519">
+          <div class="gtl-dot" data-lvt-eid="ed3e7629b4"></div>
+          <div class="gtl-card" onclick="lbOpen(9)" data-lvt-eid="c142300c16">
+            <div class="gtl-img-wrap" data-lvt-eid="6982a8f498"><img src="https://a.lovart.ai/artifacts/user/2ObwhhnnvD5EGbgV.jpg" alt="13週年 2020" loading="lazy" data-lvt-eid="707098024c"></div>
+            <div class="gtl-info" data-lvt-eid="c1a3651616"><div class="gtl-anniv" data-lvt-eid="1ea759768b">13週年</div><div class="gtl-year" data-lvt-eid="6b8dbc13f2">2020</div></div>
+          </div>
+        </div>
+
+        <!-- 14週年 2021 -->
+        <div class="gtl-item fade-up" data-lvt-eid="5b534d15bb">
+          <div class="gtl-dot" data-lvt-eid="3f1843eeb6"></div>
+          <div class="gtl-card" onclick="lbOpen(10)" data-lvt-eid="7203991396">
+            <div class="gtl-img-wrap" data-lvt-eid="ce5a1d24cb"><img src="https://a.lovart.ai/artifacts/user/iNJulofhRDERU0Jb.jpg" alt="14週年 2021" loading="lazy" data-lvt-eid="cc84eb8caa"></div>
+            <div class="gtl-info" data-lvt-eid="442ffeb04b"><div class="gtl-anniv" data-lvt-eid="f57f27cc9f">14週年</div><div class="gtl-year" data-lvt-eid="63ba9d3618">2021</div></div>
+          </div>
+        </div>
+
+        <!-- 15週年 2022 -->
+        <div class="gtl-item fade-up" data-lvt-eid="561281c2ce">
+          <div class="gtl-dot" data-lvt-eid="f41d5fafc4"></div>
+          <div class="gtl-card" onclick="lbOpen(11)" data-lvt-eid="a066c0f3a9">
+            <div class="gtl-img-wrap" data-lvt-eid="2c8af510dc"><img src="https://a.lovart.ai/artifacts/user/wBi9W7IJWx6jKDRW.jpg" alt="15週年 2022" loading="lazy" data-lvt-eid="ab562b70f0"></div>
+            <div class="gtl-info" data-lvt-eid="1c824bc9e8"><div class="gtl-anniv" data-lvt-eid="aed714b81c">15週年</div><div class="gtl-year" data-lvt-eid="0639f16e95">2022</div></div>
+          </div>
+        </div>
+
+        <!-- 16週年 2023 -->
+        <div class="gtl-item fade-up" data-lvt-eid="c49bbdb054">
+          <div class="gtl-dot" data-lvt-eid="d9080425f3"></div>
+          <div class="gtl-card" onclick="lbOpen(12)" data-lvt-eid="1c8ca404f7">
+            <div class="gtl-img-wrap" data-lvt-eid="74fc61667a"><img src="https://a.lovart.ai/artifacts/agent/RtQLBkdpn1E7IsWH.png" alt="16週年 2023" loading="lazy" data-lvt-eid="cb13a1faf3"></div>
+            <div class="gtl-info" data-lvt-eid="ee45a6d688"><div class="gtl-anniv" data-lvt-eid="ac2a74f825">16週年</div><div class="gtl-year" data-lvt-eid="2a10d22bbb">2023</div></div>
+          </div>
+        </div>
+
+        <!-- 17週年 2024 -->
+        <div class="gtl-item fade-up" data-lvt-eid="f1573d219a">
+          <div class="gtl-dot" data-lvt-eid="c0d0550999"></div>
+          <div class="gtl-card" onclick="lbOpen(13)" data-lvt-eid="fd873cbd62">
+            <div class="gtl-img-wrap" data-lvt-eid="5bda0b73fb"><img src="https://a.lovart.ai/artifacts/agent/M5d2ygcETnKBfFWk.png" alt="17週年 2024" loading="lazy" data-lvt-eid="659436118c"></div>
+            <div class="gtl-info" data-lvt-eid="2e223e2cf4"><div class="gtl-anniv" data-lvt-eid="8422844ed7">17週年</div><div class="gtl-year" data-lvt-eid="68dcfcf529">2024</div></div>
+          </div>
+        </div>
+
+        <!-- 18週年 2025 -->
+        <div class="gtl-item fade-up" data-lvt-eid="579b419eea">
+          <div class="gtl-dot" data-lvt-eid="bb41341d29"></div>
+          <div class="gtl-card" onclick="lbOpen(14)" data-lvt-eid="68a68beea9">
+            <div class="gtl-img-wrap" data-lvt-eid="59cf4f1ee1"><img src="https://a.lovart.ai/artifacts/user/8mE5AbhNHy3HmHmF.jpg" alt="18週年 2025" loading="lazy" data-lvt-eid="6ebfbbb428"></div>
+            <div class="gtl-info" data-lvt-eid="a7b5d80c17"><div class="gtl-anniv" data-lvt-eid="b1f6ba2c52">18週年</div><div class="gtl-year" data-lvt-eid="621c73fd33">2025</div></div>
+          </div>
+        </div>
+
+        <!-- 19週年 2026 -->
+        <div class="gtl-item fade-up" data-lvt-eid="c01f39cfa1">
+          <div class="gtl-dot" data-lvt-eid="543ed80a3f"></div>
+          <div class="gtl-card" onclick="lbOpen(15)" data-lvt-eid="46ce403fae">
+            <div class="gtl-img-wrap" data-lvt-eid="f668991b5e"><img src="https://a.lovart.ai/artifacts/user/VdD3CTf2R9DdZ421.jpg" alt="19週年 2026" loading="lazy" data-lvt-eid="1cfcb7d353"></div>
+            <div class="gtl-info" data-lvt-eid="76cccac01b"><div class="gtl-anniv" data-lvt-eid="0f4adafd65">19週年</div><div class="gtl-year" data-lvt-eid="b0de5a9915">2026</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="gallery-lightbox" onclick="lbBgClose(event)" data-lvt-eid="e6cea4df98">
+    <button class="lb-close" onclick="lbClose()" aria-label="關閉" data-lvt-eid="e22598c0e1">×</button>
+    <button class="lb-nav lb-prev" onclick="lbNav(-1)" aria-label="上一張" data-lvt-eid="907429f6ce">←</button>
+    <div class="lb-img-wrap" data-lvt-eid="8526eee726">
+      <img id="lbImg" src="" alt="" data-lvt-eid="6fed35941e">
+    </div>
+    <button class="lb-nav lb-next" onclick="lbNav(1)" aria-label="下一張" data-lvt-eid="d3396fc02c">→</button>
+    <div class="lb-counter" id="lbCounter" data-lvt-eid="15d98a7401"></div>
+  </div>
+
+  <section id="gallery-2027" data-lvt-eid="c8f5f5683e">
+    <div class="container fade-up" data-lvt-eid="3406e76516">
+      <div class="gallery-2027-card" data-lvt-eid="00dc5cdf55">
+        <div class="gallery-2027-year" data-lvt-eid="b5b2860c98">2027</div>
+        <div class="gallery-2027-title" data-i18n="20週年，等你一起寫下。" data-i18n-en="The 20th anniversary. Yours to write." data-lvt-eid="c4d2318b42">20週年，等你一起寫下。</div>
+        <p class="gallery-2027-en" data-i18n="2027 — The 20th anniversary. Yours to write." data-i18n-en="2027 — 20週年，等你一起寫下。" data-lvt-eid="9f5cbfe36a">2027 — The 20th anniversary. Yours to write.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center" data-lvt-eid="0fc2e89f50">
+    <div class="container" data-lvt-eid="93cd7d88b2">
+      <div class="footer-logo-wrap" data-lvt-eid="a687a98bcc">
+        <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="ad2c58b108">
+      </div>
+      <p class="footer-copy" data-lvt-eid="b42b6943ec">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== PAGE: VISION ===== -->
+<div class="page" id="page-vision" data-lvt-eid="7d84f69c48">
+
+  <section id="vision-hero" data-lvt-eid="4b527e6b3d">
+    <div class="vision-hero-bg" data-lvt-eid="311789f0a4"></div>
+    <div class="vision-hero-overlay" data-lvt-eid="4586757c46"></div>
+    <div class="vision-hero-content" data-lvt-eid="95d2f75ba6">
+      <div class="vision-hero-year" data-lvt-eid="bc14d9f2b4">2027</div>
+      <div class="vision-hero-title" data-i18n="二十週年" data-i18n-en="The 20th Anniversary" data-lvt-eid="747e1f7ecc">二十週年</div>
+      <div class="vision-hero-title-en" data-i18n="The 20th Anniversary" data-i18n-en="二十週年" data-lvt-eid="2a492b97a2">The 20th Anniversary</div>
+    </div>
+  </section>
+
+  <section id="vision-quote" data-lvt-eid="640f159bf2">
+    <div class="container" data-lvt-eid="3674ff7fc0">
+      <div class="fade-up" data-lvt-eid="f6d10c7909">
+        <div class="gold-line center" data-lvt-eid="bfaa88775a"></div>
+        <p class="vision-quote-text" data-i18n="只有因為「理念相同」而來的人，才能持續留下來，讓這個精神長久傳承。" data-i18n-en="Only those who come because they share the same belief will stay — and carry this spirit forward." data-lvt-eid="7c66327060">只有因為「理念相同」而來的人，才能持續留下來，讓這個精神長久傳承。</p>
+        <p class="vision-quote-en" data-i18n="Only those who come because they share the same belief will stay — and carry this spirit forward." data-i18n-en="只有因為「理念相同」而來的人，才能持續留下來，讓這個精神長久傳承。" data-lvt-eid="c6dceaf7d6">Only those who come because they share the same belief will stay — and carry this spirit forward.</p>
+        <div class="gold-line center" data-lvt-eid="575c3d1261"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vision-keywords" data-lvt-eid="45ed341574">
+    <div class="container" data-lvt-eid="2f1fe1fe44">
+      <div class="keywords-grid" data-lvt-eid="ccc56f95db">
+        <div class="keyword-card fade-up delay-1" data-lvt-eid="134d3b8b7f">
+          <div class="keyword-zh" data-i18n="傳承" data-i18n-en="Legacy" data-lvt-eid="da19035799">傳承</div>
+          <div class="keyword-en" data-lvt-eid="efbe73f887">Legacy</div>
+        </div>
+        <div class="keyword-card fade-up delay-2" data-lvt-eid="efde6ae0bb">
+          <div class="keyword-zh" data-i18n="奇蹟" data-i18n-en="Miracles" data-lvt-eid="b13bafeb0f">奇蹟</div>
+          <div class="keyword-en" data-lvt-eid="c2c4842b69">Miracles</div>
+        </div>
+        <div class="keyword-card fade-up delay-3" data-lvt-eid="4c4b857069">
+          <div class="keyword-zh" data-i18n="貢獻" data-i18n-en="Contribution" data-lvt-eid="9d3480e1a6">貢獻</div>
+          <div class="keyword-en" data-lvt-eid="e81ec3b464">Contribution</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vision-cta" data-lvt-eid="7a0a7c7c2b">
+    <div class="container" data-lvt-eid="b1a1d96222">
+      <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" class="btn-primary" style="margin:0 auto;display:inline-flex" data-lvt-eid="b323b5dda4">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" data-lvt-eid="7b0d78d446"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" data-lvt-eid="52f13d02ba"></path></svg>
+        <span data-i18n="加入我們 Join Us" data-i18n-en="Join Us" data-lvt-eid="a01c7db173">加入我們 Join Us</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:64px 0 40px;text-align:center" data-lvt-eid="681c436ac9">
+    <div class="container" data-lvt-eid="4e2ce764f7">
+      <div class="footer-logo-wrap" data-lvt-eid="85d490d795">
+        <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="c56af346d7">
+      </div>
+      <div class="footer-name" data-lvt-eid="c4d3410a7c">海餅乾俱樂部</div>
+      <div class="footer-name-en" data-lvt-eid="28f18ba837">SEA BISCUIT CLUB</div>
+      <p class="footer-desc" data-i18n="培育人才・創造奇蹟・做對社會有貢獻的事" data-i18n-en="Cultivate Talent · Create Miracles · Contribute to Society" data-lvt-eid="aa0ca0c2a5">培育人才・創造奇蹟・做對社會有貢獻的事</p>
+      <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" class="footer-fb" data-lvt-eid="4c6f70b189">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" data-lvt-eid="26caf1fddd"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" data-lvt-eid="f08640f91f"></path></svg>
+        Facebook
+      </a>
+      <p class="footer-copy" data-lvt-eid="9a38830bed">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+// ===== STATE =====
+let currentLang = 'zh';
+let currentPage = 'home';
+let carouselIndex = 0;
+let carouselTimer = null;
+
+// ===== GALLERY DATA =====
+const galleryData = [
+  { year: 2011, anniv: 4 }, { year: 2012, anniv: 5 }, { year: 2013, anniv: 6 },
+  { year: 2014, anniv: 7 }, { year: 2015, anniv: 8 }, { year: 2016, anniv: 9 },
+  { year: 2017, anniv: 10 }, { year: 2018, anniv: 11 }, { year: 2019, anniv: 12 },
+  { year: 2020, anniv: 13 }, { year: 2021, anniv: 14 }, { year: 2022, anniv: 15 },
+  { year: 2023, anniv: 16 }, { year: 2024, anniv: 17 }, { year: 2025, anniv: 18 },
+  { year: 2026, anniv: 19 }
+];
+
+function getOrdinal(n) {
+  const s = ['th','st','nd','rd'], v = n % 100;
+  return n + (s[(v-20)%10] || s[v] || s[0]);
+}
+
+function buildGallery() {
+  const container = document.getElementById('galleryCards');
+  if (!container) return;
+  container.innerHTML = galleryData.map(d => `
+    <div class="gallery-card fade-up">
+      <div class="gallery-card-year">${d.year}</div>
+      <div class="gallery-card-anniv">${d.anniv}週年 / ${getOrdinal(d.anniv)} Anniversary</div>
+      <svg class="gallery-horseshoe" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 36 C8 20 16 8 24 8 C32 8 40 20 40 36" stroke="#C8A24B" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M8 36 L8 42 L14 42 L14 36" stroke="#C8A24B" stroke-width="2" fill="none"/>
+        <path d="M34 36 L34 42 L40 42 L40 36" stroke="#C8A24B" stroke-width="2" fill="none"/>
+      </svg>
+      <div class="gallery-card-title">海餅乾俱樂部 ${d.anniv} 週年<br>Sea Biscuit Club ${getOrdinal(d.anniv)} Anniversary</div>
+      <div class="gallery-card-coming">照片即將上傳 Photo coming soon</div>
+    </div>
+  `).join('');
+  // Re-observe new elements
+  observeFadeUps();
+}
+
+// ===== ROUTING =====
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  currentPage = page;
+  // Update nav active
+  document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === page);
+  });
+  // Update hash
+  history.replaceState(null, '', '#' + page);
+  // Trigger animations
+  setTimeout(observeFadeUps, 50);
+  // Reset carousel if beliefs
+  if (page === 'beliefs') {
+    carouselIndex = 0;
+    updateCarousel();
+    startCarouselTimer();
+  }
+  // Gallery: static timeline, no build needed
+  if (page === 'gallery') { setTimeout(observeFadeUps, 100); }
+}
+
+function handleHash() {
+  const hash = window.location.hash.replace('#', '') || 'home';
+  const valid = ['home','legend','club','beliefs','gallery','vision'];
+  navigate(valid.includes(hash) ? hash : 'home');
+}
+
+// Nav link clicks
+document.querySelectorAll('[data-page]').forEach(el => {
+  el.addEventListener('click', function(e) {
+    e.preventDefault();
+    navigate(this.dataset.page);
+  });
+});
+
+window.addEventListener('hashchange', handleHash);
+window.addEventListener('load', handleHash);
+
+// ===== LANGUAGE TOGGLE =====
+function toggleLang() {
+  currentLang = currentLang === 'zh' ? 'en' : 'zh';
+  const btn = document.getElementById('langToggle');
+  const mBtn = document.getElementById('mobileLangBtn');
+  btn.textContent = currentLang === 'zh' ? 'EN' : '中';
+  if (mBtn) mBtn.textContent = currentLang === 'zh' ? '切換 EN' : '切換 中';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    if (currentLang === 'en') {
+      const enText = el.getAttribute('data-i18n-en');
+      if (enText) el.textContent = enText;
+    } else {
+      const zhText = el.getAttribute('data-i18n');
+      if (zhText) el.textContent = zhText;
+    }
+  });
+  document.documentElement.lang = currentLang === 'zh' ? 'zh-TW' : 'en';
+}
+
+// ===== HAMBURGER =====
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ===== INTERSECTION OBSERVER (fade-up) =====
+let observer;
+function observeFadeUps() {
+  if (observer) observer.disconnect();
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => observer.observe(el));
+}
+
+// ===== CAROUSEL =====
+function updateCarousel() {
+  const track = document.getElementById('carouselTrack');
+  if (!track) return;
+  track.style.transform = `translateX(-${carouselIndex * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === carouselIndex);
+  });
+}
+function nextSlide() {
+  const slides = document.querySelectorAll('.quote-slide');
+  carouselIndex = (carouselIndex + 1) % slides.length;
+  updateCarousel();
+  resetCarouselTimer();
+}
+function prevSlide() {
+  const slides = document.querySelectorAll('.quote-slide');
+  carouselIndex = (carouselIndex - 1 + slides.length) % slides.length;
+  updateCarousel();
+  resetCarouselTimer();
+}
+function goToSlide(i) {
+  carouselIndex = i;
+  updateCarousel();
+  resetCarouselTimer();
+}
+function startCarouselTimer() {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(nextSlide, 5000);
+}
+function resetCarouselTimer() {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(nextSlide, 5000);
+}
+
+// ===== GALLERY LIGHTBOX =====
+(function() {
+  var LB_IMGS = [
+    'https://a.lovart.ai/artifacts/agent/weVyNBGuOw2dkANa.png',
+    'https://a.lovart.ai/artifacts/agent/uA98VlIEvh4qTpZ8.png',
+    'https://a.lovart.ai/artifacts/agent/8ce70NhPzR149xCh.png',
+    'https://a.lovart.ai/artifacts/user/huDHZu8t09HSIyDs.jpg',
+    'https://a.lovart.ai/artifacts/user/NORGHnJHWNAG2QNu.jpg',
+    'https://a.lovart.ai/artifacts/user/jV4RjnpifL31mmoq.jpg',
+    'https://a.lovart.ai/artifacts/user/1Vhk27eu7C7XwHXr.jpg',
+    'https://a.lovart.ai/artifacts/user/CkO8llgheWH9Igm4.jpg',
+    'https://a.lovart.ai/artifacts/user/TU1KXFlw7HCNWcLQ.jpg',
+    'https://a.lovart.ai/artifacts/user/2ObwhhnnvD5EGbgV.jpg',
+    'https://a.lovart.ai/artifacts/user/iNJulofhRDERU0Jb.jpg',
+    'https://a.lovart.ai/artifacts/user/wBi9W7IJWx6jKDRW.jpg',
+    'https://a.lovart.ai/artifacts/agent/RtQLBkdpn1E7IsWH.png',
+    'https://a.lovart.ai/artifacts/agent/M5d2ygcETnKBfFWk.png',
+    'https://a.lovart.ai/artifacts/user/8mE5AbhNHy3HmHmF.jpg',
+    'https://a.lovart.ai/artifacts/user/VdD3CTf2R9DdZ421.jpg'
+  ];
+  var LB_LABELS = [
+    '4週年 2011','5週年 2012','6週年 2013','7週年 2014',
+    '8週年 2015','9週年 2016','10週年 2017','11週年 2018',
+    '12週年 2019','13週年 2020','14週年 2021','15週年 2022',
+    '16週年 2023','17週年 2024','18週年 2025','19週年 2026'
+  ];
+  var lb_idx = 0;
+
+  function lbShow(i) {
+    lb_idx = (i + LB_IMGS.length) % LB_IMGS.length;
+    var img = document.getElementById('lbImg');
+    var counter = document.getElementById('lbCounter');
+    if (img) { img.src = LB_IMGS[lb_idx]; img.alt = LB_LABELS[lb_idx]; }
+    if (counter) counter.textContent = LB_LABELS[lb_idx] + '  (' + (lb_idx + 1) + ' / ' + LB_IMGS.length + ')';
+    var lb = document.getElementById('gallery-lightbox');
+    if (lb) lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  window.lbOpen = function(i) { lbShow(i); };
+  window.lbClose = function() {
+    var lb = document.getElementById('gallery-lightbox');
+    if (lb) lb.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.lbNav = function(dir) { lbShow(lb_idx + dir); };
+  window.lbBgClose = function(e) {
+    if (e.target === document.getElementById('gallery-lightbox')) window.lbClose();
+  };
+
+  document.addEventListener('keydown', function(e) {
+    var lb = document.getElementById('gallery-lightbox');
+    if (!lb || !lb.classList.contains('open')) return;
+    if (e.key === 'Escape') window.lbClose();
+    if (e.key === 'ArrowLeft') window.lbNav(-1);
+    if (e.key === 'ArrowRight') window.lbNav(1);
+  });
+})();
+
+// ===== MOVIE CAROUSEL =====
+(function() {
+  var MC_TOTAL = 12;
+  var mc_idx = 0;
+  var mc_timer = null;
+  var mc_startX = 0;
+  var mc_dragging = false;
+
+  function mcSlides() { return document.querySelectorAll('#movieCarousel .movie-carousel-slide'); }
+
+  function mcBuildDots() {
+    var dotsEl = document.getElementById('movieCarouselDots');
+    if (!dotsEl) return;
+    dotsEl.innerHTML = '';
+    for (var i = 0; i < MC_TOTAL; i++) {
+      var d = document.createElement('button');
+      d.className = 'movie-carousel-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', (i + 1) + '/' + MC_TOTAL);
+      (function(idx) { d.addEventListener('click', function() { mcGoTo(idx); }); })(i);
+      dotsEl.appendChild(d);
+    }
+  }
+
+  function mcUpdate() {
+    mcSlides().forEach(function(s, i) { s.classList.toggle('active', i === mc_idx); });
+    var dots = document.querySelectorAll('#movieCarouselDots .movie-carousel-dot');
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === mc_idx); });
+  }
+
+  function mcGoTo(i) {
+    mc_idx = (i + MC_TOTAL) % MC_TOTAL;
+    mcUpdate();
+    mcResetTimer();
+  }
+
+  function mcResetTimer() {
+    clearInterval(mc_timer);
+    mc_timer = setInterval(function() { mcGoTo(mc_idx + 1); }, 5000);
+  }
+
+  window.movieCarouselPrev = function() { mcGoTo(mc_idx - 1); };
+  window.movieCarouselNext = function() { mcGoTo(mc_idx + 1); };
+
+  function mcInit() {
+    var el = document.getElementById('movieCarousel');
+    if (!el) return;
+    mcBuildDots();
+    mcUpdate();
+    mcResetTimer();
+    el.addEventListener('mouseenter', function() { clearInterval(mc_timer); });
+    el.addEventListener('mouseleave', mcResetTimer);
+    var track = el.querySelector('.movie-carousel-track');
+    if (track) {
+      track.addEventListener('touchstart', function(e) { mc_startX = e.touches[0].clientX; mc_dragging = true; }, { passive: true });
+      track.addEventListener('touchend', function(e) {
+        if (!mc_dragging) return;
+        var dx = e.changedTouches[0].clientX - mc_startX;
+        if (Math.abs(dx) > 40) { dx < 0 ? mcGoTo(mc_idx + 1) : mcGoTo(mc_idx - 1); }
+        mc_dragging = false;
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', mcInit);
+})();
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  observeFadeUps();
+  startCarouselTimer();
+  // Trigger hero fade-in animations by ensuring page is visible
+  setTimeout(observeFadeUps, 200);
+});
+</script>
+
+
+</body></html>
