@@ -1273,6 +1273,132 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .carousel-btn:hover { border-color: var(--gold); background: var(--gold-glow); }
 
+/* ===== Rules Full CTA + Modal (完整守則) ===== */
+#rules-full-link { text-align: center; padding: 8px 0 48px; }
+.rules-full-cta {
+  display: inline-block;
+  font-family: var(--display);
+  font-size: 17px;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-decoration: none;
+  padding: 10px 28px;
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(200,162,75,0.12), transparent);
+  background-size: 200% 100%;
+  animation: rulesShimmer 2.4s linear infinite, rulesGlowPulse 2.2s ease-in-out infinite;
+  cursor: pointer;
+  transition: transform 0.25s, border-color 0.25s;
+}
+.rules-full-cta:hover { transform: translateY(-2px) scale(1.03); border-color: var(--gold); }
+@keyframes rulesShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes rulesGlowPulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(200,162,75,0.25), 0 0 0 rgba(200,162,75,0); }
+  50% { box-shadow: 0 0 18px rgba(200,162,75,0.55), 0 0 30px rgba(200,162,75,0.15); }
+}
+
+#rules-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11,14,20,0.92);
+  z-index: 9200;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 60px 16px;
+}
+#rules-modal.open { display: flex; }
+.rules-modal-content {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 12px;
+  max-width: 880px;
+  width: 100%;
+  padding: 40px 32px 48px;
+}
+.rules-modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(11,14,20,0.8);
+  border: 1px solid var(--gold-border);
+  color: var(--fg);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+.rules-modal-close:hover { background: rgba(200,162,75,0.3); }
+.rules-modal-card-img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--gold-border);
+  margin-bottom: 32px;
+  display: block;
+}
+.rules-modal-text h3 {
+  font-family: var(--display);
+  color: var(--gold);
+  font-size: 20px;
+  margin: 28px 0 12px;
+  letter-spacing: 0.04em;
+}
+.rules-modal-text h3:first-child { margin-top: 0; }
+.rules-modal-text p { color: var(--fg); font-size: 15px; line-height: 1.9; margin-bottom: 8px; }
+.rules-modal-text .rules-mission-line { color: var(--sand); font-weight: 700; }
+.rules-modal-text ol { color: var(--fg); font-size: 15px; line-height: 1.9; padding-left: 22px; margin: 0; }
+.rules-modal-text ol li { margin-bottom: 14px; }
+.rules-modal-text ol li strong { color: var(--gold); }
+.rules-modal-videos {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--gold-border);
+}
+.rules-modal-videos-title {
+  font-family: var(--display);
+  color: var(--gold);
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+}
+.rules-video-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.rules-video-card { text-align: center; }
+.rules-video-card p { color: var(--secondary); font-size: 14px; margin-bottom: 8px; }
+.rules-video-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--gold-border);
+  background: var(--bg);
+}
+.rules-video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+@media (max-width: 640px) {
+  .rules-video-grid { grid-template-columns: 1fr; }
+  .rules-modal-content { padding: 28px 18px 32px; }
+}
+
 /* ===== PAGE: GALLERY ===== */
 #gallery-header {
   padding: 120px 0 64px;
@@ -2680,6 +2806,61 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
   </section>
 
+  <!-- Rules Full CTA -->
+  <section id="rules-full-link">
+    <a href="#" class="rules-full-cta" onclick="openRulesModal(); return false;">✦ 完整守則 ✦</a>
+  </section>
+
+  <!-- Rules Modal -->
+  <div id="rules-modal" onclick="closeRulesModalBg(event)">
+    <div class="rules-modal-content">
+      <button class="rules-modal-close" onclick="closeRulesModal()" aria-label="關閉">×</button>
+      <img src="assets/rules-card.jpg" class="rules-modal-card-img" alt="海餅乾俱樂部 團隊使命與行為守則">
+      <div class="rules-modal-text">
+        <h3>海餅乾俱樂部 Sea Biscuit Club</h3>
+        <p>※團隊使命</p>
+        <p class="rules-mission-line">培育人才　創造奇蹟　做對社會有貢獻的事</p>
+
+        <h3>※三大信念</h3>
+        <p>1. 百分之百為自己的生命負責，不找理由，不找藉口，勇於承擔，經常反省。</p>
+        <p>2. 高標要求自己，彈性對待他人。</p>
+        <p>3. 成為他人的學習典範。</p>
+
+        <h3>※十大行為守則</h3>
+        <ol>
+          <li><strong>態度一流</strong>：經常微笑，讚美他人，認真學習，努力工作，不把私人情緒帶到團隊裡。</li>
+          <li><strong>思想積極</strong>：不批評，不責備，不抱怨，絕口不提負面，所有負面到我為止。</li>
+          <li><strong>高度意願</strong>：下定決心，聽話照做，相信團隊，服從領導。</li>
+          <li><strong>形象良好</strong>：外表整齊乾淨，表情語氣肯定，走路抬頭挺胸，充滿自信。</li>
+          <li><strong>全力以赴</strong>：喜歡接受挑戰，工作配合度高，不到最後一秒，絕不放棄。</li>
+          <li><strong>自動自發</strong>：注重小細節，不要等他人提醒。</li>
+          <li><strong>凡事付出</strong>：不要問團隊能為我做什麼，而是問我能為團隊做些什麼？</li>
+          <li><strong>最佳狀態</strong>：在公眾場合，永遠活力充沛，在私人立場及空間，負面情緒不超過30分鐘。</li>
+          <li><strong>一定準時</strong>：尊重自己的時間，同時尊重他人的時間，把團隊紀律放在第一位。</li>
+          <li><strong>每天快樂</strong>：生命的質量在於每天是否快樂，同時尊重個人差異。</li>
+        </ol>
+      </div>
+
+      <div class="rules-modal-videos">
+        <p class="rules-modal-videos-title">相關影片</p>
+        <div class="rules-video-grid">
+          <div class="rules-video-card">
+            <p>海餅乾15週年慶</p>
+            <div class="rules-video-embed">
+              <iframe src="https://www.youtube.com/embed/9fAWItpusJU" title="海餅乾15週年慶" loading="lazy" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="rules-video-card">
+            <p>海餅乾守則</p>
+            <div class="rules-video-embed">
+              <iframe src="https://www.youtube.com/embed/PT7Ue8iQgIw" title="海餅乾守則" loading="lazy" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Quotes Carousel -->
   <section id="quotes-carousel" data-lvt-eid="db0f18df91">
     <div class="container" data-lvt-eid="9cfaaa87bf">
@@ -3728,6 +3909,27 @@ function resetCarouselTimer() {
     if (e.key === 'Escape') window.lbClose();
     if (e.key === 'ArrowLeft') window.lbNav(-1);
     if (e.key === 'ArrowRight') window.lbNav(1);
+  });
+})();
+
+// ===== RULES MODAL (完整守則) =====
+(function() {
+  window.openRulesModal = function() {
+    var m = document.getElementById('rules-modal');
+    if (m) m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeRulesModal = function() {
+    var m = document.getElementById('rules-modal');
+    if (m) m.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.closeRulesModalBg = function(e) {
+    if (e.target === document.getElementById('rules-modal')) window.closeRulesModal();
+  };
+  document.addEventListener('keydown', function(e) {
+    var m = document.getElementById('rules-modal');
+    if (m && m.classList.contains('open') && e.key === 'Escape') window.closeRulesModal();
   });
 })();
 
