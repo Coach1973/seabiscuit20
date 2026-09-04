@@ -1570,6 +1570,74 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 #trail-lightbox.open { display: flex; }
 
+/* ===== PAGE: QUOTES (海餅乾語錄) ===== */
+#quotes-header { padding: 120px 0 64px; text-align: center; }
+#quotes-wall { padding: 0 0 96px; }
+.quote-carousel-wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+.quote-carousel {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.quote-carousel-track {
+  position: relative;
+  height: 0;
+  padding-bottom: 56.2%;
+  background: var(--bg);
+}
+.quote-carousel-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.quote-carousel-slide.active { opacity: 1; pointer-events: auto; }
+.quote-carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.quote-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(11,14,20,0.75);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, border-color 0.2s;
+  line-height: 1;
+}
+.quote-carousel-btn:hover { background: rgba(200,162,75,0.2); border-color: var(--gold); }
+.quote-carousel-btn.prev { left: 12px; }
+.quote-carousel-btn.next { right: 12px; }
+.quote-carousel-counter {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+@media (max-width: 640px) {
+  .quote-carousel-btn { width: 36px; height: 36px; font-size: 16px; }
+  .quote-carousel-wrap { padding: 0 12px; }
+}
+
 /* ===== PAGE: VISION ===== */
 #vision-hero {
   position: relative;
@@ -1825,6 +1893,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <li data-lvt-eid="1926b43223"><a href="#beliefs" data-page="beliefs" data-i18n="信念" data-i18n-en="Beliefs" data-lvt-eid="509ab94e3f">信念</a></li>
       <li data-lvt-eid="7b8b2fbb9f"><a href="#gallery" data-page="gallery" data-i18n="紀念冊" data-i18n-en="Gallery" data-lvt-eid="4da6480a9c">紀念冊</a></li>
       <li data-lvt-eid="a1f8e3c7b0"><a href="#trail" data-page="trail" data-i18n="時光足跡" data-i18n-en="Trail" data-lvt-eid="b2f9e4d8c1">時光足跡</a></li>
+      <li data-lvt-eid="f6a2b8d3e4"><a href="#quotes" data-page="quotes" data-i18n="語錄" data-i18n-en="Quotes" data-lvt-eid="c7b3d9e5f6">語錄</a></li>
       <li data-lvt-eid="e525cca7b9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" data-lvt-eid="51df29231e">願景</a></li>
     </ul>
     <div class="nav-right" data-lvt-eid="de574cabb0">
@@ -1845,6 +1914,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <li data-lvt-eid="85603e51a1"><a href="#beliefs" data-page="beliefs" data-i18n="信念" data-i18n-en="Beliefs" onclick="closeMobileMenu()" data-lvt-eid="6b4fdf3048">信念</a></li>
     <li data-lvt-eid="6cf187108c"><a href="#gallery" data-page="gallery" data-i18n="紀念冊" data-i18n-en="Gallery" onclick="closeMobileMenu()" data-lvt-eid="c7a710ca0a">紀念冊</a></li>
     <li data-lvt-eid="c3f0a4e9d2"><a href="#trail" data-page="trail" data-i18n="時光足跡" data-i18n-en="Trail" onclick="closeMobileMenu()" data-lvt-eid="d4a1b5f0e3">時光足跡</a></li>
+    <li data-lvt-eid="a8c4d0e6f7"><a href="#quotes" data-page="quotes" data-i18n="語錄" data-i18n-en="Quotes" onclick="closeMobileMenu()" data-lvt-eid="b9d5e1f7a8">語錄</a></li>
     <li data-lvt-eid="82147145c9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" onclick="closeMobileMenu()" data-lvt-eid="af89fde238">願景</a></li>
   </ul>
   <button class="mobile-lang-btn" onclick="toggleLang(); closeMobileMenu();" id="mobileLangBtn" data-lvt-eid="8513eb53c3">切換 EN</button>
@@ -3241,6 +3311,70 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   </footer>
 </div>
 
+<!-- ===== PAGE: QUOTES (海餅乾語錄) ===== -->
+<div class="page" id="page-quotes">
+
+  <section id="quotes-header">
+    <div class="container fade-up">
+      <p class="section-label" data-i18n="語錄" data-i18n-en="Quotes">語錄</p>
+      <h1 class="section-title" style="font-size:clamp(32px,5vw,52px)" data-i18n="海餅乾語錄精選" data-i18n-en="Sea Biscuit Quotes">海餅乾語錄精選</h1>
+      <p class="gallery-subtitle" data-i18n="一句話，都是十九年的沈澱。" data-i18n-en="Every line, distilled from nineteen years.">一句話，都是十九年的沈澱。</p>
+      <p class="gallery-subtitle-en" data-i18n="Every line, distilled from nineteen years." data-i18n-en="一句話，都是十九年的沈澱。">Every line, distilled from nineteen years.</p>
+    </div>
+  </section>
+
+  <section id="quotes-wall">
+    <div class="quote-carousel-wrap">
+      <div class="quote-carousel" id="quoteCarousel">
+        <div class="quote-carousel-track">
+            <div class="quote-carousel-slide active"><img src="assets/quotes/quote-001.jpg" alt="海餅乾語錄 1" loading="eager"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-002.jpg" alt="海餅乾語錄 2" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-003.jpg" alt="海餅乾語錄 3" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-004.jpg" alt="海餅乾語錄 4" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-005.jpg" alt="海餅乾語錄 5" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-006.jpg" alt="海餅乾語錄 6" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-007.jpg" alt="海餅乾語錄 7" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-008.jpg" alt="海餅乾語錄 8" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-009.jpg" alt="海餅乾語錄 9" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-010.jpg" alt="海餅乾語錄 10" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-011.jpg" alt="海餅乾語錄 11" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-012.jpg" alt="海餅乾語錄 12" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-013.jpg" alt="海餅乾語錄 13" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-014.jpg" alt="海餅乾語錄 14" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-015.jpg" alt="海餅乾語錄 15" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-016.jpg" alt="海餅乾語錄 16" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-017.jpg" alt="海餅乾語錄 17" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-018.jpg" alt="海餅乾語錄 18" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-019.jpg" alt="海餅乾語錄 19" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-020.jpg" alt="海餅乾語錄 20" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-021.jpg" alt="海餅乾語錄 21" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-022.jpg" alt="海餅乾語錄 22" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-023.jpg" alt="海餅乾語錄 23" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-024.jpg" alt="海餅乾語錄 24" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-025.jpg" alt="海餅乾語錄 25" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-026.jpg" alt="海餅乾語錄 26" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-027.jpg" alt="海餅乾語錄 27" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-028.jpg" alt="海餅乾語錄 28" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-029.jpg" alt="海餅乾語錄 29" loading="lazy"></div>
+            <div class="quote-carousel-slide"><img src="assets/quotes/quote-030.jpg" alt="海餅乾語錄 30" loading="lazy"></div>
+        </div>
+        <button class="quote-carousel-btn prev" onclick="quoteCarouselPrev()" aria-label="上一句">←</button>
+        <button class="quote-carousel-btn next" onclick="quoteCarouselNext()" aria-label="下一句">→</button>
+      </div>
+      <div class="quote-carousel-counter" id="quoteCarouselCounter"></div>
+    </div>
+  </section>
+
+  <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center">
+    <div class="container">
+      <div class="footer-logo-wrap">
+        <img src="assets/logo.png" alt="海餅乾俱樂部">
+      </div>
+      <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
 <!-- ===== PAGE: VISION ===== -->
 <div class="page" id="page-vision" data-lvt-eid="7d84f69c48">
 
@@ -3381,7 +3515,7 @@ function navigate(page) {
 
 function handleHash() {
   const hash = window.location.hash.replace('#', '') || 'home';
-  const valid = ['home','legend','club','beliefs','gallery','trail','vision'];
+  const valid = ['home','legend','club','beliefs','gallery','trail','quotes','vision'];
   navigate(valid.includes(hash) ? hash : 'home');
 }
 
@@ -3855,6 +3989,58 @@ function resetCarouselTimer() {
   window.addEventListener('resize', function() { goTo(page); });
   goTo(0);
   resetAuto();
+})();
+
+// ===== QUOTES CAROUSEL (海餅乾語錄) =====
+(function() {
+  var QC_TOTAL = 30;
+  var qc_idx = 0;
+  var qc_timer = null;
+  var qc_startX = 0;
+  var qc_dragging = false;
+
+  function qcSlides() { return document.querySelectorAll('#quoteCarousel .quote-carousel-slide'); }
+
+  function qcUpdate() {
+    qcSlides().forEach(function(s, i) { s.classList.toggle('active', i === qc_idx); });
+    var counter = document.getElementById('quoteCarouselCounter');
+    if (counter) counter.textContent = (qc_idx + 1) + ' / ' + QC_TOTAL;
+  }
+
+  function qcGoTo(i) {
+    qc_idx = (i + QC_TOTAL) % QC_TOTAL;
+    qcUpdate();
+    qcResetTimer();
+  }
+
+  function qcResetTimer() {
+    clearInterval(qc_timer);
+    qc_timer = setInterval(function() { qcGoTo(qc_idx + 1); }, 5000);
+  }
+
+  window.quoteCarouselPrev = function() { qcGoTo(qc_idx - 1); };
+  window.quoteCarouselNext = function() { qcGoTo(qc_idx + 1); };
+
+  function qcInit() {
+    var el = document.getElementById('quoteCarousel');
+    if (!el) return;
+    qcUpdate();
+    qcResetTimer();
+    el.addEventListener('mouseenter', function() { clearInterval(qc_timer); });
+    el.addEventListener('mouseleave', qcResetTimer);
+    var track = el.querySelector('.quote-carousel-track');
+    if (track) {
+      track.addEventListener('touchstart', function(e) { qc_startX = e.touches[0].clientX; qc_dragging = true; }, { passive: true });
+      track.addEventListener('touchend', function(e) {
+        if (!qc_dragging) return;
+        var dx = e.changedTouches[0].clientX - qc_startX;
+        if (Math.abs(dx) > 40) { dx < 0 ? qcGoTo(qc_idx + 1) : qcGoTo(qc_idx - 1); }
+        qc_dragging = false;
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', qcInit);
 })();
 
 // ===== MOVIE CAROUSEL =====
