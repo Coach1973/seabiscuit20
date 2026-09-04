@@ -1466,7 +1466,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .carousel-btn:hover { border-color: var(--gold); background: var(--gold-glow); }
 
 /* ===== Rules Full CTA + Modal (完整守則) ===== */
-#rules-full-link { text-align: center; padding: 8px 0 48px; }
+#rules-full-link { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; padding: 8px 0 48px; }
 .rules-full-cta {
   display: inline-block;
   font-family: var(--display);
@@ -1505,6 +1505,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 60px 16px;
 }
 #rules-modal.open { display: flex; }
+#videos-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11,14,20,0.92);
+  z-index: 9200;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 60px 16px;
+}
+#videos-modal.open { display: flex; }
 .rules-modal-content {
   position: relative;
   background: var(--card);
@@ -2965,6 +2977,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   <!-- Rules Full CTA -->
   <section id="rules-full-link">
     <a href="#" class="rules-full-cta" onclick="openRulesModal(); return false;">✦ 完整守則 ✦</a>
+    <a href="#" class="rules-full-cta" onclick="openVideosModal(); return false;">▶ 看守則影片 ▶</a>
   </section>
 
   <!-- Rules Modal -->
@@ -2997,6 +3010,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </ol>
       </div>
 
+    </div>
+  </div>
+
+  <!-- Videos Modal -->
+  <div id="videos-modal" onclick="closeVideosModalBg(event)">
+    <div class="rules-modal-content">
+      <button class="rules-modal-close" onclick="closeVideosModal()" aria-label="關閉">×</button>
       <div class="rules-modal-videos">
         <p class="rules-modal-videos-title">相關影片</p>
         <div class="rules-video-grid">
@@ -4883,6 +4903,27 @@ function resetCarouselTimer() {
   document.addEventListener('keydown', function(e) {
     var m = document.getElementById('rules-modal');
     if (m && m.classList.contains('open') && e.key === 'Escape') window.closeRulesModal();
+  });
+})();
+
+// ===== VIDEOS MODAL (看守則影片) =====
+(function() {
+  window.openVideosModal = function() {
+    var m = document.getElementById('videos-modal');
+    if (m) m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeVideosModal = function() {
+    var m = document.getElementById('videos-modal');
+    if (m) m.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.closeVideosModalBg = function(e) {
+    if (e.target === document.getElementById('videos-modal')) window.closeVideosModal();
+  };
+  document.addEventListener('keydown', function(e) {
+    var m = document.getElementById('videos-modal');
+    if (m && m.classList.contains('open') && e.key === 'Escape') window.closeVideosModal();
   });
 })();
 
