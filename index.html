@@ -1903,6 +1903,35 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 64px 0 40px;
   text-align: center;
 }
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--gold-border);
+  text-align: left;
+}
+.footer-links h4 {
+  font-family: var(--display);
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+.footer-links a {
+  display: block;
+  color: var(--secondary);
+  font-size: 14px;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+@media (max-width: 640px) {
+  .footer-links { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+}
 .footer-logo-wrap {
   display: flex;
   justify-content: center;
@@ -2237,7 +2266,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   <!-- Footer -->
   <footer id="footer" data-lvt-eid="ba6370a8c3">
     <div class="container" data-lvt-eid="947a11f2d3">
-      <div class="footer-logo-wrap" data-lvt-eid="c92c8e8a4b">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap" data-lvt-eid="c92c8e8a4b">
         <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="ab23c841ba">
       </div>
       <div class="footer-name" data-i18n="海餅乾俱樂部" data-i18n-en="Sea Biscuit Club" data-lvt-eid="8a2077afe7">海餅乾俱樂部</div>
@@ -2411,7 +2458,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer id="footer" class="footer-clone" data-lvt-eid="99736f87ac">
     <div class="container" data-lvt-eid="992033585c">
-      <div class="footer-logo-wrap" data-lvt-eid="c268692403">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap" data-lvt-eid="c268692403">
         <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="0447fd4f53">
       </div>
       <div class="footer-name" data-lvt-eid="3f228831e4">海餅乾俱樂部</div>
@@ -2510,7 +2575,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center" data-lvt-eid="92a565ff82">
     <div class="container" data-lvt-eid="6a7e0a0e9b">
-      <div class="footer-logo-wrap" data-lvt-eid="01f4b52f6a">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap" data-lvt-eid="01f4b52f6a">
         <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="95829c72b4">
       </div>
       <p class="footer-copy" data-lvt-eid="a8ede57303">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -2893,7 +2976,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center" data-lvt-eid="bc3e615232">
     <div class="container" data-lvt-eid="51c91ab4f6">
-      <div class="footer-logo-wrap" data-lvt-eid="3914ea4e01">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap" data-lvt-eid="3914ea4e01">
         <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="4530c71b02">
       </div>
       <p class="footer-copy" data-lvt-eid="e94468da1a">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3247,7 +3348,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center" data-lvt-eid="0fc2e89f50">
     <div class="container" data-lvt-eid="93cd7d88b2">
-      <div class="footer-logo-wrap" data-lvt-eid="a687a98bcc">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap" data-lvt-eid="a687a98bcc">
         <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="ad2c58b108">
       </div>
       <p class="footer-copy" data-lvt-eid="b42b6943ec">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3466,7 +3585,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center">
     <div class="container">
-      <div class="footer-logo-wrap">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap">
         <img src="assets/logo.png" alt="海餅乾俱樂部">
       </div>
       <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3530,7 +3667,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center">
     <div class="container">
-      <div class="footer-logo-wrap">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap">
         <img src="assets/logo.png" alt="海餅乾俱樂部">
       </div>
       <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3721,7 +3876,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center">
     <div class="container">
-      <div class="footer-logo-wrap">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap">
         <img src="assets/logo.png" alt="海餅乾俱樂部">
       </div>
       <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3783,7 +3956,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:64px 0 40px;text-align:center" data-lvt-eid="681c436ac9">
     <div class="container" data-lvt-eid="4e2ce764f7">
-      <div class="footer-logo-wrap" data-lvt-eid="85d490d795">
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+        </div>
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+      </div>
+<div class="footer-logo-wrap" data-lvt-eid="85d490d795">
         <img src="assets/logo.png" alt="海餅乾俱樂部" data-lvt-eid="c56af346d7">
       </div>
       <div class="footer-name" data-lvt-eid="c4d3410a7c">海餅乾俱樂部</div>
