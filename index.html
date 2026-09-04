@@ -347,6 +347,113 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--sand);
 }
 
+/* Founder page */
+.founder-about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 64px;
+  align-items: center;
+}
+.founder-photo img {
+  width: 100%;
+  border-radius: 8px;
+  filter: grayscale(10%);
+}
+.founder-quote {
+  border-left: 3px solid var(--gold);
+  padding-left: 18px;
+  margin: 20px 0;
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--fg);
+  font-size: 17px;
+  line-height: 1.7;
+}
+.founder-p {
+  color: var(--secondary);
+  line-height: 1.9;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+.founder-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 22px 0;
+}
+.founder-id-link {
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: color 0.2s;
+  width: fit-content;
+}
+.founder-id-link:hover { color: var(--sand); }
+.founder-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 28px;
+}
+.founder-skills span {
+  font-size: 13px;
+  color: var(--secondary);
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  padding: 6px 16px;
+}
+.founder-timeline-track {
+  max-width: 720px;
+  margin: 48px auto 0;
+  position: relative;
+  padding-left: 32px;
+  border-left: 1px solid var(--gold-border);
+}
+.founder-tl-item {
+  position: relative;
+  padding-bottom: 32px;
+}
+.founder-tl-item:last-child { padding-bottom: 0; }
+.founder-tl-item::before {
+  content: "";
+  position: absolute;
+  left: -37px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--sand);
+}
+.founder-tl-item.highlight::before {
+  background: var(--gold);
+  box-shadow: 0 0 0 4px var(--gold-glow);
+}
+.founder-tl-year {
+  font-family: var(--num);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.founder-tl-item h4 {
+  font-family: var(--display);
+  font-size: 16px;
+  color: var(--fg);
+  margin: 0 0 2px;
+}
+.founder-tl-item p {
+  font-size: 13px;
+  color: var(--secondary);
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .founder-about-inner { grid-template-columns: 1fr; gap: 36px; }
+}
+
 /* Upcoming sessions */
 #upcoming-sessions { padding: 96px 0; }
 .sessions-grid {
@@ -2137,6 +2244,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <li data-lvt-eid="d1e7f3a9b5"><a href="#testimonials" data-page="testimonials" data-i18n="見證" data-i18n-en="Testimonials" data-lvt-eid="e2f8a4b0c6">見證</a></li>
       <li data-lvt-eid="f7c1a5e9b3"><a href="#media" data-page="media" data-i18n="媒體報導" data-i18n-en="Press">媒體報導</a></li>
       <li data-lvt-eid="e525cca7b9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" data-lvt-eid="51df29231e">願景</a></li>
+      <li><a href="#founder" data-page="founder" data-i18n="關於創辦人" data-i18n-en="Founder">關於創辦人</a></li>
     </ul>
     <div class="nav-right" data-lvt-eid="de574cabb0">
       <button class="lang-btn" id="langToggle" onclick="toggleLang()" data-lvt-eid="817e9c84a3">EN</button>
@@ -2160,6 +2268,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <li data-lvt-eid="f3a9b5c1d7"><a href="#testimonials" data-page="testimonials" data-i18n="見證" data-i18n-en="Testimonials" onclick="closeMobileMenu()" data-lvt-eid="a4b0c6d2e8">見證</a></li>
     <li data-lvt-eid="c8d4e0a6f2"><a href="#media" data-page="media" data-i18n="媒體報導" data-i18n-en="Press" onclick="closeMobileMenu()">媒體報導</a></li>
     <li data-lvt-eid="82147145c9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" onclick="closeMobileMenu()" data-lvt-eid="af89fde238">願景</a></li>
+    <li><a href="#founder" data-page="founder" data-i18n="關於創辦人" data-i18n-en="Founder" onclick="closeMobileMenu()">關於創辦人</a></li>
   </ul>
   <button class="mobile-lang-btn" onclick="toggleLang(); closeMobileMenu();" id="mobileLangBtn" data-lvt-eid="8513eb53c3">切換 EN</button>
 </div>
@@ -4295,6 +4404,175 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   </footer>
 </div>
 
+<div class="page" id="page-founder">
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('assets/coach-profile.jpg');background-position:top center"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <h1 class="page-hero-title" data-i18n="關於創辦人" data-i18n-en="About the Founder">關於創辦人</h1>
+      <p class="page-hero-title-en" data-i18n="About the Founder" data-i18n-en="關於創辦人">About the Founder</p>
+    </div>
+  </section>
+
+  <section class="section-pad" id="founder-about">
+    <div class="container founder-about-inner">
+      <div class="founder-photo fade-up">
+        <img src="assets/coach-profile.jpg" alt="大樹教練 吳大樹">
+      </div>
+      <div class="founder-text fade-up">
+        <p class="section-label" data-i18n="關於大樹教練" data-i18n-en="About Coach Dashu">關於大樹教練</p>
+        <h2 class="section-title" data-i18n="吳大樹" data-i18n-en="Wu Da-Shu">吳大樹<br><span style="color:var(--gold)" data-i18n="用生命熱愛教育的演說家" data-i18n-en="A Speaker Who Loves Education with His Life">用生命熱愛教育的演說家</span></h2>
+        <blockquote class="founder-quote" data-i18n="「每次課程都要將最好的訊息，帶給每一個生命值得更好的人。」" data-i18n-en="&quot;Every class must bring the best message to every life that deserves better.&quot;">「每次課程都要將最好的訊息，帶給每一個生命值得更好的人。」</blockquote>
+        <p class="founder-p" data-i18n="大樹教練投入教育超過二十五年，洞悉人性，深耕人際關係與自我成長領域。演講足跡遍佈臺灣、中國大陸主要城市、馬來西亞、新加坡，受益學員超過十萬人次。" data-i18n-en="Coach Dashu has devoted over 25 years to education, with deep insight into human nature, interpersonal relationships and self-growth. His talks span Taiwan, major Chinese cities, Malaysia and Singapore, reaching over 100,000 students.">大樹教練投入教育超過二十五年，洞悉人性，深耕人際關係與自我成長領域。演講足跡遍佈臺灣、中國大陸主要城市、馬來西亞、新加坡，受益學員超過十萬人次。</p>
+        <p class="founder-p"><span data-i18n="業界少數" data-i18n-en="One of the few">業界少數</span><strong style="color:var(--fg)" data-i18n="零負評培訓講師" data-i18n-en="zero-negative-review trainers">零負評培訓講師</strong><span data-i18n="，用最淺白的語言與啟發的方式，引導學員找到根源性問題的解決方案。" data-i18n-en=" in the industry, guiding students to root-cause solutions with plain language and inspiration.">，用最淺白的語言與啟發的方式，引導學員找到根源性問題的解決方案。</span></p>
+
+        <div class="founder-identity">
+          <a href="#home" data-page="home" class="founder-id-link"><span class="id-icon">◆</span> <span data-i18n="海餅乾俱樂部創辦人（2007）" data-i18n-en="Founder, Sea Biscuit Club (2007)">海餅乾俱樂部創辦人（2007）</span></a>
+          <a href="https://chapters.bymyway.com/" target="_blank" rel="noopener" class="founder-id-link"><span class="id-icon">◆</span> <span data-i18n="BNI 大台南南區執行董事（2018）" data-i18n-en="Executive Director, BNI Greater Tainan South (2018)">BNI 大台南南區執行董事（2018）</span></a>
+          <a href="https://mentor100.bymyway.com/" target="_blank" rel="noopener" class="founder-id-link"><span class="id-icon">◆</span> <span data-i18n="AI 百人導師計畫召集人（2026）" data-i18n-en="Convener, AI 100 Mentors Program (2026)">AI 百人導師計畫召集人（2026）</span></a>
+        </div>
+
+        <div class="founder-skills">
+          <span data-i18n="有效溝通" data-i18n-en="Effective Communication">有效溝通</span>
+          <span data-i18n="人際關係" data-i18n-en="Interpersonal Skills">人際關係</span>
+          <span data-i18n="發現潛能" data-i18n-en="Unlocking Potential">發現潛能</span>
+          <span data-i18n="突破設限" data-i18n-en="Breaking Limits">突破設限</span>
+          <span data-i18n="銷售力" data-i18n-en="Sales Power">銷售力</span>
+        </div>
+        <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" class="btn-primary" data-i18n="與大樹教練聯繫" data-i18n-en="Contact Coach Dashu">與大樹教練聯繫</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad" id="founder-timeline" style="background:var(--card)">
+    <div class="container">
+      <div class="fade-up" style="text-align:center;margin-bottom:8px">
+        <p class="section-label" data-i18n="創業歷程" data-i18n-en="Career Journey">創業歷程</p>
+        <h2 class="section-title" data-i18n="從 1997 年至今" data-i18n-en="From 1997 to Today">從 1997 年至今<br><span style="color:var(--gold)" data-i18n="27 年的創業與教育之路" data-i18n-en="27 Years of Entrepreneurship and Education">27 年的創業與教育之路</span></h2>
+      </div>
+      <div class="founder-timeline-track">
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">1997</div>
+          <h4 data-i18n="尋易電信" data-i18n-en="Xunyi Telecom">尋易電信</h4>
+          <p data-i18n="店東｜踏上創業之路" data-i18n-en="Shop Owner | Began entrepreneurial journey">店東｜踏上創業之路</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">1998</div>
+          <h4 data-i18n="叢林美工廣告股份有限公司" data-i18n-en="Jungle Art Advertising Co.">叢林美工廣告股份有限公司</h4>
+          <p data-i18n="業務副總" data-i18n-en="VP of Sales">業務副總</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">1999</div>
+          <h4 data-i18n="陳安之研究訓練機構" data-i18n-en="Anthony Chen Training Institute">陳安之研究訓練機構</h4>
+          <p data-i18n="課程助教/助理講師｜正式踏入教育培訓領域" data-i18n-en="Teaching Assistant/Assistant Trainer | Entered education training">課程助教/助理講師｜正式踏入教育培訓領域</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2001</div>
+          <h4 data-i18n="註冊 bymyway.com" data-i18n-en="Registered bymyway.com">註冊 bymyway.com</h4>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2002</div>
+          <h4 data-i18n="中華數位教育發展協會" data-i18n-en="Chinese Digital Education Development Association">中華數位教育發展協會</h4>
+          <p data-i18n="秘書長" data-i18n-en="Secretary-General">秘書長</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2003</div>
+          <h4 data-i18n="博邁威數位資訊有限公司" data-i18n-en="Bomaiwei Digital Information Co.">博邁威數位資訊有限公司</h4>
+          <p data-i18n="共同創辦人" data-i18n-en="Co-founder">共同創辦人</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2005</div>
+          <h4 data-i18n="心想事成國際股份有限公司" data-i18n-en="Wish Come True International Co.">心想事成國際股份有限公司</h4>
+          <p data-i18n="共同創辦人" data-i18n-en="Co-founder">共同創辦人</p>
+        </div>
+        <div class="founder-tl-item highlight fade-up">
+          <div class="founder-tl-year">2007</div>
+          <h4 data-i18n="海餅乾俱樂部" data-i18n-en="Sea Biscuit Club">海餅乾俱樂部</h4>
+          <p data-i18n="創辦人｜一個使命，三大信念，十條守則" data-i18n-en="Founder | One mission, three beliefs, ten rules">創辦人｜一個使命，三大信念，十條守則</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2015</div>
+          <h4 data-i18n="桃園東陽扶輪社" data-i18n-en="Taoyuan Dongyang Rotary Club">桃園東陽扶輪社</h4>
+          <p data-i18n="創始會員/節目主委" data-i18n-en="Charter Member / Program Chair">創始會員/節目主委</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2016</div>
+          <h4 data-i18n="希望之聲全球廣播電臺" data-i18n-en="Sound of Hope Radio">希望之聲全球廣播電臺</h4>
+          <p data-i18n="節目企劃" data-i18n-en="Program Planner">節目企劃</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2017</div>
+          <h4 data-i18n="大樹教育顧問有限公司" data-i18n-en="Dashu Education Consulting Co.">大樹教育顧問有限公司</h4>
+          <p data-i18n="創辦人" data-i18n-en="Founder">創辦人</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2018</div>
+          <h4 data-i18n="聚寶盆商業顧問有限公司" data-i18n-en="Treasure Basin Business Consulting Co.">聚寶盆商業顧問有限公司</h4>
+          <p data-i18n="創辦人" data-i18n-en="Founder">創辦人</p>
+        </div>
+        <div class="founder-tl-item highlight fade-up">
+          <div class="founder-tl-year">2018</div>
+          <h4 data-i18n="BNI 大台南南區" data-i18n-en="BNI Greater Tainan South">BNI 大台南南區</h4>
+          <p data-i18n="執行董事" data-i18n-en="Executive Director">執行董事</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2022</div>
+          <h4 data-i18n="中華中小企業跨業交流協會" data-i18n-en="Cross-Industry SME Exchange Association">中華中小企業跨業交流協會</h4>
+          <p data-i18n="常務監事" data-i18n-en="Standing Supervisor">常務監事</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2023</div>
+          <h4 data-i18n="大臺南生命線協會" data-i18n-en="Greater Tainan Lifeline Association">大臺南生命線協會</h4>
+          <p data-i18n="總幹事" data-i18n-en="Secretary-General">總幹事</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2024</div>
+          <h4 data-i18n="全球健康發展協會" data-i18n-en="Global Health Development Association">全球健康發展協會</h4>
+          <p data-i18n="公益財源開拓委員會主委" data-i18n-en="Chair, Charity Fundraising Committee">公益財源開拓委員會主委</p>
+        </div>
+        <div class="founder-tl-item fade-up">
+          <div class="founder-tl-year">2025</div>
+          <h4 data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Exclusive Channel">乾淨世界獨家頻道</h4>
+          <p data-i18n="簽約作者" data-i18n-en="Contracted Author">簽約作者</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" class="footer-clone" data-lvt-eid="founder-footer">
+    <div class="container">
+<div class="footer-logo-wrap">
+        <img src="assets/logo.png" alt="海餅乾俱樂部">
+      </div>
+      <div class="footer-name">海餅乾俱樂部</div>
+      <div class="footer-name-en">SEA BISCUIT CLUB</div>
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-talk/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 9/22）" data-i18n-en="AI Forum (Tainan, Sep 22)">AI微論壇（台南場 9/22）</a>
+          <a href="https://coach1973.github.io/ai-fit/" target="_blank" rel="noopener" data-i18n="AI轉念（台南場 9/22 晚上）" data-i18n-en="AI Mindset Shift (Tainan, Sep 22 Evening)">AI轉念（台南場 9/22 晚上）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
+        </div>
+      </div>
+<p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
 <script>
 // ===== STATE =====
 let currentLang = 'zh';
@@ -4366,7 +4644,7 @@ function navigate(page) {
 
 function handleHash() {
   const hash = window.location.hash.replace('#', '') || 'home';
-  const valid = ['home','legend','club','beliefs','gallery','trail','quotes','testimonials','media','vision'];
+  const valid = ['home','legend','club','beliefs','gallery','trail','quotes','testimonials','media','vision','founder'];
   navigate(valid.includes(hash) ? hash : 'home');
 }
 
