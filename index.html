@@ -311,6 +311,81 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: 0 12px 40px rgba(200,162,75,0.15);
 }
 
+/* Press grid */
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.press-card {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+}
+.press-chip {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--gold);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+.press-title {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+.press-cta {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sand);
+}
+
+/* Upcoming sessions */
+#upcoming-sessions { padding: 96px 0; }
+.sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+.session-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.session-date {
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+.session-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 4px 0 18px;
+}
+.session-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+.session-btns .btn-primary, .session-btns .btn-outline {
+  font-size: 13px;
+  padding: 11px 20px;
+}
+
 /* Buttons */
 .btn-primary {
   display: inline-flex;
@@ -2060,6 +2135,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <li data-lvt-eid="a1f8e3c7b0"><a href="#trail" data-page="trail" data-i18n="時光足跡" data-i18n-en="Trail" data-lvt-eid="b2f9e4d8c1">時光足跡</a></li>
       <li data-lvt-eid="f6a2b8d3e4"><a href="#quotes" data-page="quotes" data-i18n="語錄" data-i18n-en="Quotes" data-lvt-eid="c7b3d9e5f6">語錄</a></li>
       <li data-lvt-eid="d1e7f3a9b5"><a href="#testimonials" data-page="testimonials" data-i18n="見證" data-i18n-en="Testimonials" data-lvt-eid="e2f8a4b0c6">見證</a></li>
+      <li data-lvt-eid="f7c1a5e9b3"><a href="#media" data-page="media" data-i18n="媒體報導" data-i18n-en="Press">媒體報導</a></li>
       <li data-lvt-eid="e525cca7b9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" data-lvt-eid="51df29231e">願景</a></li>
     </ul>
     <div class="nav-right" data-lvt-eid="de574cabb0">
@@ -2082,6 +2158,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <li data-lvt-eid="c3f0a4e9d2"><a href="#trail" data-page="trail" data-i18n="時光足跡" data-i18n-en="Trail" onclick="closeMobileMenu()" data-lvt-eid="d4a1b5f0e3">時光足跡</a></li>
     <li data-lvt-eid="a8c4d0e6f7"><a href="#quotes" data-page="quotes" data-i18n="語錄" data-i18n-en="Quotes" onclick="closeMobileMenu()" data-lvt-eid="b9d5e1f7a8">語錄</a></li>
     <li data-lvt-eid="f3a9b5c1d7"><a href="#testimonials" data-page="testimonials" data-i18n="見證" data-i18n-en="Testimonials" onclick="closeMobileMenu()" data-lvt-eid="a4b0c6d2e8">見證</a></li>
+    <li data-lvt-eid="c8d4e0a6f2"><a href="#media" data-page="media" data-i18n="媒體報導" data-i18n-en="Press" onclick="closeMobileMenu()">媒體報導</a></li>
     <li data-lvt-eid="82147145c9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" onclick="closeMobileMenu()" data-lvt-eid="af89fde238">願景</a></li>
   </ul>
   <button class="mobile-lang-btn" onclick="toggleLang(); closeMobileMenu();" id="mobileLangBtn" data-lvt-eid="8513eb53c3">切換 EN</button>
@@ -2263,6 +2340,51 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
   </section>
 
+  <!-- Upcoming Sessions -->
+  <section id="upcoming-sessions">
+    <div class="container">
+      <div class="fade-up" style="text-align:center">
+        <p class="section-label" data-i18n="近期場次" data-i18n-en="Upcoming Sessions">近期場次</p>
+        <h2 class="section-title" data-i18n="即將登場的活動" data-i18n-en="What's Coming Up">即將登場的活動</h2>
+        <p class="section-title-en" data-i18n="What's Coming Up" data-i18n-en="即將登場的活動">What's Coming Up</p>
+      </div>
+      <div class="sessions-grid" id="sessionsGrid">
+        <div class="session-card hover-card fade-up" data-expire="2026-09-16T23:59:59+08:00">
+          <div class="session-date">9月16日（三）</div>
+          <h3 class="session-title" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</h3>
+          <div class="session-btns">
+            <a href="https://event.bymyway.com/ai-art/#registerForm" target="_blank" rel="noopener" class="btn-primary" data-i18n="我要報名這場" data-i18n-en="Register Now">我要報名這場</a>
+            <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" class="btn-outline" data-i18n="我要看活動網頁" data-i18n-en="View Event Page">我要看活動網頁</a>
+          </div>
+        </div>
+        <div class="session-card hover-card fade-up" data-expire="2026-09-22T23:59:59+08:00">
+          <div class="session-date">9月22日（二）下午</div>
+          <h3 class="session-title" data-i18n="AI微論壇（台南場）" data-i18n-en="AI Forum (Tainan)">AI微論壇（台南場）</h3>
+          <div class="session-btns">
+            <a href="https://event.bymyway.com/ai-talk/#signup" target="_blank" rel="noopener" class="btn-primary" data-i18n="我要報名這場" data-i18n-en="Register Now">我要報名這場</a>
+            <a href="https://event.bymyway.com/ai-talk/" target="_blank" rel="noopener" class="btn-outline" data-i18n="我要看活動網頁" data-i18n-en="View Event Page">我要看活動網頁</a>
+          </div>
+        </div>
+        <div class="session-card hover-card fade-up" data-expire="2026-09-22T23:59:59+08:00">
+          <div class="session-date">9月22日（二）晚上</div>
+          <h3 class="session-title" data-i18n="從從容容用AI聊健康" data-i18n-en="AI Mindset &amp; Wellness">從從容容用AI聊健康</h3>
+          <div class="session-btns">
+            <a href="https://coach1973.github.io/ai-fit/#signup" target="_blank" rel="noopener" class="btn-primary" data-i18n="我要報名這場" data-i18n-en="Register Now">我要報名這場</a>
+            <a href="https://coach1973.github.io/ai-fit/" target="_blank" rel="noopener" class="btn-outline" data-i18n="我要看活動網頁" data-i18n-en="View Event Page">我要看活動網頁</a>
+          </div>
+        </div>
+        <div class="session-card hover-card fade-up" data-expire="2026-09-24T23:59:59+08:00">
+          <div class="session-date">9月23–24日</div>
+          <h3 class="session-title" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</h3>
+          <div class="session-btns">
+            <a href="https://event.bymyway.com/ai-forum/#signup" target="_blank" rel="noopener" class="btn-primary" data-i18n="我要報名這場" data-i18n-en="Register Now">我要報名這場</a>
+            <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" class="btn-outline" data-i18n="我要看活動網頁" data-i18n-en="View Event Page">我要看活動網頁</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer id="footer" data-lvt-eid="ba6370a8c3">
     <div class="container" data-lvt-eid="947a11f2d3">
@@ -2284,14 +2406,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy" data-lvt-eid="2b434f1482">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -2475,14 +2597,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy" data-lvt-eid="33c7a777ca">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -2594,14 +2716,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy" data-lvt-eid="a8ede57303">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -2999,14 +3121,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy" data-lvt-eid="e94468da1a">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3375,14 +3497,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy" data-lvt-eid="b42b6943ec">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3616,14 +3738,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3702,14 +3824,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -3915,14 +4037,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
@@ -4002,17 +4124,143 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
-          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE 聯繫" data-i18n-en="LINE">LINE 聯繫</a>
-          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook" data-i18n-en="Facebook">Facebook</a>
-          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界頻道" data-i18n-en="Ganjing World Channel">乾淨世界頻道</a>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
           <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
         </div>
         <div>
           <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
           <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
         </div>
       </div>
 <p class="footer-copy" data-lvt-eid="9a38830bed">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+<div class="page" id="page-media">
+  <section class="page-hero">
+    <div class="page-hero-bg" style="background-image:url('https://assets-persist.lovart.ai/pdf_extracts/99d4491d792e10f6/images/page1_img1.jpeg')"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <h1 class="page-hero-title" data-i18n="媒體報導" data-i18n-en="Press Coverage">媒體報導</h1>
+      <p class="page-hero-title-en" data-i18n="Press Coverage" data-i18n-en="媒體報導">Press Coverage</p>
+    </div>
+  </section>
+
+  <section class="section-pad" id="press-list">
+    <div class="container">
+      <div class="fade-up" style="text-align:center">
+        <p class="section-label" data-i18n="公開肯定" data-i18n-en="Public Recognition">公開肯定</p>
+        <h2 class="section-title" data-i18n="大樹教練的媒體報導" data-i18n-en="Coach Dashu in the Press">大樹教練的媒體報導</h2>
+        <p class="section-title-en" data-i18n="Coach Dashu in the Press" data-i18n-en="大樹教練的媒體報導">Coach Dashu in the Press</p>
+        <p style="color:var(--secondary);margin:-8px 0 40px" data-i18n="超過 25 年教育與企業培訓歷程，獲多家媒體專訪報導" data-i18n-en="25+ years in education and corporate training, featured by multiple media outlets">超過 25 年教育與企業培訓歷程，獲多家媒體專訪報導</p>
+      </div>
+      <div class="press-grid">
+        <a href="https://www.epochtimes.com/b5/14/3/17/n4108528.htm" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">大樹小講起源</span>
+          <h3 class="press-title">大樹小講第五期 桃園婦女館公益演講報導</h3>
+          <span class="press-cta">查看報導 →</span>
+        </a>
+        <a href="https://event.ntdtv.com.tw/b5/20250111/video/400659.html" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">公益演講</span>
+          <h3 class="press-title">讓愛延續　為重症兒童點亮生命的光公益講座登場</h3>
+          <span class="press-cta">觀看報導 →</span>
+        </a>
+        <a href="https://www.ntdtv.com.tw/b5/20240422/video/388744.html" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">公益演講</span>
+          <h3 class="press-title">心想事成的祕訣講座 分享品德人生攻略課</h3>
+          <span class="press-cta">觀看報導 →</span>
+        </a>
+        <a href="https://www.ntdtv.com.tw/b5/20211021/video/307528.html" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">公益演講</span>
+          <h3 class="press-title">啟發孩子的善念　獅子會舉辦品德教育研討會</h3>
+          <span class="press-cta">觀看報導 →</span>
+        </a>
+        <a href="https://www.epochtimes.com/b5/20/12/2/n12591146.htm" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">公益演講</span>
+          <h3 class="press-title">國際獅子會結合神韻　弘揚傳統文化　關懷癌童</h3>
+          <span class="press-cta">閱讀報導 →</span>
+        </a>
+        <a href="https://www.soundofhope.org/post/351442?lang=b5" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">人際關係</span>
+          <h3 class="press-title">以身作則　家長做到孩子才會做對的事</h3>
+          <span class="press-cta">閱讀報導 →</span>
+        </a>
+        <a href="https://www.soundofhope.org/post/329719?lang=b5" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">人際關係</span>
+          <h3 class="press-title">人在這個世界上最需要什麼呢？答案一定令你驚訝！</h3>
+          <span class="press-cta">閱讀報導 →</span>
+        </a>
+        <a href="https://www.watchinese.com/article/2019/24591" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">雜誌專訪</span>
+          <h3 class="press-title">從留級生到傑出校友　「大樹教練」願為培訓界清流</h3>
+          <span class="press-cta">閱讀報導 →</span>
+        </a>
+        <a href="https://www.epochtimes.com/b5/18/6/22/n10505519.htm" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">電臺訪談</span>
+          <h3 class="press-title">【轉動台灣】大樹教練的價值宣言　真誠善良不藏私</h3>
+          <span class="press-cta">閱讀報導 →</span>
+        </a>
+        <a href="https://www.ntdtv.com.tw/b5/20140718/video/129084.html" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">職場話題</span>
+          <h3 class="press-title">悠活世說：談為何遇不見伯樂／如何讓團隊看見亮點</h3>
+          <span class="press-cta">觀看報導 →</span>
+        </a>
+        <a href="https://www.epochtimes.com/b5/13/9/29/n3975111.htm" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">九型人格</span>
+          <h3 class="press-title">吳大樹：了解九型人格，解析成功密碼</h3>
+          <span class="press-cta">閱讀報導 →</span>
+        </a>
+        <a href="https://www.dcard.tw/f/ccu/p/258023416" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">演講邀約</span>
+          <h3 class="press-title">網友分享聽講心得</h3>
+          <span class="press-cta">查看貼文 →</span>
+        </a>
+        <a href="https://podcasts.apple.com/tw/podcast/%E5%A4%A7%E6%A8%B9%E6%95%99%E7%B7%B4/id740362803" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">希望之聲電台訪問</span>
+          <h3 class="press-title">大樹教練（Podcast 節目全集）</h3>
+          <span class="press-cta">收聽節目 →</span>
+        </a>
+        <a href="https://podcasts.apple.com/tw/podcast/%E6%95%99%E7%B7%B4%E9%83%BD%E5%9C%A8%E6%83%B3%E4%BB%80%E9%BA%BC/id1855176566" target="_blank" rel="noopener" class="press-card hover-card fade-up">
+          <span class="press-chip">Apple Podcast</span>
+          <h3 class="press-title">教練都在想什麼？（Podcast 節目全集）</h3>
+          <span class="press-cta">收聽節目 →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" class="footer-clone" data-lvt-eid="press-footer">
+    <div class="container">
+<div class="footer-logo-wrap">
+        <img src="assets/logo.png" alt="海餅乾俱樂部">
+      </div>
+      <div class="footer-name">海餅乾俱樂部</div>
+      <div class="footer-name-en">SEA BISCUIT CLUB</div>
+            <div class="footer-links">
+        <div>
+          <h4 data-i18n="近期活動" data-i18n-en="Recent Events">近期活動</h4>
+          <a href="https://event.bymyway.com/bigtree/" target="_blank" rel="noopener" data-i18n="大樹小講" data-i18n-en="Coach Talks">大樹小講</a>
+          <a href="https://event.bymyway.com/ai-talk/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 9/22）" data-i18n-en="AI Forum (Tainan, Sep 22)">AI微論壇（台南場 9/22）</a>
+          <a href="https://coach1973.github.io/ai-fit/" target="_blank" rel="noopener" data-i18n="AI轉念（台南場 9/22 晚上）" data-i18n-en="AI Mindset Shift (Tainan, Sep 22 Evening)">AI轉念（台南場 9/22 晚上）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台中場）" data-i18n-en="AI Forum (Taichung)">AI微論壇（台中場）</a>
+          <a href="https://event.bymyway.com/ai-forum/" target="_blank" rel="noopener" data-i18n="AI微論壇（台南場 10/7–8）" data-i18n-en="AI Forum (Tainan, Oct 7–8)">AI微論壇（台南場 10/7–8）</a>
+          <a href="https://event.bymyway.com/ai-art/" target="_blank" rel="noopener" data-i18n="高雄音樂流水席" data-i18n-en="Kaohsiung Music Salon">高雄音樂流水席</a>
+        </div>
+        <div>
+          <h4 data-i18n="聯繫方式" data-i18n-en="Contact">聯繫方式</h4>
+          <a href="https://lin.ee/o5pODV8" target="_blank" rel="noopener" data-i18n="LINE@ 官方帳號" data-i18n-en="LINE Official Account">LINE@ 官方帳號</a>
+          <a href="mailto:bymyway7@gmail.com" data-i18n="電子信箱" data-i18n-en="Email">電子信箱</a>
+        </div>
+        <div>
+          <h4 data-i18n="快速連結" data-i18n-en="Quick Links">快速連結</h4>
+          <a href="https://www.bymyway.com" target="_blank" rel="noopener" data-i18n="大樹教育官方網站" data-i18n-en="Official Website">大樹教育官方網站</a>
+          <a href="https://www.ganjingworld.com/@bymyway" target="_blank" rel="noopener" data-i18n="乾淨世界獨家頻道" data-i18n-en="Ganjing World Channel">乾淨世界獨家頻道</a>
+          <a href="https://www.facebook.com/seabiscuitclub/" target="_blank" rel="noopener" data-i18n="Facebook 官方粉專" data-i18n-en="Facebook">Facebook 官方粉專</a>
+        </div>
+      </div>
+<p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
     </div>
   </footer>
 </div>
@@ -4088,7 +4336,7 @@ function navigate(page) {
 
 function handleHash() {
   const hash = window.location.hash.replace('#', '') || 'home';
-  const valid = ['home','legend','club','beliefs','gallery','trail','quotes','testimonials','vision'];
+  const valid = ['home','legend','club','beliefs','gallery','trail','quotes','testimonials','media','vision'];
   navigate(valid.includes(hash) ? hash : 'home');
 }
 
@@ -4102,6 +4350,20 @@ document.querySelectorAll('[data-page]').forEach(el => {
 
 window.addEventListener('hashchange', handleHash);
 window.addEventListener('load', handleHash);
+
+// ===== UPCOMING SESSIONS: auto-hide past events =====
+function hideExpiredSessions() {
+  const now = new Date();
+  document.querySelectorAll('.session-card[data-expire]').forEach(card => {
+    if (new Date(card.dataset.expire) < now) card.style.display = 'none';
+  });
+  const grid = document.getElementById('sessionsGrid');
+  const section = document.getElementById('upcoming-sessions');
+  if (grid && section && grid.querySelectorAll('.session-card:not([style*="display: none"])').length === 0) {
+    section.style.display = 'none';
+  }
+}
+hideExpiredSessions();
 
 // ===== LANGUAGE TOGGLE =====
 function toggleLang() {
