@@ -473,7 +473,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0;
 }
 .stat-item {
@@ -1669,10 +1669,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .nav-right .lang-btn { display: none; }
   .hamburger { display: flex; }
 
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .stat-item:nth-child(2) { border-right: none; }
-  .stat-item { border-bottom: 1px solid var(--gold-border); }
-  .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--gold-border); }
+  .stat-item:last-child { border-bottom: none; }
 
   .movie-grid { grid-template-columns: 1fr; gap: 32px; }
   .missions-grid { grid-template-columns: 1fr; }
@@ -1782,6 +1781,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <div class="stat-num" data-count="1938" data-lvt-eid="854f3ce83a">1938</div>
           <div class="stat-label" data-i18n="十大風雲人物" data-i18n-en="Top 10 Newsmakers" data-lvt-eid="0fec65f853">十大風雲人物</div>
           <div class="stat-label-en" data-i18n="Top 10 Newsmakers" data-i18n-en="十大風雲人物" data-lvt-eid="194b65d83b">Top 10 Newsmakers</div>
+        </div>
+        <div class="stat-item fade-up delay-1" data-lvt-eid="stat1940added">
+          <div class="stat-num" data-count="1940" data-lvt-eid="stat1940num">1940</div>
+          <div class="stat-label" data-i18n="累積獎金世界第一" data-i18n-en="World's Top Career Earnings" data-lvt-eid="stat1940label">累積獎金世界第一</div>
+          <div class="stat-label-en" data-i18n="World's Top Career Earnings" data-i18n-en="累積獎金世界第一" data-lvt-eid="stat1940labelen">World's Top Career Earnings</div>
         </div>
         <div class="stat-item fade-up delay-1" data-lvt-eid="695f408515">
           <div class="stat-num" data-lvt-eid="3770a2d4cc">89<span style="font-size:0.5em;color:var(--secondary)" data-lvt-eid="69566cc104"> / </span>33</div>
