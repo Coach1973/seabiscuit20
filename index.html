@@ -1475,6 +1475,63 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--secondary);
 }
 
+/* ===== PAGE: TRAIL (時光足跡 Photo Wall) ===== */
+#trail-header {
+  padding: 120px 0 64px;
+  text-align: center;
+}
+#trail-wall {
+  padding: 0 0 96px;
+}
+.trail-wall-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  column-count: 4;
+  column-gap: 14px;
+}
+.tw-item {
+  break-inside: avoid;
+  margin-bottom: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--gold-border);
+  cursor: pointer;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.tw-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(200,162,75,0.28);
+}
+.tw-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s;
+}
+.tw-item:hover img { transform: scale(1.04); }
+
+@media (max-width: 1024px) {
+  .trail-wall-grid { column-count: 3; }
+}
+@media (max-width: 640px) {
+  .trail-wall-grid { column-count: 2; column-gap: 10px; padding: 0 16px; }
+  .tw-item { margin-bottom: 10px; }
+}
+
+/* Trail Lightbox (獨立於歷年紀念冊 lightbox，避免索引互相干擾) */
+#trail-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11,14,20,0.92);
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+}
+#trail-lightbox.open { display: flex; }
+
 /* ===== PAGE: VISION ===== */
 #vision-hero {
   position: relative;
@@ -1729,6 +1786,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <li data-lvt-eid="274f8942f5"><a href="#club" data-page="club" data-i18n="俱樂部" data-i18n-en="Club" data-lvt-eid="38df37cbfb">俱樂部</a></li>
       <li data-lvt-eid="1926b43223"><a href="#beliefs" data-page="beliefs" data-i18n="信念" data-i18n-en="Beliefs" data-lvt-eid="509ab94e3f">信念</a></li>
       <li data-lvt-eid="7b8b2fbb9f"><a href="#gallery" data-page="gallery" data-i18n="紀念冊" data-i18n-en="Gallery" data-lvt-eid="4da6480a9c">紀念冊</a></li>
+      <li data-lvt-eid="a1f8e3c7b0"><a href="#trail" data-page="trail" data-i18n="時光足跡" data-i18n-en="Trail" data-lvt-eid="b2f9e4d8c1">時光足跡</a></li>
       <li data-lvt-eid="e525cca7b9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" data-lvt-eid="51df29231e">願景</a></li>
     </ul>
     <div class="nav-right" data-lvt-eid="de574cabb0">
@@ -1748,6 +1806,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <li data-lvt-eid="72c9c26e21"><a href="#club" data-page="club" data-i18n="俱樂部" data-i18n-en="Club" onclick="closeMobileMenu()" data-lvt-eid="cb484a3579">俱樂部</a></li>
     <li data-lvt-eid="85603e51a1"><a href="#beliefs" data-page="beliefs" data-i18n="信念" data-i18n-en="Beliefs" onclick="closeMobileMenu()" data-lvt-eid="6b4fdf3048">信念</a></li>
     <li data-lvt-eid="6cf187108c"><a href="#gallery" data-page="gallery" data-i18n="紀念冊" data-i18n-en="Gallery" onclick="closeMobileMenu()" data-lvt-eid="c7a710ca0a">紀念冊</a></li>
+    <li data-lvt-eid="c3f0a4e9d2"><a href="#trail" data-page="trail" data-i18n="時光足跡" data-i18n-en="Trail" onclick="closeMobileMenu()" data-lvt-eid="d4a1b5f0e3">時光足跡</a></li>
     <li data-lvt-eid="82147145c9"><a href="#vision" data-page="vision" data-i18n="願景" data-i18n-en="Vision" onclick="closeMobileMenu()" data-lvt-eid="af89fde238">願景</a></li>
   </ul>
   <button class="mobile-lang-btn" onclick="toggleLang(); closeMobileMenu();" id="mobileLangBtn" data-lvt-eid="8513eb53c3">切換 EN</button>
@@ -2746,6 +2805,224 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   </footer>
 </div>
 
+<!-- ===== PAGE: TRAIL (時光足跡) ===== -->
+<div class="page" id="page-trail">
+
+  <section id="trail-header">
+    <div class="container fade-up">
+      <p class="section-label" data-i18n="時光足跡" data-i18n-en="Trail of Time">時光足跡</p>
+      <h1 class="section-title" style="font-size:clamp(32px,5vw,52px)" data-i18n="時光足跡" data-i18n-en="Trail of Time">時光足跡</h1>
+      <p class="gallery-subtitle" data-i18n="每一張照片，都是海餅乾俱樂部走過的路。" data-i18n-en="Every photo, a step on the Sea Biscuit Club's journey.">每一張照片，都是海餅乾俱樂部走過的路。</p>
+      <p class="gallery-subtitle-en" data-i18n="Every photo, a step on the Sea Biscuit Club's journey." data-i18n-en="每一張照片，都是海餅乾俱樂部走過的路。">Every photo, a step on the Sea Biscuit Club's journey.</p>
+    </div>
+  </section>
+
+  <section id="trail-wall">
+    <div class="trail-wall-grid" id="trailWallGrid">
+        <div class="tw-item fade-up"><img src="assets/trail/trail-001.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(0)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-002.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(1)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-003.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(2)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-004.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(3)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-005.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(4)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-006.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(5)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-007.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(6)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-008.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(7)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-009.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(8)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-010.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(9)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-011.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(10)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-012.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(11)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-013.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(12)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-014.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(13)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-015.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(14)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-016.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(15)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-017.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(16)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-018.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(17)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-019.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(18)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-020.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(19)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-021.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(20)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-022.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(21)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-023.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(22)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-024.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(23)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-025.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(24)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-026.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(25)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-027.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(26)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-028.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(27)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-029.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(28)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-030.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(29)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-031.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(30)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-032.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(31)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-033.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(32)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-034.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(33)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-035.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(34)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-036.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(35)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-037.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(36)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-038.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(37)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-039.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(38)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-040.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(39)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-041.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(40)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-042.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(41)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-043.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(42)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-044.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(43)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-045.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(44)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-046.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(45)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-047.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(46)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-048.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(47)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-049.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(48)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-050.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(49)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-051.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(50)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-052.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(51)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-053.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(52)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-054.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(53)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-055.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(54)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-056.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(55)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-057.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(56)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-058.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(57)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-059.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(58)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-060.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(59)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-061.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(60)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-062.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(61)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-063.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(62)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-064.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(63)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-065.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(64)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-066.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(65)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-067.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(66)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-068.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(67)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-069.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(68)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-070.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(69)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-071.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(70)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-072.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(71)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-073.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(72)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-074.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(73)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-075.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(74)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-076.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(75)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-077.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(76)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-078.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(77)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-079.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(78)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-080.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(79)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-081.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(80)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-082.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(81)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-083.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(82)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-084.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(83)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-085.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(84)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-086.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(85)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-087.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(86)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-088.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(87)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-089.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(88)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-090.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(89)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-091.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(90)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-092.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(91)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-093.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(92)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-094.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(93)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-095.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(94)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-096.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(95)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-097.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(96)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-098.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(97)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-099.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(98)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-100.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(99)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-101.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(100)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-102.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(101)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-103.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(102)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-104.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(103)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-105.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(104)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-106.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(105)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-107.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(106)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-108.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(107)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-109.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(108)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-110.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(109)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-111.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(110)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-112.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(111)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-113.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(112)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-114.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(113)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-115.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(114)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-116.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(115)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-117.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(116)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-118.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(117)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-119.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(118)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-120.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(119)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-121.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(120)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-122.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(121)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-123.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(122)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-124.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(123)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-125.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(124)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-126.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(125)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-127.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(126)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-128.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(127)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-129.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(128)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-130.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(129)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-131.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(130)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-132.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(131)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-133.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(132)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-134.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(133)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-135.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(134)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-136.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(135)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-137.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(136)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-138.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(137)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-139.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(138)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-140.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(139)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-141.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(140)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-142.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(141)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-143.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(142)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-144.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(143)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-145.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(144)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-146.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(145)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-147.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(146)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-148.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(147)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-149.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(148)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-150.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(149)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-151.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(150)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-152.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(151)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-153.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(152)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-154.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(153)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-155.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(154)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-156.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(155)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-157.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(156)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-158.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(157)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-159.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(158)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-160.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(159)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-161.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(160)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-162.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(161)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-163.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(162)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-164.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(163)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-165.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(164)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-166.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(165)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-167.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(166)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-168.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(167)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-169.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(168)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-170.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(169)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-171.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(170)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-172.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(171)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-173.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(172)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-174.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(173)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-175.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(174)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-176.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(175)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-177.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(176)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-178.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(177)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-179.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(178)"></div>
+        <div class="tw-item fade-up"><img src="assets/trail/trail-180.jpg" alt="海餅乾俱樂部 時光足跡" loading="lazy" onclick="twOpen(179)"></div>
+    </div>
+  </section>
+
+  <!-- Trail Lightbox -->
+  <div id="trail-lightbox" onclick="twBgClose(event)">
+    <button class="lb-close" onclick="twClose()" aria-label="關閉">×</button>
+    <button class="lb-nav lb-prev" onclick="twNav(-1)" aria-label="上一張">←</button>
+    <div class="lb-img-wrap">
+      <img id="twImg" src="" alt="">
+    </div>
+    <button class="lb-nav lb-next" onclick="twNav(1)" aria-label="下一張">→</button>
+    <div class="lb-counter" id="twCounter"></div>
+  </div>
+
+  <footer class="footer-clone" style="background:var(--card);border-top:1px solid var(--gold-border);padding:48px 0 32px;text-align:center">
+    <div class="container">
+      <div class="footer-logo-wrap">
+        <img src="assets/logo.png" alt="海餅乾俱樂部">
+      </div>
+      <p class="footer-copy">© 2007–2027 海餅乾俱樂部 Sea Biscuit Club. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
 <!-- ===== PAGE: VISION ===== -->
 <div class="page" id="page-vision" data-lvt-eid="7d84f69c48">
 
@@ -2886,7 +3163,7 @@ function navigate(page) {
 
 function handleHash() {
   const hash = window.location.hash.replace('#', '') || 'home';
-  const valid = ['home','legend','club','beliefs','gallery','vision'];
+  const valid = ['home','legend','club','beliefs','gallery','trail','vision'];
   navigate(valid.includes(hash) ? hash : 'home');
 }
 
@@ -3099,6 +3376,223 @@ function resetCarouselTimer() {
     if (e.key === 'Escape') window.lbClose();
     if (e.key === 'ArrowLeft') window.lbNav(-1);
     if (e.key === 'ArrowRight') window.lbNav(1);
+  });
+})();
+
+// ===== TRAIL LIGHTBOX (時光足跡照片牆) =====
+(function() {
+  var TW_IMGS = [
+    'assets/trail/trail-001.jpg',
+    'assets/trail/trail-002.jpg',
+    'assets/trail/trail-003.jpg',
+    'assets/trail/trail-004.jpg',
+    'assets/trail/trail-005.jpg',
+    'assets/trail/trail-006.jpg',
+    'assets/trail/trail-007.jpg',
+    'assets/trail/trail-008.jpg',
+    'assets/trail/trail-009.jpg',
+    'assets/trail/trail-010.jpg',
+    'assets/trail/trail-011.jpg',
+    'assets/trail/trail-012.jpg',
+    'assets/trail/trail-013.jpg',
+    'assets/trail/trail-014.jpg',
+    'assets/trail/trail-015.jpg',
+    'assets/trail/trail-016.jpg',
+    'assets/trail/trail-017.jpg',
+    'assets/trail/trail-018.jpg',
+    'assets/trail/trail-019.jpg',
+    'assets/trail/trail-020.jpg',
+    'assets/trail/trail-021.jpg',
+    'assets/trail/trail-022.jpg',
+    'assets/trail/trail-023.jpg',
+    'assets/trail/trail-024.jpg',
+    'assets/trail/trail-025.jpg',
+    'assets/trail/trail-026.jpg',
+    'assets/trail/trail-027.jpg',
+    'assets/trail/trail-028.jpg',
+    'assets/trail/trail-029.jpg',
+    'assets/trail/trail-030.jpg',
+    'assets/trail/trail-031.jpg',
+    'assets/trail/trail-032.jpg',
+    'assets/trail/trail-033.jpg',
+    'assets/trail/trail-034.jpg',
+    'assets/trail/trail-035.jpg',
+    'assets/trail/trail-036.jpg',
+    'assets/trail/trail-037.jpg',
+    'assets/trail/trail-038.jpg',
+    'assets/trail/trail-039.jpg',
+    'assets/trail/trail-040.jpg',
+    'assets/trail/trail-041.jpg',
+    'assets/trail/trail-042.jpg',
+    'assets/trail/trail-043.jpg',
+    'assets/trail/trail-044.jpg',
+    'assets/trail/trail-045.jpg',
+    'assets/trail/trail-046.jpg',
+    'assets/trail/trail-047.jpg',
+    'assets/trail/trail-048.jpg',
+    'assets/trail/trail-049.jpg',
+    'assets/trail/trail-050.jpg',
+    'assets/trail/trail-051.jpg',
+    'assets/trail/trail-052.jpg',
+    'assets/trail/trail-053.jpg',
+    'assets/trail/trail-054.jpg',
+    'assets/trail/trail-055.jpg',
+    'assets/trail/trail-056.jpg',
+    'assets/trail/trail-057.jpg',
+    'assets/trail/trail-058.jpg',
+    'assets/trail/trail-059.jpg',
+    'assets/trail/trail-060.jpg',
+    'assets/trail/trail-061.jpg',
+    'assets/trail/trail-062.jpg',
+    'assets/trail/trail-063.jpg',
+    'assets/trail/trail-064.jpg',
+    'assets/trail/trail-065.jpg',
+    'assets/trail/trail-066.jpg',
+    'assets/trail/trail-067.jpg',
+    'assets/trail/trail-068.jpg',
+    'assets/trail/trail-069.jpg',
+    'assets/trail/trail-070.jpg',
+    'assets/trail/trail-071.jpg',
+    'assets/trail/trail-072.jpg',
+    'assets/trail/trail-073.jpg',
+    'assets/trail/trail-074.jpg',
+    'assets/trail/trail-075.jpg',
+    'assets/trail/trail-076.jpg',
+    'assets/trail/trail-077.jpg',
+    'assets/trail/trail-078.jpg',
+    'assets/trail/trail-079.jpg',
+    'assets/trail/trail-080.jpg',
+    'assets/trail/trail-081.jpg',
+    'assets/trail/trail-082.jpg',
+    'assets/trail/trail-083.jpg',
+    'assets/trail/trail-084.jpg',
+    'assets/trail/trail-085.jpg',
+    'assets/trail/trail-086.jpg',
+    'assets/trail/trail-087.jpg',
+    'assets/trail/trail-088.jpg',
+    'assets/trail/trail-089.jpg',
+    'assets/trail/trail-090.jpg',
+    'assets/trail/trail-091.jpg',
+    'assets/trail/trail-092.jpg',
+    'assets/trail/trail-093.jpg',
+    'assets/trail/trail-094.jpg',
+    'assets/trail/trail-095.jpg',
+    'assets/trail/trail-096.jpg',
+    'assets/trail/trail-097.jpg',
+    'assets/trail/trail-098.jpg',
+    'assets/trail/trail-099.jpg',
+    'assets/trail/trail-100.jpg',
+    'assets/trail/trail-101.jpg',
+    'assets/trail/trail-102.jpg',
+    'assets/trail/trail-103.jpg',
+    'assets/trail/trail-104.jpg',
+    'assets/trail/trail-105.jpg',
+    'assets/trail/trail-106.jpg',
+    'assets/trail/trail-107.jpg',
+    'assets/trail/trail-108.jpg',
+    'assets/trail/trail-109.jpg',
+    'assets/trail/trail-110.jpg',
+    'assets/trail/trail-111.jpg',
+    'assets/trail/trail-112.jpg',
+    'assets/trail/trail-113.jpg',
+    'assets/trail/trail-114.jpg',
+    'assets/trail/trail-115.jpg',
+    'assets/trail/trail-116.jpg',
+    'assets/trail/trail-117.jpg',
+    'assets/trail/trail-118.jpg',
+    'assets/trail/trail-119.jpg',
+    'assets/trail/trail-120.jpg',
+    'assets/trail/trail-121.jpg',
+    'assets/trail/trail-122.jpg',
+    'assets/trail/trail-123.jpg',
+    'assets/trail/trail-124.jpg',
+    'assets/trail/trail-125.jpg',
+    'assets/trail/trail-126.jpg',
+    'assets/trail/trail-127.jpg',
+    'assets/trail/trail-128.jpg',
+    'assets/trail/trail-129.jpg',
+    'assets/trail/trail-130.jpg',
+    'assets/trail/trail-131.jpg',
+    'assets/trail/trail-132.jpg',
+    'assets/trail/trail-133.jpg',
+    'assets/trail/trail-134.jpg',
+    'assets/trail/trail-135.jpg',
+    'assets/trail/trail-136.jpg',
+    'assets/trail/trail-137.jpg',
+    'assets/trail/trail-138.jpg',
+    'assets/trail/trail-139.jpg',
+    'assets/trail/trail-140.jpg',
+    'assets/trail/trail-141.jpg',
+    'assets/trail/trail-142.jpg',
+    'assets/trail/trail-143.jpg',
+    'assets/trail/trail-144.jpg',
+    'assets/trail/trail-145.jpg',
+    'assets/trail/trail-146.jpg',
+    'assets/trail/trail-147.jpg',
+    'assets/trail/trail-148.jpg',
+    'assets/trail/trail-149.jpg',
+    'assets/trail/trail-150.jpg',
+    'assets/trail/trail-151.jpg',
+    'assets/trail/trail-152.jpg',
+    'assets/trail/trail-153.jpg',
+    'assets/trail/trail-154.jpg',
+    'assets/trail/trail-155.jpg',
+    'assets/trail/trail-156.jpg',
+    'assets/trail/trail-157.jpg',
+    'assets/trail/trail-158.jpg',
+    'assets/trail/trail-159.jpg',
+    'assets/trail/trail-160.jpg',
+    'assets/trail/trail-161.jpg',
+    'assets/trail/trail-162.jpg',
+    'assets/trail/trail-163.jpg',
+    'assets/trail/trail-164.jpg',
+    'assets/trail/trail-165.jpg',
+    'assets/trail/trail-166.jpg',
+    'assets/trail/trail-167.jpg',
+    'assets/trail/trail-168.jpg',
+    'assets/trail/trail-169.jpg',
+    'assets/trail/trail-170.jpg',
+    'assets/trail/trail-171.jpg',
+    'assets/trail/trail-172.jpg',
+    'assets/trail/trail-173.jpg',
+    'assets/trail/trail-174.jpg',
+    'assets/trail/trail-175.jpg',
+    'assets/trail/trail-176.jpg',
+    'assets/trail/trail-177.jpg',
+    'assets/trail/trail-178.jpg',
+    'assets/trail/trail-179.jpg',
+    'assets/trail/trail-180.jpg'
+  ];
+  var tw_idx = 0;
+
+  function twShow(i) {
+    tw_idx = (i + TW_IMGS.length) % TW_IMGS.length;
+    var img = document.getElementById('twImg');
+    var counter = document.getElementById('twCounter');
+    if (img) { img.src = TW_IMGS[tw_idx]; img.alt = '時光足跡 ' + (tw_idx + 1); }
+    if (counter) counter.textContent = (tw_idx + 1) + ' / ' + TW_IMGS.length;
+    var lb = document.getElementById('trail-lightbox');
+    if (lb) lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  window.twOpen = function(i) { twShow(i); };
+  window.twClose = function() {
+    var lb = document.getElementById('trail-lightbox');
+    if (lb) lb.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.twNav = function(dir) { twShow(tw_idx + dir); };
+  window.twBgClose = function(e) {
+    if (e.target === document.getElementById('trail-lightbox')) window.twClose();
+  };
+
+  document.addEventListener('keydown', function(e) {
+    var lb = document.getElementById('trail-lightbox');
+    if (!lb || !lb.classList.contains('open')) return;
+    if (e.key === 'Escape') window.twClose();
+    if (e.key === 'ArrowLeft') window.twNav(-1);
+    if (e.key === 'ArrowRight') window.twNav(1);
   });
 })();
 
