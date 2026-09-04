@@ -1316,7 +1316,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .gtl-img-wrap {
   width: 100%;
-  aspect-ratio: 3/4;
+  min-height: 160px;
+  max-height: 460px;
   background: var(--bg);
   overflow: hidden;
   display: flex;
@@ -1324,11 +1325,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   justify-content: center;
 }
 .gtl-img-wrap img {
-  width: 100%; height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 460px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   transition: transform 0.5s;
 }
 .gtl-card:hover .gtl-img-wrap img { transform: scale(1.04); }
+.gtl-card.gtl-placeholder { cursor: default; }
+.gtl-card.gtl-placeholder:hover { transform: none; border-color: var(--gold-border); box-shadow: none; }
+.gtl-placeholder .gtl-img-wrap { min-height: 200px; }
+.gtl-coming { font-size: 13px; color: var(--secondary); text-align: center; padding: 0 12px; }
 .gtl-info {
   padding: 14px 16px;
   text-align: center;
@@ -2074,7 +2082,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <div class="tl-dot" data-lvt-eid="21e7238e13"><div class="tl-dot-circle" data-lvt-eid="cea9674dd1"></div></div>
           <div class="tl-img" data-lvt-eid="aca0a876f8">
             <div class="tl-img-wrap sepia" data-lvt-eid="4dbb3bbc1e">
-              <img src="https://assets-persist.lovart.ai/pdf_extracts/35c4a1b143b4bafe/images/page1_img3.jpeg" alt="1940 歷史照片" data-lvt-eid="692bdcf1a4">
+              <img src="assets/1940.jpg" alt="1940 歷史照片" data-lvt-eid="692bdcf1a4">
             </div>
             <p class="img-caption" data-i18n="歷史檔案 Historical Archive" data-i18n-en="Historical Archive" data-lvt-eid="061117021e">歷史檔案 Historical Archive</p>
           </div>
@@ -2391,156 +2399,283 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <div class="container fade-up" data-lvt-eid="ed204c5f7d">
       <p class="section-label" data-i18n="歷年紀念" data-i18n-en="Anniversary Gallery" data-lvt-eid="90db53b65a">歷年紀念</p>
       <h1 class="section-title" style="font-size:clamp(32px,5vw,52px)" data-i18n="歷年紀念冊" data-i18n-en="Anniversary Gallery" data-lvt-eid="5e89eccf01">歷年紀念冊</h1>
-      <p class="gallery-subtitle" data-i18n="4週年到19週年，每一年的足跡。" data-i18n-en="From the 4th to the 19th anniversary — every year of the journey." data-lvt-eid="9ebeed4161">4週年到19週年，每一年的足跡。</p>
-      <p class="gallery-subtitle-en" data-i18n="From the 4th to the 19th anniversary — every year of the journey." data-i18n-en="4週年到19週年，每一年的足跡。" data-lvt-eid="7aaa57b09a">From the 4th to the 19th anniversary — every year of the journey.</p>
+      <p class="gallery-subtitle" data-i18n="1週年到19週年，每一年的足跡。" data-i18n-en="From the 1st to the 19th anniversary — every year of the journey." data-lvt-eid="9ebeed4161">1週年到19週年，每一年的足跡。</p>
+      <p class="gallery-subtitle-en" data-i18n="From the 1st to the 19th anniversary — every year of the journey." data-i18n-en="1週年到19週年，每一年的足跡。" data-lvt-eid="7aaa57b09a">From the 1st to the 19th anniversary — every year of the journey.</p>
     </div>
   </section>
 
   <section id="gallery-grid" data-lvt-eid="bcb6032e4f">
     <div class="container" data-lvt-eid="532c989df1">
-      <div class="gallery-timeline" id="galleryTimeline" data-lvt-eid="fa83b66a58">
-
-        <!-- 4週年 2011 -->
-        <div class="gtl-item fade-up" data-lvt-eid="8368aa0eb5">
-          <div class="gtl-dot" data-lvt-eid="3fc044fbba"></div>
-          <div class="gtl-card" onclick="lbOpen(0)" data-lvt-eid="194dd55531">
-            <div class="gtl-img-wrap" data-lvt-eid="77627df7e1"><img src="https://a.lovart.ai/artifacts/agent/weVyNBGuOw2dkANa.png" alt="4週年 2011" loading="lazy" data-lvt-eid="991f75fadd"></div>
-            <div class="gtl-info" data-lvt-eid="eca29c793b"><div class="gtl-anniv" data-lvt-eid="f7b625f24f">4週年</div><div class="gtl-year" data-lvt-eid="18d231b8a8">2011</div></div>
+            <div class="gallery-timeline" id="galleryTimeline">
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">1週年</div><div class="gtl-year">2008</div></div>
           </div>
         </div>
 
-        <!-- 5週年 2012 -->
-        <div class="gtl-item fade-up" data-lvt-eid="e04c9cde95">
-          <div class="gtl-dot" data-lvt-eid="dfd50081f2"></div>
-          <div class="gtl-card" onclick="lbOpen(1)" data-lvt-eid="335a87e043">
-            <div class="gtl-img-wrap" data-lvt-eid="dc1e9e09c0"><img src="https://a.lovart.ai/artifacts/agent/uA98VlIEvh4qTpZ8.png" alt="5週年 2012" loading="lazy" data-lvt-eid="5fb2a6ef85"></div>
-            <div class="gtl-info" data-lvt-eid="c30b930d01"><div class="gtl-anniv" data-lvt-eid="289b6c24e1">5週年</div><div class="gtl-year" data-lvt-eid="b872715fd9">2012</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">2週年</div><div class="gtl-year">2009</div></div>
           </div>
         </div>
 
-        <!-- 6週年 2013 -->
-        <div class="gtl-item fade-up" data-lvt-eid="eb359562a6">
-          <div class="gtl-dot" data-lvt-eid="326f37ab06"></div>
-          <div class="gtl-card" onclick="lbOpen(2)" data-lvt-eid="7b6accfb04">
-            <div class="gtl-img-wrap" data-lvt-eid="add119c33d"><img src="https://a.lovart.ai/artifacts/agent/8ce70NhPzR149xCh.png" alt="6週年 2013" loading="lazy" data-lvt-eid="203b897e2e"></div>
-            <div class="gtl-info" data-lvt-eid="1787e1e71d"><div class="gtl-anniv" data-lvt-eid="c5d14ab25a">6週年</div><div class="gtl-year" data-lvt-eid="80b7a4c04c">2013</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">3週年</div><div class="gtl-year">2010</div></div>
           </div>
         </div>
 
-        <!-- 7週年 2014 -->
-        <div class="gtl-item fade-up" data-lvt-eid="c52f72af1a">
-          <div class="gtl-dot" data-lvt-eid="9a4d51ea39"></div>
-          <div class="gtl-card" onclick="lbOpen(3)" data-lvt-eid="15970e51b6">
-            <div class="gtl-img-wrap" data-lvt-eid="16c73175eb"><img src="https://a.lovart.ai/artifacts/user/huDHZu8t09HSIyDs.jpg" alt="7週年 2014" loading="lazy" data-lvt-eid="609249d886"></div>
-            <div class="gtl-info" data-lvt-eid="7a3ac1246a"><div class="gtl-anniv" data-lvt-eid="7925edcd2f">7週年</div><div class="gtl-year" data-lvt-eid="f7edb9c31b">2014</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">4週年</div><div class="gtl-year">2011</div></div>
           </div>
         </div>
 
-        <!-- 8週年 2015 -->
-        <div class="gtl-item fade-up" data-lvt-eid="64b1da54bf">
-          <div class="gtl-dot" data-lvt-eid="f9e95951fe"></div>
-          <div class="gtl-card" onclick="lbOpen(4)" data-lvt-eid="9333abbfa7">
-            <div class="gtl-img-wrap" data-lvt-eid="89bdf42e70"><img src="https://a.lovart.ai/artifacts/user/NORGHnJHWNAG2QNu.jpg" alt="8週年 2015" loading="lazy" data-lvt-eid="889146ddb8"></div>
-            <div class="gtl-info" data-lvt-eid="9b8fa0b595"><div class="gtl-anniv" data-lvt-eid="5fd5ed9fe0">8週年</div><div class="gtl-year" data-lvt-eid="ec2c717ab8">2015</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(0)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/4.5.jpg" alt="4.5 花絮 2011" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">4.5 花絮</div><div class="gtl-year">2011</div></div>
           </div>
         </div>
 
-        <!-- 9週年 2016 -->
-        <div class="gtl-item fade-up" data-lvt-eid="41357d3e74">
-          <div class="gtl-dot" data-lvt-eid="83b46e7a92"></div>
-          <div class="gtl-card" onclick="lbOpen(5)" data-lvt-eid="1e8330982c">
-            <div class="gtl-img-wrap" data-lvt-eid="f1ded2ad80"><img src="https://a.lovart.ai/artifacts/user/jV4RjnpifL31mmoq.jpg" alt="9週年 2016" loading="lazy" data-lvt-eid="ee14567a8f"></div>
-            <div class="gtl-info" data-lvt-eid="a2dc477e95"><div class="gtl-anniv" data-lvt-eid="ff30efe4cd">9週年</div><div class="gtl-year" data-lvt-eid="3e680f5be5">2016</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">5週年</div><div class="gtl-year">2012</div></div>
           </div>
         </div>
 
-        <!-- 10週年 2017 -->
-        <div class="gtl-item fade-up" data-lvt-eid="6a63f4118a">
-          <div class="gtl-dot" data-lvt-eid="2650a002d4"></div>
-          <div class="gtl-card" onclick="lbOpen(6)" data-lvt-eid="9b8199398f">
-            <div class="gtl-img-wrap" data-lvt-eid="ca9a1f1163"><img src="https://a.lovart.ai/artifacts/user/1Vhk27eu7C7XwHXr.jpg" alt="10週年 2017" loading="lazy" data-lvt-eid="4a17d799df"></div>
-            <div class="gtl-info" data-lvt-eid="2e3530fa98"><div class="gtl-anniv" data-lvt-eid="30691aa702">10週年</div><div class="gtl-year" data-lvt-eid="f208a742de">2017</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(1)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/5.5.jpg" alt="5.5 花絮 2012" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">5.5 花絮</div><div class="gtl-year">2012</div></div>
           </div>
         </div>
 
-        <!-- 11週年 2018 -->
-        <div class="gtl-item fade-up" data-lvt-eid="a9e956bc9b">
-          <div class="gtl-dot" data-lvt-eid="41011f17b7"></div>
-          <div class="gtl-card" onclick="lbOpen(7)" data-lvt-eid="fdd063c7e2">
-            <div class="gtl-img-wrap" data-lvt-eid="cd265e4125"><img src="https://a.lovart.ai/artifacts/user/CkO8llgheWH9Igm4.jpg" alt="11週年 2018" loading="lazy" data-lvt-eid="a6c942578a"></div>
-            <div class="gtl-info" data-lvt-eid="0e0169bb12"><div class="gtl-anniv" data-lvt-eid="2676399131">11週年</div><div class="gtl-year" data-lvt-eid="a2e68ee6dc">2018</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">6週年</div><div class="gtl-year">2013</div></div>
           </div>
         </div>
 
-        <!-- 12週年 2019 -->
-        <div class="gtl-item fade-up" data-lvt-eid="dcdd985e42">
-          <div class="gtl-dot" data-lvt-eid="e76f21b845"></div>
-          <div class="gtl-card" onclick="lbOpen(8)" data-lvt-eid="1ccbd2025e">
-            <div class="gtl-img-wrap" data-lvt-eid="93198b8d12"><img src="https://a.lovart.ai/artifacts/user/TU1KXFlw7HCNWcLQ.jpg" alt="12週年 2019" loading="lazy" data-lvt-eid="125f9afada"></div>
-            <div class="gtl-info" data-lvt-eid="10626557f3"><div class="gtl-anniv" data-lvt-eid="1fc2765100">12週年</div><div class="gtl-year" data-lvt-eid="6f999e12b5">2019</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(2)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/6.5.jpg" alt="6.5 花絮 2013" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">6.5 花絮</div><div class="gtl-year">2013</div></div>
           </div>
         </div>
 
-        <!-- 13週年 2020 -->
-        <div class="gtl-item fade-up" data-lvt-eid="6581421519">
-          <div class="gtl-dot" data-lvt-eid="ed3e7629b4"></div>
-          <div class="gtl-card" onclick="lbOpen(9)" data-lvt-eid="c142300c16">
-            <div class="gtl-img-wrap" data-lvt-eid="6982a8f498"><img src="https://a.lovart.ai/artifacts/user/2ObwhhnnvD5EGbgV.jpg" alt="13週年 2020" loading="lazy" data-lvt-eid="707098024c"></div>
-            <div class="gtl-info" data-lvt-eid="c1a3651616"><div class="gtl-anniv" data-lvt-eid="1ea759768b">13週年</div><div class="gtl-year" data-lvt-eid="6b8dbc13f2">2020</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(3)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/7.jpg" alt="7週年 2014" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">7週年</div><div class="gtl-year">2014</div></div>
           </div>
         </div>
 
-        <!-- 14週年 2021 -->
-        <div class="gtl-item fade-up" data-lvt-eid="5b534d15bb">
-          <div class="gtl-dot" data-lvt-eid="3f1843eeb6"></div>
-          <div class="gtl-card" onclick="lbOpen(10)" data-lvt-eid="7203991396">
-            <div class="gtl-img-wrap" data-lvt-eid="ce5a1d24cb"><img src="https://a.lovart.ai/artifacts/user/iNJulofhRDERU0Jb.jpg" alt="14週年 2021" loading="lazy" data-lvt-eid="cc84eb8caa"></div>
-            <div class="gtl-info" data-lvt-eid="442ffeb04b"><div class="gtl-anniv" data-lvt-eid="f57f27cc9f">14週年</div><div class="gtl-year" data-lvt-eid="63ba9d3618">2021</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(4)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/7.5.jpg" alt="7.5 花絮 2014" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">7.5 花絮</div><div class="gtl-year">2014</div></div>
           </div>
         </div>
 
-        <!-- 15週年 2022 -->
-        <div class="gtl-item fade-up" data-lvt-eid="561281c2ce">
-          <div class="gtl-dot" data-lvt-eid="f41d5fafc4"></div>
-          <div class="gtl-card" onclick="lbOpen(11)" data-lvt-eid="a066c0f3a9">
-            <div class="gtl-img-wrap" data-lvt-eid="2c8af510dc"><img src="https://a.lovart.ai/artifacts/user/wBi9W7IJWx6jKDRW.jpg" alt="15週年 2022" loading="lazy" data-lvt-eid="ab562b70f0"></div>
-            <div class="gtl-info" data-lvt-eid="1c824bc9e8"><div class="gtl-anniv" data-lvt-eid="aed714b81c">15週年</div><div class="gtl-year" data-lvt-eid="0639f16e95">2022</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(5)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/8.jpg" alt="8週年 2015" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">8週年</div><div class="gtl-year">2015</div></div>
           </div>
         </div>
 
-        <!-- 16週年 2023 -->
-        <div class="gtl-item fade-up" data-lvt-eid="c49bbdb054">
-          <div class="gtl-dot" data-lvt-eid="d9080425f3"></div>
-          <div class="gtl-card" onclick="lbOpen(12)" data-lvt-eid="1c8ca404f7">
-            <div class="gtl-img-wrap" data-lvt-eid="74fc61667a"><img src="https://a.lovart.ai/artifacts/agent/RtQLBkdpn1E7IsWH.png" alt="16週年 2023" loading="lazy" data-lvt-eid="cb13a1faf3"></div>
-            <div class="gtl-info" data-lvt-eid="ee45a6d688"><div class="gtl-anniv" data-lvt-eid="ac2a74f825">16週年</div><div class="gtl-year" data-lvt-eid="2a10d22bbb">2023</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(6)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/8.5.jpg" alt="8.5 花絮 2015" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">8.5 花絮</div><div class="gtl-year">2015</div></div>
           </div>
         </div>
 
-        <!-- 17週年 2024 -->
-        <div class="gtl-item fade-up" data-lvt-eid="f1573d219a">
-          <div class="gtl-dot" data-lvt-eid="c0d0550999"></div>
-          <div class="gtl-card" onclick="lbOpen(13)" data-lvt-eid="fd873cbd62">
-            <div class="gtl-img-wrap" data-lvt-eid="5bda0b73fb"><img src="https://a.lovart.ai/artifacts/agent/M5d2ygcETnKBfFWk.png" alt="17週年 2024" loading="lazy" data-lvt-eid="659436118c"></div>
-            <div class="gtl-info" data-lvt-eid="2e223e2cf4"><div class="gtl-anniv" data-lvt-eid="8422844ed7">17週年</div><div class="gtl-year" data-lvt-eid="68dcfcf529">2024</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(7)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/9.jpg" alt="9週年 2016" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">9週年</div><div class="gtl-year">2016</div></div>
           </div>
         </div>
 
-        <!-- 18週年 2025 -->
-        <div class="gtl-item fade-up" data-lvt-eid="579b419eea">
-          <div class="gtl-dot" data-lvt-eid="bb41341d29"></div>
-          <div class="gtl-card" onclick="lbOpen(14)" data-lvt-eid="68a68beea9">
-            <div class="gtl-img-wrap" data-lvt-eid="59cf4f1ee1"><img src="https://a.lovart.ai/artifacts/user/8mE5AbhNHy3HmHmF.jpg" alt="18週年 2025" loading="lazy" data-lvt-eid="6ebfbbb428"></div>
-            <div class="gtl-info" data-lvt-eid="a7b5d80c17"><div class="gtl-anniv" data-lvt-eid="b1f6ba2c52">18週年</div><div class="gtl-year" data-lvt-eid="621c73fd33">2025</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(8)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/9.5.jpg" alt="9.5 花絮 2016" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">9.5 花絮</div><div class="gtl-year">2016</div></div>
           </div>
         </div>
 
-        <!-- 19週年 2026 -->
-        <div class="gtl-item fade-up" data-lvt-eid="c01f39cfa1">
-          <div class="gtl-dot" data-lvt-eid="543ed80a3f"></div>
-          <div class="gtl-card" onclick="lbOpen(15)" data-lvt-eid="46ce403fae">
-            <div class="gtl-img-wrap" data-lvt-eid="f668991b5e"><img src="https://a.lovart.ai/artifacts/user/VdD3CTf2R9DdZ421.jpg" alt="19週年 2026" loading="lazy" data-lvt-eid="1cfcb7d353"></div>
-            <div class="gtl-info" data-lvt-eid="76cccac01b"><div class="gtl-anniv" data-lvt-eid="0f4adafd65">19週年</div><div class="gtl-year" data-lvt-eid="b0de5a9915">2026</div></div>
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(9)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/10.jpg" alt="10週年 2017" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">10週年</div><div class="gtl-year">2017</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(10)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/10.5.jpg" alt="10.5 花絮 2017" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">10.5 花絮</div><div class="gtl-year">2017</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(11)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/11.jpg" alt="11週年 2018" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">11週年</div><div class="gtl-year">2018</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(12)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/11.5.jpg" alt="11.5 花絮 2018" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">11.5 花絮</div><div class="gtl-year">2018</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(13)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/12.jpg" alt="12週年 2019" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">12週年</div><div class="gtl-year">2019</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(14)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/12.5.jpg" alt="12.5 花絮 2019" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">12.5 花絮</div><div class="gtl-year">2019</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(15)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/13.jpg" alt="13週年 2020" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">13週年</div><div class="gtl-year">2020</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(16)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/13.5.jpg" alt="13.5 花絮 2020" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">13.5 花絮</div><div class="gtl-year">2020</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(17)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/14.jpg" alt="14週年 2021" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">14週年</div><div class="gtl-year">2021</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(18)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/14.5.jpg" alt="14.5 花絮 2021" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">14.5 花絮</div><div class="gtl-year">2021</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(19)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/15.jpg" alt="15週年 2022" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">15週年</div><div class="gtl-year">2022</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(20)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/15.5.jpg" alt="15.5 花絮 2022" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">15.5 花絮</div><div class="gtl-year">2022</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">16週年</div><div class="gtl-year">2023</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(21)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/17.jpg" alt="17週年 2024" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">17週年</div><div class="gtl-year">2024</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(22)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/17.5.jpg" alt="17.5 花絮 2024" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">17.5 花絮</div><div class="gtl-year">2024</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(23)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/18.jpg" alt="18週年 2025" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">18週年</div><div class="gtl-year">2025</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(24)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/18.5.jpg" alt="18.5 花絮 2025" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">18.5 花絮</div><div class="gtl-year">2025</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card gtl-placeholder" >
+            <div class="gtl-img-wrap"><div class="gtl-coming">照片建置中<br>Photo coming soon</div></div>
+            <div class="gtl-info"><div class="gtl-anniv">19週年</div><div class="gtl-year">2026</div></div>
+          </div>
+        </div>
+
+        <div class="gtl-item fade-up">
+          <div class="gtl-dot"></div>
+          <div class="gtl-card" onclick="lbOpen(25)">
+            <div class="gtl-img-wrap"><img src="assets/gallery/19.5.jpg" alt="19.5 花絮 2026" loading="lazy"></div>
+            <div class="gtl-info"><div class="gtl-anniv">19.5 花絮</div><div class="gtl-year">2026</div></div>
           </div>
         </div>
 
@@ -2823,28 +2958,60 @@ function resetCarouselTimer() {
 // ===== GALLERY LIGHTBOX =====
 (function() {
   var LB_IMGS = [
-    'https://a.lovart.ai/artifacts/agent/weVyNBGuOw2dkANa.png',
-    'https://a.lovart.ai/artifacts/agent/uA98VlIEvh4qTpZ8.png',
-    'https://a.lovart.ai/artifacts/agent/8ce70NhPzR149xCh.png',
-    'https://a.lovart.ai/artifacts/user/huDHZu8t09HSIyDs.jpg',
-    'https://a.lovart.ai/artifacts/user/NORGHnJHWNAG2QNu.jpg',
-    'https://a.lovart.ai/artifacts/user/jV4RjnpifL31mmoq.jpg',
-    'https://a.lovart.ai/artifacts/user/1Vhk27eu7C7XwHXr.jpg',
-    'https://a.lovart.ai/artifacts/user/CkO8llgheWH9Igm4.jpg',
-    'https://a.lovart.ai/artifacts/user/TU1KXFlw7HCNWcLQ.jpg',
-    'https://a.lovart.ai/artifacts/user/2ObwhhnnvD5EGbgV.jpg',
-    'https://a.lovart.ai/artifacts/user/iNJulofhRDERU0Jb.jpg',
-    'https://a.lovart.ai/artifacts/user/wBi9W7IJWx6jKDRW.jpg',
-    'https://a.lovart.ai/artifacts/agent/RtQLBkdpn1E7IsWH.png',
-    'https://a.lovart.ai/artifacts/agent/M5d2ygcETnKBfFWk.png',
-    'https://a.lovart.ai/artifacts/user/8mE5AbhNHy3HmHmF.jpg',
-    'https://a.lovart.ai/artifacts/user/VdD3CTf2R9DdZ421.jpg'
+    'assets/gallery/4.5.jpg',
+    'assets/gallery/5.5.jpg',
+    'assets/gallery/6.5.jpg',
+    'assets/gallery/7.jpg',
+    'assets/gallery/7.5.jpg',
+    'assets/gallery/8.jpg',
+    'assets/gallery/8.5.jpg',
+    'assets/gallery/9.jpg',
+    'assets/gallery/9.5.jpg',
+    'assets/gallery/10.jpg',
+    'assets/gallery/10.5.jpg',
+    'assets/gallery/11.jpg',
+    'assets/gallery/11.5.jpg',
+    'assets/gallery/12.jpg',
+    'assets/gallery/12.5.jpg',
+    'assets/gallery/13.jpg',
+    'assets/gallery/13.5.jpg',
+    'assets/gallery/14.jpg',
+    'assets/gallery/14.5.jpg',
+    'assets/gallery/15.jpg',
+    'assets/gallery/15.5.jpg',
+    'assets/gallery/17.jpg',
+    'assets/gallery/17.5.jpg',
+    'assets/gallery/18.jpg',
+    'assets/gallery/18.5.jpg',
+    'assets/gallery/19.5.jpg'
   ];
   var LB_LABELS = [
-    '4週年 2011','5週年 2012','6週年 2013','7週年 2014',
-    '8週年 2015','9週年 2016','10週年 2017','11週年 2018',
-    '12週年 2019','13週年 2020','14週年 2021','15週年 2022',
-    '16週年 2023','17週年 2024','18週年 2025','19週年 2026'
+    '4.5 花絮 2011',
+    '5.5 花絮 2012',
+    '6.5 花絮 2013',
+    '7週年 2014',
+    '7.5 花絮 2014',
+    '8週年 2015',
+    '8.5 花絮 2015',
+    '9週年 2016',
+    '9.5 花絮 2016',
+    '10週年 2017',
+    '10.5 花絮 2017',
+    '11週年 2018',
+    '11.5 花絮 2018',
+    '12週年 2019',
+    '12.5 花絮 2019',
+    '13週年 2020',
+    '13.5 花絮 2020',
+    '14週年 2021',
+    '14.5 花絮 2021',
+    '15週年 2022',
+    '15.5 花絮 2022',
+    '17週年 2024',
+    '17.5 花絮 2024',
+    '18週年 2025',
+    '18.5 花絮 2025',
+    '19.5 花絮 2026'
   ];
   var lb_idx = 0;
 
